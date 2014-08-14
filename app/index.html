@@ -1,0 +1,103 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>dedup</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+    </head>
+    <body>
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="container">
+            <div class="header">
+                <ul class="nav nav-pills pull-right">
+                    <li class="active"><a href="/">Home</a></li>
+                </ul>
+                <h3 class="text-muted">Spotify dedup</h3>
+            </div>
+
+            <div class="default-content">
+                <div class="jumbotron">
+                    <h1>Spotify Playlists Deduplicator</h1>
+                    <p class="lead">Remove duplicated tracks from your playlists.</p>
+                    <p><a class="btn btn-lg btn-success" href="#" id="login">Log in with Spotify! <span class="glyphicon glyphicon-ok"></span></a></p>
+                </div>
+
+                <div class="row marketing">
+                    <div class="col-lg-6">
+                        <h4>Spotify Web API</h4>
+                        <p>This webapp uses the <a href="https://developer.spotify.com/web-api/">Spotify Web API</a>. Check it out and build something cool!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dedup-result row">
+                <div class="playlists col-lg-12">
+                    <h4>Your playlists</h4>
+                    <ul class="playlists-list">
+                    </ul>
+                </div>
+                <div class="col-lg-12">
+                    <h4>Dedup results</h4>
+                    <div class="result"></div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p><span class="glyphicon glyphicon-heart"></span> from me</p>
+            </div>
+
+        </div>
+
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+
+        <!-- build:js scripts/plugins.js -->
+        <script src="../bower_components/bootstrap/js/affix.js"></script>
+        <script src="../bower_components/bootstrap/js/alert.js"></script>
+        <script src="../bower_components/bootstrap/js/dropdown.js"></script>
+        <script src="../bower_components/bootstrap/js/tooltip.js"></script>
+        <script src="../bower_components/bootstrap/js/modal.js"></script>
+        <script src="../bower_components/bootstrap/js/transition.js"></script>
+        <script src="../bower_components/bootstrap/js/button.js"></script>
+        <script src="../bower_components/bootstrap/js/popover.js"></script>
+        <script src="../bower_components/bootstrap/js/carousel.js"></script>
+        <script src="../bower_components/bootstrap/js/scrollspy.js"></script>
+        <script src="../bower_components/bootstrap/js/collapse.js"></script>
+        <script src="../bower_components/bootstrap/js/tab.js"></script>
+        <script src="../bower_components/spotify-web-api-js/src/spotify-web-api.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js({app,.tmp}) scripts/main.js -->
+        <script src="scripts/main.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

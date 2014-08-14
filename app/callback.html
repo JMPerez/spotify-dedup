@@ -1,0 +1,13 @@
+<html>
+<body>
+<script>
+var target = window.self === window.top ? window.opener : window.parent;
+
+var hash = window.location.hash;
+if (hash) {
+    var token = window.location.hash.split('&')[0].split('=')[1];
+    target.postMessage(token, 'http://localhost:8000'); //embedded
+}
+</script>
+</body>
+</html>
