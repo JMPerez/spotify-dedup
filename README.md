@@ -1,8 +1,4 @@
 A Spotify Playlist Duplicator
 =============================
 
-You can run it locally on http://localhost:8000
-
-Just run:
-
-    grunt serve
+Check it out on [http://jmperezperez.com/spotify-dedup/](http://jmperezperez.com/spotify-dedup/)

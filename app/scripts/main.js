@@ -2,7 +2,7 @@
   'use strict';
 
   function receiveMessage(event){
-      if (event.origin !== "http://localhost:8000") {
+      if (event.origin !== "http://jmperezperez.com") {
           return;
       }
       if (authWindow) {
@@ -79,7 +79,7 @@
 
       var params = {
           client_id: '04dca0de1c4e4aca88cc615ac23581be',
-          redirect_uri: 'http://localhost:8000/callback.html',
+          redirect_uri: 'http://jmperezperez.com/spotify-dedup/callback.html',
           scope: 'playlist-read-private playlist-modify-public playlist-modify-private',
           response_type: 'token'
       };
