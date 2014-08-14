@@ -22,9 +22,53 @@
       }
       return parts.join("&");
   }
+
   var authWindow = null;
 
   var token = null;
+
+  var api;
+
+  var model;
+
+  function PlaylistModel(playlist){
+    this.playlist = playlist;
+    this.duplicates = ko.observableArray([]);
+    var self = this;
+    this.removeDuplicates = function() {
+      api.removeTracksFromPlaylist(
+        this.playlist.owner.id,
+        this.playlist.id,
+        this.duplicates().map(function(d) {
+          return {
+            uri: d.track.uri,
+            positions: [d.index]
+          }
+        })).then(function() {
+          self.duplicates([]);
+          self.status('Duplicates removed');
+        });
+      };
+    this.status = ko.observable('');
+    this.processed = ko.observable(false);
+  }
+
+  function PlaylistsDedupModel() {
+    var self = this;
+    this.playlists = ko.observableArray([]);
+    this.isLoggedIn = ko.observable(false);
+    this.toProcess = ko.observable(100);
+    this.duplicates = ko.computed(function() {
+      var total = 0;
+        ko.utils.arrayForEach(self.playlists(), function(playlist) {
+          total += ko.utils.unwrapObservable(playlist.duplicates()).length;
+        });
+        return total;
+    });
+  }
+
+  model = new PlaylistsDedupModel();
+  ko.applyBindings(model);
 
   document.getElementById('login').addEventListener('click', function() {
 
@@ -47,19 +91,10 @@
 
   });
 
-  var api;
-  var dedupResultElement = document.querySelector('.dedup-result'),
-      resultElement = document.querySelector('.result'),
-      defaultContentElement = document.querySelector('.default-content'),
-      playlistsListElement = document.querySelector('.playlists-list');
 
-  var duplicates;
   function process(accessToken) {
+    model.isLoggedIn(true);
     token = accessToken;
-    duplicates = [];
-    resultElement.innerHTML = '';
-    defaultContentElement.style.display = 'none';
-    dedupResultElement.style.display = 'block';
 
     api = new SpotifyWebApi();
     api.setAccessToken(token);
@@ -67,15 +102,17 @@
       var user = data.id;
       // todo: get more than 100
       api.getUserPlaylists(user).then(function(data) {
+        // do we have more?
         var playlistsToCheck = data.items.filter(function(playlist) {
           return playlist.owner.id === user
         });
 
-        playlistsListElement.innerHTML = playlistsToCheck.map(function(playlist) {
-          return '<li>' + playlist.name + '</li>'
-        }).join('');
+        model.playlists(playlistsToCheck.map(function(p){
+          return new PlaylistModel(p);
+        }));
 
-        playlistsToCheck.forEach(processPlaylist);
+        model.toProcess(model.playlists().length);
+        model.playlists().forEach(processPlaylist);
       });
     });
   }
@@ -84,23 +121,25 @@
     var seen = {};
     setTimeout(function() {
       // todo: paginate through tracks
-      api.getGeneric(playlist.tracks.href).then(function(data) {
+      api.getGeneric(playlist.playlist.tracks.href).then(function(data) {
         data.items.forEach(function(item, index) {
           if (item.track.id !== null) {
             if (item.track.id in seen) {
-              resultElement.innerHTML += '<p>Found a duplicate in playlist <strong>' + playlist.name +'</strong>: ' +
-              item.track.name + ' by ' + item.track.artists[0].name + '</p>';
-              duplicates.push({
-                position: index,
-                playlist: playlist,
-                track: track
+              playlist.duplicates.push({
+                index: index,
+                track: item.track
               });
             } else {
               seen[item.track.id] = true;
             }
           }
         });
-      });
+        playlist.processed(true);
+        model.toProcess(model.toProcess() - 1);
+      }).catch(function() {
+        playlist.processed(true);
+        model.toProcess(model.toProcess() - 1);
+      })
     }, (Math.random() * 3000));
   }
 })();

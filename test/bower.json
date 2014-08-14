@@ -1,5 +1,5 @@
 {
-  "name": "dedup",
+  "name": "spotify-dedup",
   "private": true,
   "dependencies": {
     "chai": "~1.8.0",
