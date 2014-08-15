@@ -1,0 +1,1 @@
+var OAuthConfig=function(){"use strict";var a,b="04dca0de1c4e4aca88cc615ac23581be";a="localhost:8000"===location.host?"http://localhost:8000/callback.html":"http://jmperezperez.com/spotify-dedup/callback.html";var c=/http[s]?:\/\/[^/]+/.exec(a)[0];return{clientId:b,redirectUri:a,host:c}}();
