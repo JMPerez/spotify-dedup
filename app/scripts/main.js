@@ -1,4 +1,4 @@
-/*global ko, PromiseThrottle, SpotifyWebApi, OAuthManager*/
+/*global ko, PromiseThrottle, SpotifyWebApi, OAuthManager, Promise */
 
 (function() {
     'use strict';
@@ -78,7 +78,6 @@
         PromiseThrottle.registerPromise(function() {
             return api.getMe().then(function(data) {
                 var user = data.id;
-                // todo: get more than 100
                 PromiseThrottle.registerPromise(function() {
                     return api.getUserPlaylists(user).then(function(data) {
                         // do we have more?
@@ -101,25 +100,53 @@
     function processPlaylist(playlist) {
         var seen = {};
         PromiseThrottle.registerPromise(function() {
-            // todo: paginate through tracks
-            return api.getGeneric(playlist.playlist.tracks.href).then(function(data) {
-                data.items.forEach(function(item, index) {
-                    if (item.track.id !== null) {
-                        if (item.track.id in seen) {
-                            playlist.duplicates.push({
-                                index: index,
-                                track: item.track
-                            });
-                        } else {
-                            seen[item.track.id] = true;
-                        }
-                    }
+            return promisesForPages(api.getGeneric(playlist.playlist.tracks.href))
+                .then(function(pagePromises) {
+                    // todo: I'd love to replace this with
+                    // .then(Promise.all)
+                    // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
+                    return Promise.all(pagePromises);
+                })
+                .then(function(pages) {
+                    pages.forEach(function(page) {
+                        var pageOffset = page.offset;
+                        page.items.forEach(function(item, index) {
+                            if (item.track.id !== null) {
+                                if (item.track.id in seen) {
+                                    playlist.duplicates.push({
+                                        index: pageOffset + index,
+                                        track: item.track
+                                    });
+                                } else {
+                                    seen[item.track.id] = true;
+                                }
+                            }
+                        });
+                    });
+                    playlist.processed(true);
+                    model.toProcess(model.toProcess() - 1);
+                }).catch (function() {
+                    playlist.processed(true);
+                    model.toProcess(model.toProcess() - 1);
                 });
-                playlist.processed(true);
-                model.toProcess(model.toProcess() - 1);
-            }).catch (function() {
-                playlist.processed(true);
-                model.toProcess(model.toProcess() - 1);
+
+        });
+    }
+
+    function promisesForPages(promise) {
+        // todo: go through throttle
+        return new Promise(function(resolve, reject) {
+            promise.then(function(results) {
+                var promises = [promise],                       // add the initial page
+                    offset = results.limit + results.offset,    // start from the second page
+                    limit = results.limit;
+                while (results.total > offset) {
+                    promises.push(api.getGeneric(results.href + '?offset=' + offset + '&limit=' + limit));
+                    offset += limit;
+                }
+                resolve(promises);
+            }).catch(function() {
+                reject([]);
             });
         });
     }

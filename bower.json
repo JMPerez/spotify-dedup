@@ -3,7 +3,8 @@
   "private": true,
   "dependencies": {
     "bootstrap": "~3.0.3",
-    "spotify-web-api-js": "~0.4.0"
+    "spotify-web-api-js": "~0.4.0",
+    "knockout": "~3.2.0"
   },
   "devDependencies": {}
 }
