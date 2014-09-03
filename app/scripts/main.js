@@ -79,23 +79,31 @@
             return api.getMe().then(function(data) {
                 var user = data.id;
                 PromiseThrottle.registerPromise(function() {
-                    return api.getUserPlaylists(user).then(function(data) {
-                        // do we have more?
-                        var playlistsToCheck = data.items.filter(function(playlist) {
-                            return playlist.owner.id === user;
+                    var playlistsToCheck = [];
+                    return promisesForPages(api.getUserPlaylists(user, {limit: 50}))
+                        .then(function(pagePromises) {
+                            return Promise.all(pagePromises);
+                        })
+                        .then(function(pages) {
+                            pages.forEach(function(page) {
+                                playlistsToCheck = playlistsToCheck.concat(
+                                    page.items.filter(function(playlist) {
+                                        return playlist.owner.id === user;
+                                    })
+                                );
+                            });
+                            model.playlists(playlistsToCheck.map(function(p) {
+                                return new PlaylistModel(p);
+                            }));
+
+                            model.toProcess(model.playlists().length);
+                            model.playlists().forEach(processPlaylist);
                         });
-
-                        model.playlists(playlistsToCheck.map(function(p) {
-                            return new PlaylistModel(p);
-                        }));
-
-                        model.toProcess(model.playlists().length);
-                        model.playlists().forEach(processPlaylist);
-                    });
                 });
             });
         });
     }
+
 
     function processPlaylist(playlist) {
         var seen = {};
