@@ -149,7 +149,7 @@
                     offset = results.limit + results.offset,    // start from the second page
                     limit = results.limit;
                 while (results.total > offset) {
-                    promises.push(api.getGeneric(results.href + '?offset=' + offset + '&limit=' + limit));
+                    promises.push(api.getGeneric(stripParameters(results.href) + '?offset=' + offset + '&limit=' + limit));
                     offset += limit;
                 }
                 resolve(promises);
@@ -157,5 +157,10 @@
                 reject([]);
             });
         });
+    }
+
+    function stripParameters(href) {
+        var u = new URL(href);
+        return u.origin + u.pathname;
     }
 })();
