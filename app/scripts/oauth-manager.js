@@ -2,90 +2,90 @@
 /*exported OAuthManager*/
 
 var OAuthManager = (function() {
-    'use strict';
+  'use strict';
 
-    function toQueryString(obj) {
-        var parts = [];
-        for (var i in obj) {
-            if (obj.hasOwnProperty(i)) {
-                parts.push(encodeURIComponent(i) +
-                    '=' +
-                    encodeURIComponent(obj[i]));
-            }
+  function toQueryString(obj) {
+    var parts = [];
+    for (var i in obj) {
+      if (obj.hasOwnProperty(i)) {
+        parts.push(encodeURIComponent(i) +
+                   '=' +
+                   encodeURIComponent(obj[i]));
+      }
+    }
+    return parts.join('&');
+  }
+
+  function obtainToken(options) {
+    options = options || {};
+
+    var promise = new Promise(function(resolve, reject) {
+
+      var authWindow = null,
+      pollAuthWindowClosed = null;
+
+      function receiveMessage(event) {
+        clearInterval(pollAuthWindowClosed);
+        if (event.origin !== OAuthConfig.host) {
+          reject();
+          return;
         }
-        return parts.join('&');
-    }
+        if (authWindow !== null) {
+          authWindow.close();
+          authWindow = null;
+        }
 
-    function obtainToken(options) {
-        options = options || {};
+        window.removeEventListener('message',
+                                   receiveMessage,
+                                   false);
 
-        var promise = new Promise(function(resolve, reject) {
+        // todo: manage case when the user rejects the oauth
+        // or the oauth fails to obtain a token
+        resolve(event.data);
+      }
 
-            var authWindow = null,
-                pollAuthWindowClosed = null;
+      window.addEventListener('message',
+                              receiveMessage,
+                              false);
 
-            function receiveMessage(event) {
-                clearInterval(pollAuthWindowClosed);
-                if (event.origin !== OAuthConfig.host) {
-                    reject();
-                    return;
-                }
-                if (authWindow !== null) {
-                    authWindow.close();
-                    authWindow = null;
-                }
+      var width = 400,
+      height = 600,
+      left = (screen.width / 2) - (width / 2),
+      top = (screen.height / 2) - (height / 2);
 
-                window.removeEventListener('message',
-                    receiveMessage,
-                    false);
+      /*jshint camelcase:false*/
+      var params = {
+        client_id: OAuthConfig.clientId,
+        redirect_uri: OAuthConfig.redirectUri,
+        response_type: 'token'
+      };
 
-                // todo: manage case when the user rejects the oauth
-                // or the oauth fails to obtain a token
-                resolve(event.data);
-            }
+      if (options.scopes) {
+        params.scope = options.scopes.join(' ');
+      }
 
-            window.addEventListener('message',
-                receiveMessage,
-                false);
+      authWindow = window.open(
+                               'https://accounts.spotify.com/authorize?' + toQueryString(params),
+                               'Spotify',
+                               'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
+                               );
 
-            var width = 400,
-                height = 600,
-                left = (screen.width / 2) - (width / 2),
-                top = (screen.height / 2) - (height / 2);
+      pollAuthWindowClosed = setInterval(function() {
+        if (authWindow !== null) {
+          if (authWindow.closed) {
+            clearInterval(pollAuthWindowClosed);
+            reject({message: 'access_denied'});
+          }
+        }
+      }, 1000);
 
-            /*jshint camelcase:false*/
-            var params = {
-                client_id: OAuthConfig.clientId,
-                redirect_uri: OAuthConfig.redirectUri,
-                response_type: 'token'
-            };
+    });
 
-            if (options.scopes) {
-                params.scope = options.scopes.join(' ');
-            }
+    return promise;
+  }
 
-            authWindow = window.open(
-                'https://accounts.spotify.com/authorize?' + toQueryString(params),
-                'Spotify',
-                'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
-            );
-
-            pollAuthWindowClosed = setInterval(function() {
-                if (authWindow !== null) {
-                    if (authWindow.closed) {
-                        clearInterval(pollAuthWindowClosed);
-                        reject({message: 'access_denied'});
-                    }
-                }
-            }, 1000);
-
-        });
-
-        return promise;
-    }
-
-    return {
-        obtainToken: obtainToken
-    };
+  return {
+    obtainToken: obtainToken
+  };
 
 })();
