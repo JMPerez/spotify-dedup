@@ -67,7 +67,7 @@ module.exports = function (grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: 9000,
+        port: 8005,
         open: true,
         livereload: 35729,
         // Change this to '0.0.0.0' to access the server from outside
@@ -191,7 +191,7 @@ module.exports = function (grunt) {
       options: {
         dest: '<%= config.dist %>'
       },
-      html: '<%= config.app %>/index.html'
+      html: ['<%= config.app %>/*.html']
     },
 
     // Performs rewrites based on rev and the useminPrepare configuration

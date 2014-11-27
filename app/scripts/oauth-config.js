@@ -5,8 +5,8 @@ var OAuthConfig = (function() {
 
   var clientId = '04dca0de1c4e4aca88cc615ac23581be';
   var redirectUri;
-  if (location.host === 'localhost:8000') {
-    redirectUri = 'http://localhost:8000/callback.html';
+  if (location.host === 'localhost:8005') {
+    redirectUri = 'http://localhost:8005/callback.html';
   } else {
     redirectUri = 'http://jmperezperez.com/spotify-dedup/callback.html';
   }

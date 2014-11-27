@@ -13,18 +13,33 @@
     var self = this;
     this.removeDuplicates = function() {
       PromiseThrottle.registerPromise(function() {
-        return api.removeTracksFromPlaylist(
+
+        var tracksToRemove = self.duplicates().map(function(d) {
+          return {
+            uri: d.track.uri,
+            positions: [d.index]
+          };
+        });
+
+        // remove chunks of max 100 tracks
+        // find again duplicated tracks
+        // delete another chunk
+
+        var chunk = tracksToRemove.splice(0, 100);
+
+        api.removeTracksFromPlaylist(
           self.playlist.owner.id,
           self.playlist.id,
-          self.duplicates().map(function(d) {
-            return {
-              uri: d.track.uri,
-              positions: [d.index]
-            };
-          })
-          ).then(function() {
-            self.duplicates([]);
-            self.status('Duplicates removed');
+          chunk).then(function() {
+            processPlaylist(self)
+              .then(function() {
+                if (tracksToRemove.length > 0) {
+                  self.removeDuplicates();
+                } else {
+                  self.duplicates([]);
+                  self.status('Duplicates removed');
+                }
+              });
           });
       });
     };
@@ -97,7 +112,17 @@
             }));
 
             model.toProcess(model.playlists().length);
-            model.playlists().forEach(processPlaylist);
+            model.playlists().forEach(function(playlist) {
+              processPlaylist(playlist)
+                .then(function() {
+                  playlist.processed(true);
+                  model.toProcess(model.toProcess() - 1);
+                })
+                .catch(function() {
+                  playlist.processed(true);
+                  model.toProcess(model.toProcess() - 1);
+                });
+              });
           });
         });
       });
@@ -107,37 +132,37 @@
 
   function processPlaylist(playlist) {
     var seen = {};
-    PromiseThrottle.registerPromise(function() {
-      return promisesForPages(api.getGeneric(playlist.playlist.tracks.href))
-      .then(function(pagePromises) {
-          // todo: I'd love to replace this with
-          // .then(Promise.all)
-          // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
-          return Promise.all(pagePromises);
-        })
-      .then(function(pages) {
-        pages.forEach(function(page) {
-          var pageOffset = page.offset;
-          page.items.forEach(function(item, index) {
-            if (item.track.id !== null) {
-              if (item.track.id in seen) {
-                playlist.duplicates.push({
-                  index: pageOffset + index,
-                  track: item.track
-                });
-              } else {
-                seen[item.track.id] = true;
+    playlist.duplicates([]);
+    return new Promise(function(resolve, reject) {
+      PromiseThrottle.registerPromise(function() {
+        return promisesForPages(api.getGeneric(playlist.playlist.tracks.href))
+        .then(function(pagePromises) {
+            // todo: I'd love to replace this with
+            // .then(Promise.all)
+            // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
+            return Promise.all(pagePromises);
+          })
+        .then(function(pages) {
+          pages.forEach(function(page) {
+            var pageOffset = page.offset;
+            page.items.forEach(function(item, index) {
+              if (item.track.id !== null) {
+                if (item.track.id in seen) {
+                  playlist.duplicates.push({
+                    index: pageOffset + index,
+                    track: item.track
+                  });
+                } else {
+                  seen[item.track.id] = true;
+                }
               }
-            }
+            });
           });
+          resolve();
+        }).catch (function() {
+          reject();
         });
-        playlist.processed(true);
-        model.toProcess(model.toProcess() - 1);
-      }).catch (function() {
-        playlist.processed(true);
-        model.toProcess(model.toProcess() - 1);
       });
-
     });
   }
 
