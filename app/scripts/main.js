@@ -1,18 +1,17 @@
-/*global ko, PromiseThrottle, SpotifyWebApi, OAuthManager, Promise */
+/*global ko, Queue, SpotifyWebApi, OAuthManager, Promise */
 
 (function() {
   'use strict';
 
   var token,
-  api,
-  model;
+      api;
 
   function PlaylistModel(playlist) {
     this.playlist = playlist;
     this.duplicates = ko.observableArray([]);
     var self = this;
     this.removeDuplicates = function() {
-      PromiseThrottle.registerPromise(function() {
+      queue.add(function() {
 
         var tracksToRemove = self.duplicates().map(function(d) {
           return {
@@ -31,7 +30,7 @@
           self.playlist.owner.id,
           self.playlist.id,
           chunk).then(function() {
-            processPlaylist(self)
+            PlaylistProcessor.process(self)
               .then(function() {
                 if (tracksToRemove.length > 0) {
                   self.removeDuplicates();
@@ -61,7 +60,47 @@
     });
   }
 
-  model = new PlaylistsDedupModel();
+  var PlaylistProcessor = function() {};
+
+  PlaylistProcessor.prototype.process = function(playlist) {
+    var seen = {};
+    playlist.duplicates([]);
+    return new Promise(function(resolve, reject) {
+      return promisesForPages(
+        queue.add(function() {
+          return api.getGeneric(playlist.playlist.tracks.href);
+        }))
+      .then(function(pagePromises) {
+          // todo: I'd love to replace this with
+          // .then(Promise.all)
+          // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
+          return Promise.all(pagePromises);
+        })
+      .then(function(pages) {
+        pages.forEach(function(page) {
+          var pageOffset = page.offset;
+          page.items.forEach(function(item, index) {
+            if (item.track.id !== null) {
+              if (item.track.id in seen) {
+                playlist.duplicates.push({
+                  index: pageOffset + index,
+                  track: item.track
+                });
+              } else {
+                seen[item.track.id] = true;
+              }
+            }
+          });
+        });
+        resolve();
+      }).catch (reject);
+    });
+  };
+
+  var queue = new Queue(10),
+      playlistProcessor = new PlaylistProcessor(),
+      model = new PlaylistsDedupModel();
+
   ko.applyBindings(model);
 
   document.getElementById('login').addEventListener('click', function() {
@@ -83,6 +122,57 @@
       });
   });
 
+  function isOwnedByUser(playlist) {
+    return playlist.owner.id === user;
+  }
+  
+  function fetchUserOwnedPlaylists(user) {
+    return promisesForPages(queue.add(function() {
+      // fetch user's playlists, 50 at a time
+        return api.getUserPlaylists(user, {limit: 50});
+      }))
+      .then(function(pagePromises) {
+        // wait for all promises to be finished
+        return Promise.all(pagePromises);
+      }).then(function(pages) {
+        // combine and filter playlists
+        var userOwnedPlaylists = [];
+        pages.forEach(function(page) {
+          userOwnedPlaylists = userOwnedPlaylists.concat(
+           page.items.filter(isOwnedByUser)
+          );
+        });
+        return userOwnedPlaylists;
+      });
+  }
+
+  function onPlaylistProcessed(playlist) {
+    playlist.processed(true);
+    model.toProcess(model.toProcess() - 1);
+  }
+
+  function onUserDataFetched(data) {
+    var user = data.id,
+        playlistsToCheck = [];
+
+    fetchUserOwnedPlaylists(user)
+      .then(function(ownedPlaylists) {
+        playlistsToCheck = ownedPlaylists;
+    
+        model.playlists(playlistsToCheck.map(function(p) {
+          return new PlaylistModel(p);
+        }));
+
+        model.toProcess(model.playlists().length);
+
+        model.playlists().forEach(function(playlist) {
+          playlistProcessor.process(playlist)
+            .then(onPlaylistProcessed.bind(this, playlist))
+            .catch(onPlaylistProcessed.bind(this, playlist));
+        });
+      });
+  }
+
   function onTokenReceived(accessToken) {
     model.isLoggedIn(true);
     token = accessToken;
@@ -90,91 +180,33 @@
     api = new SpotifyWebApi();
     api.setAccessToken(token);
 
-    PromiseThrottle.registerPromise(function() {
-      return api.getMe().then(function(data) {
-        var user = data.id;
-        PromiseThrottle.registerPromise(function() {
-          var playlistsToCheck = [];
-          return promisesForPages(api.getUserPlaylists(user, {limit: 50}))
-          .then(function(pagePromises) {
-            return Promise.all(pagePromises);
-          })
-          .then(function(pages) {
-            pages.forEach(function(page) {
-              playlistsToCheck = playlistsToCheck.concat(
-               page.items.filter(function(playlist) {
-                return playlist.owner.id === user;
-              })
-               );
-            });
-            model.playlists(playlistsToCheck.map(function(p) {
-              return new PlaylistModel(p);
-            }));
-
-            model.toProcess(model.playlists().length);
-            model.playlists().forEach(function(playlist) {
-              processPlaylist(playlist)
-                .then(function() {
-                  playlist.processed(true);
-                  model.toProcess(model.toProcess() - 1);
-                })
-                .catch(function() {
-                  playlist.processed(true);
-                  model.toProcess(model.toProcess() - 1);
-                });
-              });
-          });
-        });
-      });
+    queue.add(function() {
+      return api.getMe().then(onUserDataFetched);
     });
   }
 
-
-  function processPlaylist(playlist) {
-    var seen = {};
-    playlist.duplicates([]);
-    return new Promise(function(resolve, reject) {
-      PromiseThrottle.registerPromise(function() {
-        return promisesForPages(api.getGeneric(playlist.playlist.tracks.href))
-        .then(function(pagePromises) {
-            // todo: I'd love to replace this with
-            // .then(Promise.all)
-            // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
-            return Promise.all(pagePromises);
-          })
-        .then(function(pages) {
-          pages.forEach(function(page) {
-            var pageOffset = page.offset;
-            page.items.forEach(function(item, index) {
-              if (item.track.id !== null) {
-                if (item.track.id in seen) {
-                  playlist.duplicates.push({
-                    index: pageOffset + index,
-                    track: item.track
-                  });
-                } else {
-                  seen[item.track.id] = true;
-                }
-              }
-            });
-          });
-          resolve();
-        }).catch (function() {
-          reject();
-        });
-      });
-    });
-  }
 
   function promisesForPages(promise) {
-    // todo: go through throttle
+
+    function stripParameters(href) {
+      var u = new URL(href);
+      return u.origin + u.pathname;
+    }
+
+    function fetchGeneric(results, offset, limit) {
+      return api.getGeneric(stripParameters(results.href) +
+        '?offset=' + offset +
+        '&limit=' + limit);
+    }
+
     return new Promise(function(resolve, reject) {
       promise.then(function(results) {
         var promises = [promise],                       // add the initial page
             offset = results.limit + results.offset,    // start from the second page
             limit = results.limit;
         while (results.total > offset) {
-          promises.push(api.getGeneric(stripParameters(results.href) + '?offset=' + offset + '&limit=' + limit));
+          var q = queue.add(fetchGeneric.bind(this, results, offset, limit));
+          promises.push(q);
           offset += limit;
         }
         resolve(promises);
@@ -184,8 +216,4 @@
     });
   }
 
-  function stripParameters(href) {
-    var u = new URL(href);
-    return u.origin + u.pathname;
-  }
 })();
