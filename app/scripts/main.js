@@ -30,7 +30,7 @@
           self.playlist.owner.id,
           self.playlist.id,
           chunk).then(function() {
-            PlaylistProcessor.process(self)
+            playlistProcessor.process(self)
               .then(function() {
                 if (tracksToRemove.length > 0) {
                   self.removeDuplicates();
@@ -122,10 +122,6 @@
       });
   });
 
-  function isOwnedByUser(playlist) {
-    return playlist.owner.id === user;
-  }
-  
   function fetchUserOwnedPlaylists(user) {
     return promisesForPages(queue.add(function() {
       // fetch user's playlists, 50 at a time
@@ -139,7 +135,9 @@
         var userOwnedPlaylists = [];
         pages.forEach(function(page) {
           userOwnedPlaylists = userOwnedPlaylists.concat(
-           page.items.filter(isOwnedByUser)
+            page.items.filter(function(playlist) {
+              return playlist.owner.id === user;
+            })
           );
         });
         return userOwnedPlaylists;
