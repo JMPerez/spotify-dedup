@@ -11,37 +11,41 @@
     this.duplicates = ko.observableArray([]);
     var self = this;
     this.removeDuplicates = function() {
-      queue.add(function() {
+      if (self.playlist.id === 'starred') {
+        window.alert('It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.');
+      } else {
+        queue.add(function() {
 
-        var tracksToRemove = self.duplicates().map(function(d) {
-          return {
-            uri: d.track.uri,
-            positions: [d.index]
-          };
-        });
-
-        // remove chunks of max 100 tracks
-        // find again duplicated tracks
-        // delete another chunk
-
-        var chunk = tracksToRemove.splice(0, 100);
-
-        api.removeTracksFromPlaylist(
-          self.playlist.owner.id,
-          self.playlist.id,
-          chunk).then(function() {
-            playlistProcessor.process(self)
-              .then(function() {
-                if (tracksToRemove.length > 0) {
-                  self.removeDuplicates();
-                } else {
-                  self.duplicates([]);
-                  self.status('Duplicates removed');
-                }
-              });
+          var tracksToRemove = self.duplicates().map(function(d) {
+            return {
+              uri: d.track.uri,
+              positions: [d.index]
+            };
           });
-      });
-    };
+
+          // remove chunks of max 100 tracks
+          // find again duplicated tracks
+          // delete another chunk
+
+          var chunk = tracksToRemove.splice(0, 100);
+
+          api.removeTracksFromPlaylist(
+            self.playlist.owner.id,
+            self.playlist.id,
+            chunk).then(function() {
+              playlistProcessor.process(self)
+                .then(function() {
+                  if (tracksToRemove.length > 0) {
+                    self.removeDuplicates();
+                  } else {
+                    self.duplicates([]);
+                    self.status('Duplicates removed');
+                  }
+                });
+            });
+        });
+      };
+    }
     this.status = ko.observable('');
     this.processed = ko.observable(false);
   }
@@ -124,24 +128,36 @@
 
   function fetchUserOwnedPlaylists(user) {
     return promisesForPages(queue.add(function() {
-      // fetch user's playlists, 50 at a time
-        return api.getUserPlaylists(user, {limit: 50});
-      }))
-      .then(function(pagePromises) {
-        // wait for all promises to be finished
-        return Promise.all(pagePromises);
-      }).then(function(pages) {
-        // combine and filter playlists
-        var userOwnedPlaylists = [];
-        pages.forEach(function(page) {
-          userOwnedPlaylists = userOwnedPlaylists.concat(
-            page.items.filter(function(playlist) {
-              return playlist.owner.id === user;
-            })
-          );
+        // fetch user's playlists, 50 at a time
+          return api.getUserPlaylists(user, {limit: 50});
+        }))
+        .then(function(pagePromises) {
+          // wait for all promises to be finished
+          return Promise.all(pagePromises);
+        }).then(function(pages) {
+          // combine and filter playlists
+          var userOwnedPlaylists = [];
+          pages.forEach(function(page) {
+            userOwnedPlaylists = userOwnedPlaylists.concat(
+              page.items.filter(function(playlist) {
+                return playlist.owner.id === user;
+              })
+            );
+          });
+          // add starred
+          userOwnedPlaylists.push({
+            id: 'starred',
+            owner: {
+              id: user
+            },
+            name: 'Starred',
+            href: 'https://api.spotify.com/v1/users/' + user + '/starred',
+            tracks: {
+              href: 'https://api.spotify.com/v1/users/' + user + '/starred/tracks'
+            }
+          });
+          return userOwnedPlaylists;
         });
-        return userOwnedPlaylists;
-      });
   }
 
   function onPlaylistProcessed(playlist) {
