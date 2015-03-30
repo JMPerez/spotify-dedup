@@ -1,5 +1,5 @@
 {
-  "name": "play-something",
+  "name": "spotify-dedup",
   "devDependencies": {
     "apache-server-configs": "^2.7.1",
     "grunt": "^0.4.5",
