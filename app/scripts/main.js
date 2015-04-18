@@ -1,4 +1,4 @@
-/*global ko, Queue, SpotifyWebApi, OAuthManager, Promise */
+/*global ko, PromiseThrottle, SpotifyWebApi, OAuthManager, Promise */
 
 (function() {
   'use strict';
@@ -14,7 +14,7 @@
       if (self.playlist.id === 'starred') {
         window.alert('It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.');
       } else {
-        queue.add(function() {
+        promiseThrottle.add(function() {
 
           var tracksToRemove = self.duplicates().map(function(d) {
             return {
@@ -44,8 +44,8 @@
                 });
             });
         });
-      };
-    }
+      }
+    };
     this.status = ko.observable('');
     this.processed = ko.observable(false);
   }
@@ -71,7 +71,7 @@
     playlist.duplicates([]);
     return new Promise(function(resolve, reject) {
       return promisesForPages(
-        queue.add(function() {
+        promiseThrottle.add(function() {
           return api.getGeneric(playlist.playlist.tracks.href);
         }))
       .then(function(pagePromises) {
@@ -101,7 +101,7 @@
     });
   };
 
-  var queue = new Queue(10),
+  var promiseThrottle = new PromiseThrottle({requestsPerSecond: 10}),
       playlistProcessor = new PlaylistProcessor(),
       model = new PlaylistsDedupModel();
 
@@ -127,7 +127,7 @@
   });
 
   function fetchUserOwnedPlaylists(user) {
-    return promisesForPages(queue.add(function() {
+    return promisesForPages(promiseThrottle.add(function() {
         // fetch user's playlists, 50 at a time
           return api.getUserPlaylists(user, {limit: 50});
         }))
@@ -194,7 +194,7 @@
     api = new SpotifyWebApi();
     api.setAccessToken(token);
 
-    queue.add(function() {
+    promiseThrottle.add(function() {
       return api.getMe().then(onUserDataFetched);
     });
   }
@@ -219,7 +219,7 @@
             offset = results.limit + results.offset,    // start from the second page
             limit = results.limit;
         while (results.total > offset) {
-          var q = queue.add(fetchGeneric.bind(this, results, offset, limit));
+          var q = promiseThrottle.add(fetchGeneric.bind(this, results, offset, limit));
           promises.push(q);
           offset += limit;
         }
