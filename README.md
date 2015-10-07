@@ -15,7 +15,6 @@ You can check it out on [http://jmperezperez.com/spotify-dedup/](http://jmperezp
 Install the dependencies:
 
     npm install
-    bower install
 
 Run it:
 
