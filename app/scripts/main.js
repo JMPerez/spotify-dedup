@@ -13,7 +13,10 @@
     this.removeDuplicates = function() {
       if (self.playlist.id === 'starred') {
         window.alert('It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.');
-      } else {
+      } if (self.playlist.collaborative) {
+        window.alert('It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.');
+      }
+      else {
         promiseThrottle.add(function() {
 
           var tracksToRemove = self.duplicates().map(function(d) {
@@ -116,6 +119,7 @@
           the user login form
           */
           'playlist-read-private',
+          'playlist-read-collaborative',
           'playlist-modify-public',
           'playlist-modify-private'
         ]
