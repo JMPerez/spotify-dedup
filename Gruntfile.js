@@ -308,6 +308,15 @@ module.exports = function (grunt) {
       }
     },
 
+    purifycss: {
+      options: {},
+      target: {
+        src: ['<%= config.dist %>/*.html', '<%= config.dist %>/scripts/main.js', '<%= config.dist %>/scripts/callback.js'],
+        css: ['<%= config.dist %>/styles/main.css'],
+        dest: '<%= config.dist %>/styles/main.css'
+      },
+    },
+
     // Run some tasks in parallel to speed up build process
     concurrent: {
       server: [
@@ -373,6 +382,7 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'copy:dist',
+    'purifycss',
     'rev',
     'usemin',
     'htmlmin'
