@@ -21,6 +21,7 @@
     "grunt-purifycss": "^0.1.0",
     "grunt-rev": "^0.1.0",
     "grunt-svgmin": "^0.4.0",
+    "grunt-uncss": "^0.4.3",
     "grunt-usemin": "^2.3.0",
     "grunt-wiredep": "^1.7.0",
     "jshint-stylish": "^0.4.0",
