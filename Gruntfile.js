@@ -19,7 +19,8 @@ module.exports = function (grunt) {
   // Configurable paths
   var config = {
     app: 'app',
-    dist: 'dist'
+    dist: 'dist',
+    tmp: '.tmp'
   };
 
   // Define the configuration for all the tasks
@@ -308,13 +309,10 @@ module.exports = function (grunt) {
       }
     },
 
-    purifycss: {
-      options: {},
-      target: {
-        src: ['<%= config.dist %>/*.html', '<%= config.dist %>/scripts/main.js', '<%= config.dist %>/scripts/callback.js'],
-        css: ['<%= config.dist %>/styles/main.css'],
-        dest: '<%= config.dist %>/styles/main.css'
-      },
+    uncss: {
+      dist: {
+        files: { '.tmp/concat/styles/main.css': ['<%= config.app %>/index.html'] }
+      }
     },
 
     // Run some tasks in parallel to speed up build process
@@ -379,10 +377,10 @@ module.exports = function (grunt) {
     'concurrent:dist',
     'autoprefixer',
     'concat',
+    'uncss',
     'cssmin',
     'uglify',
     'copy:dist',
-    'purifycss',
     'rev',
     'usemin',
     'htmlmin'
