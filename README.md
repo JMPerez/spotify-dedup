@@ -20,6 +20,13 @@ Run it:
 
     grunt serve
 
-## About the Spotify Web API
+## About the tools used and implementation details
 
-This app is a good example of how to traverse a user's library without incurring in rate limit. Have a look at the code and see how Promises and a Promise Queue are used to control the amount of requests sent to the Spotify Web API.
+### Spotify Web API and Promises
+
+This app is a good example of how to traverse a user's library without incurring in rate limit. Have a look at the code and see how Promises and a Promise Queue are used to control the amount of requests sent to the Spotify Web API. If you are interested in throttling promises, check out [promise-throttle](https://github.com/JMPerez/promise-throttle).
+
+### Bootstrap and uncss
+
+The project uses Twitter Bootstrap. I know you might not feel like it's cool, but combined with uncss allows us to remove all the unused CSS rules.
+
