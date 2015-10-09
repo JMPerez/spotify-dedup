@@ -9,7 +9,7 @@ This project uses the [Spotify Web API](https://developer.spotify.com/web-api/) 
 If it finds duplicates, they can be removed just pushing a button. And since it doesn't create a whole new playlist, it keeps its followers.
 
 ## Try it
-You can check it out on [http://jmperezperez.com/spotify-dedup/](http://jmperezperez.com/spotify-dedup/) or run it locally.
+You can check it out on [https://jmperezperez.com/spotify-dedup/](https://jmperezperez.com/spotify-dedup/) or run it locally.
 
 ## Install and run
 Install the dependencies:
