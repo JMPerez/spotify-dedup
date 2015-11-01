@@ -32,11 +32,11 @@
 
           var chunk = tracksToRemove.splice(0, 100);
 
-          api.removeTracksFromPlaylist(
+          return api.removeTracksFromPlaylist(
             self.playlist.owner.id,
             self.playlist.id,
             chunk).then(function() {
-              playlistProcessor.process(self)
+              return playlistProcessor.process(self)
                 .then(function() {
                   if (tracksToRemove.length > 0) {
                     self.removeDuplicates();
