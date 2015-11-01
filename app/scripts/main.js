@@ -176,7 +176,7 @@
     fetchUserOwnedPlaylists(user)
       .then(function(ownedPlaylists) {
         playlistsToCheck = ownedPlaylists;
-    
+
         model.playlists(playlistsToCheck.map(function(p) {
           return new PlaylistModel(p);
         }));
