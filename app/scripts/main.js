@@ -70,7 +70,8 @@
   var PlaylistProcessor = function() {};
 
   PlaylistProcessor.prototype.process = function(playlist) {
-    var seen = {};
+    var seenIds = {},
+        seenNameAndArtist = {};
     playlist.duplicates([]);
     return new Promise(function(resolve, reject) {
       return promisesForPages(
@@ -88,13 +89,30 @@
           var pageOffset = page.offset;
           page.items.forEach(function(item, index) {
             if (item.track.id !== null) {
-              if (item.track.id in seen) {
+              var isDuplicate = false,
+                  seenNameAndArtistKey = item.track.name + ':' + item.track.artists[0].name;
+              if (item.track.id in seenIds) {
+                // if the two items have the same Spotify ID, they are duplicates
+                isDuplicate = true;
+              } else {
+                // if they have the same name, main artist, and roughly same duration
+                // we consider tem duplicates too
+                /*jshint camelcase:false*/
+                if (seenNameAndArtistKey in seenNameAndArtist &&
+                  Math.abs(seenNameAndArtist[seenNameAndArtistKey] - item.track.duration_ms) < 2000) {
+                  isDuplicate = true;
+                }
+              }
+              if (isDuplicate) {
                 playlist.duplicates.push({
                   index: pageOffset + index,
-                  track: item.track
+                  track: item.track,
+                  reason: item.track.id in seenIds ? 'same-id' : 'same-name-artist'
                 });
               } else {
-                seen[item.track.id] = true;
+                seenIds[item.track.id] = true;
+                /*jshint camelcase:false*/
+                seenNameAndArtist[seenNameAndArtistKey] = item.track.duration_ms;
               }
             }
           });
