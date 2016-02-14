@@ -86,7 +86,7 @@
                             <ul class="duplicates" data-bind="foreach: duplicates()">
                                 <li>
                                     <span class="badge" data-bind="if: reason == 'same-id'">Duplicate</span>
-                                    <span class="badge" data-bind="if: reason == 'same-name-artist'">Duplicate (same name and duration)</span>
+                                    <span class="badge" data-bind="if: reason == 'same-name-artist'">Duplicate (same name, artist and duration)</span>
                                     <strong><span data-bind="text: track.name">
                                     </span></strong> by <strong><span data-bind="text: track.artists[0].name">
                                     </span>
