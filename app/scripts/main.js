@@ -20,8 +20,9 @@
         promiseThrottle.add(function() {
 
           var tracksToRemove = self.duplicates().map(function(d) {
+            /*jshint camelcase:false*/
             return {
-              uri: d.track.uri,
+              uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
               positions: [d.index]
             };
           });
