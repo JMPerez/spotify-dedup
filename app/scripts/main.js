@@ -123,7 +123,7 @@
     });
   };
 
-  var promiseThrottle = new PromiseThrottle({requestsPerSecond: 10}),
+  var promiseThrottle = new PromiseThrottle({requestsPerSecond: 5}),
       playlistProcessor = new PlaylistProcessor(),
       model = new PlaylistsDedupModel();
 
