@@ -49,7 +49,7 @@
                   self.duplicates([]);
                   self.status('Duplicates removed');
                   if (window.ga) {
-                    ga('spotify-dedup', 'playlist-removed-duplicates');
+                    ga('send', 'event', 'spotify-dedup', 'playlist-removed-duplicates');
                   }
                 }
               });
@@ -210,7 +210,7 @@
     var remaining = model.toProcess() - 1;
     model.toProcess(remaining);
     if (remaining === 0 && window.ga) {
-      ga('spotify-dedup', 'playlists-processed');
+      ga('send', 'event', 'spotify-dedup', 'playlists-processed');
     }
   }
 
