@@ -1,5 +1,4 @@
-A Spotify Playlist Duplicator
-=============================
+# A Spotify Playlist Duplicator
 
 Have you ever wanted to remove duplicated tracks from your Spotify Playlists?
 Now you can detect and remove them using Spotify dedup.
@@ -9,9 +8,11 @@ This project uses the [Spotify Web API](https://developer.spotify.com/web-api/) 
 If it finds duplicates, they can be removed just pushing a button. And since it doesn't create a whole new playlist, it keeps its followers.
 
 ## Try it
+
 You can check it out on [https://jmperezperez.com/spotify-dedup/](https://jmperezperez.com/spotify-dedup/) or run it locally.
 
 ## Install and run
+
 Install the dependencies:
 
     npm install
@@ -29,4 +30,3 @@ This app is a good example of how to traverse a user's library without incurring
 ### Bootstrap and uncss
 
 The project uses Twitter Bootstrap. I know you might not feel like it's cool, but combined with uncss allows us to remove all the unused CSS rules.
-

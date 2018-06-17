@@ -49,7 +49,12 @@
                   self.duplicates([]);
                   self.status('Duplicates removed');
                   if (window.ga) {
-                    ga('send', 'event', 'spotify-dedup', 'playlist-removed-duplicates');
+                    ga(
+                      'send',
+                      'event',
+                      'spotify-dedup',
+                      'playlist-removed-duplicates'
+                    );
                   }
                 }
               });

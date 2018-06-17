@@ -25,14 +25,24 @@
     "grunt-uncss": "^0.4.4",
     "grunt-usemin": "^2.3.0",
     "grunt-wiredep": "^1.7.0",
+    "husky": "^0.14.3",
     "jshint-stylish": "^0.4.0",
+    "lint-staged": "^7.2.0",
     "load-grunt-tasks": "^0.4.0",
+    "prettier": "^1.13.5",
     "time-grunt": "^0.4.0"
   },
   "engines": {
     "node": ">=0.10.0"
   },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write --single-quote",
+      "git add"
+    ]
+  },
   "scripts": {
+    "precommit": "lint-staged",
     "postinstall": "node_modules/bower/bin/bower install && cd test && ../node_modules/bower/bin/bower install",
     "test": "grunt"
   }
