@@ -1,9 +1,6 @@
-/*global Promise, OAuthConfig*/
-/*exported OAuthManager*/
+import OAuthConfig from './oauth-config';
 
 var OAuthManager = (function() {
-  'use strict';
-
   function toQueryString(obj) {
     var parts = [];
     for (var i in obj) {
@@ -87,3 +84,5 @@ var OAuthManager = (function() {
     obtainToken: obtainToken
   };
 })();
+
+export default OAuthManager;

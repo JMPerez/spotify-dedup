@@ -1,5 +1,3 @@
-/*exported OAuthConfig*/
-
 var OAuthConfig = (function() {
   'use strict';
 
@@ -17,3 +15,5 @@ var OAuthConfig = (function() {
     host: host
   };
 })();
+
+export default OAuthConfig;

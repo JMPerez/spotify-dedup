@@ -1,4 +1,4 @@
-/*global OAuthConfig*/
+import OAuthConfig from './oauth-config';
 var target = window.self === window.top ? window.opener : window.parent;
 
 var hash = window.location.hash;

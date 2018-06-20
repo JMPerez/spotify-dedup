@@ -11,11 +11,7 @@
   <meta name="twitter:title" content="Spotify dedup - Deleting duplicated songs from your Spotify library">
   <meta name="viewport" content="width=device-width">
   <link rel="canonical" href="https://jmperezperez.com/spotify-dedup/">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="styles/custom.css">
+  <link rel="shortcut icon" href="./favicon.ico">
   <style>
     .bmc-button img {
       width: 27px !important;
@@ -61,7 +57,6 @@
       color: #ffffff !important;
     }
   </style>
-  <link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet">
   <!-- endbuild -->
   <script>
     if (window.location.host === 'jmperezperez.com' &&
@@ -187,14 +182,6 @@
     </div>
   </div>
 
-  <!-- build:js(.) scripts/vendor.js -->
-  <!-- bower:js -->
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/spotify-web-api-js/src/spotify-web-api.js"></script>
-  <script src="bower_components/knockout/dist/knockout.js"></script>
-  <!-- endbower -->
-  <!-- endbuild -->
-
   <script>
     (function (b, o, i, l, e, r) {
       b.GoogleAnalyticsObject = l; b[l] || (b[l] =
@@ -206,12 +193,7 @@
     ga('create', 'UA-39254352-1'); ga('send', 'pageview');
   </script>
 
-  <!-- build:js({app,.tmp}) scripts/main.js -->
-  <script src="scripts/oauth-config.js"></script>
-  <script src="scripts/oauth-manager.js"></script>
-  <script src="scripts/promise-throttle.js"></script>
-  <script src="scripts/main.js"></script>
-  <!-- endbuild -->
+  <script src="./scripts/main.js"></script>
 </body>
 
 </html>
