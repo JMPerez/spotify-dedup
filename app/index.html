@@ -57,7 +57,6 @@
       color: #ffffff !important;
     }
   </style>
-  <!-- endbuild -->
   <script>
     if (window.location.host === 'jmperezperez.com' &&
       window.location.protocol != 'https:')
@@ -69,7 +68,7 @@
   <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-  <div class="container">
+  <div class="container" id="app">
     <div class="header">
       <ul class="nav nav-pills pull-right">
         <li>
@@ -79,7 +78,7 @@
       <h3 class="text-muted">Spotify dedup</h3>
     </div>
 
-    <div class="default-content" data-bind="visible: !isLoggedIn()">
+    <div class="default-content" v-if="!isLoggedIn">
       <div class="jumbotron">
         <h1>Spotify Playlists Deduplicator</h1>
         <p class="lead">Remove duplicated tracks from your playlists.</p>
@@ -110,65 +109,57 @@
       </div>
     </div>
 
-    <div class="dedup-result row" data-bind="visible: isLoggedIn()">
+    <div class="dedup-result row" v-if="isLoggedIn">
       <div class="playlists col-lg-12">
         <h3>These are the Spotify playlists you have created</h3>
         <div class="panel panel-default">
           <div class="panel-body">
-            <!-- ko if: toProcess() > 0 -->
-            We are finding duplicates, wait a sec. Still to process
-            <span data-bind="text: toProcess"></span> playlists.
-            <!-- /ko -->
-            <!-- ko if: toProcess() == 0 && duplicates() > 0 -->
-            Your playlists have been processed!
-            <br/>Scroll down to see the duplicates. Look for
-            <span class="badge">Duplicate</span> badges.
-            <div style="padding-top: 1em">
-              <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
-                <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
-                <span style="margin-left:5px">Would you buy me a coffee?</span>
-              </a>
-            </div>
-            <!-- /ko -->
-            <!-- ko if: toProcess() == 0 &&duplicates() == 0 -->
-            Your playlists have been processed!
-            <br/>Congrats! Your playlists don't have duplicates.
-            <div style="padding-top: 1em">
-              <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
-                <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
-                <span style="margin-left:5px">Would you buy me a coffee?</span>
-              </a>
-            </div>
-            <!-- /ko -->
+            <span v-if="toProcess > 0">
+              We are finding duplicates, wait a sec. Still to process
+              <span>{{ toProcess }}</span> playlists.
+            </span>
+            <span v-if="toProcess == 0 && duplicates > 0">
+              Your playlists have been processed!
+              <br/>Scroll down to see the duplicates. Look for
+              <span class="badge">Duplicate</span> badges.
+              <div style="padding-top: 1em">
+                <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
+                  <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
+                  <span style="margin-left:5px">Would you buy me a coffee?</span>
+                </a>
+              </div>
+            </span>
+            <span v-if="toProcess == 0 && duplicates == 0">
+              Your playlists have been processed!
+              <br/>Congrats! Your playlists don't have duplicates.
+              <div style="padding-top: 1em">
+                <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
+                  <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
+                  <span style="margin-left:5px">Would you buy me a coffee?</span>
+                </a>
+              </div>
+            </span>
           </div>
         </div>
-        <ul class="playlists-list" data-bind="foreach: playlists">
-          <li>
-            <span data-bind="text: playlist.name"></span>
-            <!-- ko if: status() -->
-            <span class="label label-success" data-bind="text: status()"></span>
-            <!-- /ko -->
-            <!-- ko if: duplicates().length -->
-            <span> - There are duplicates in this playlist </span>
-            <button class="btn btn-primary btn-xs" data-bind="click: removeDuplicates">Remove duplicates from this playlist</button>
-            <ul class="duplicates" data-bind="foreach: duplicates()">
-              <li>
-                <!-- ko if: reason == 'same-id' -->
-                <span class="badge">Duplicate</span>
-                <!-- /ko -->
-                <!-- ko if: reason == 'same-name-artist' -->
-                <span class="badge">Duplicate (same name, artist and duration)</span>
-                <!-- /ko -->
-                <strong>
-                  <span data-bind="text: track.name">
-                  </span>
-                </strong> by
-                <strong>
-                  <span data-bind="text: track.artists[0].name">
-                  </span>
-              </li>
-            </ul>
-            <!-- /ko -->
+        <ul class="playlists-list">
+          <li v-for="playlist in playlists">
+            <span>{{ playlist.playlist.name }}</span>
+            <span v-if="playlist.status" class="label label-success"> {{ playlist.status }}</span>
+            <span v-if="playlist.duplicates.length">
+              <span> - There are duplicates in this playlist </span>
+              <button class="btn btn-primary btn-xs" v-on:click="removeDuplicates(playlist)">Remove duplicates from this playlist</button>
+              <ul class="duplicates">
+                <li v-for="duplicate in playlist.duplicates">
+                  <span v-if="duplicate.reason === 'same-id'" class="badge">Duplicate</span>
+                  <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and duration)</span>
+                  <strong>
+                    <span>{{ duplicate.track.name }}</span>
+                  </strong> by
+                  <strong>
+                    <span>{{ duplicate.track.artists[0].name }}</span>
+                </li>
+              </ul>
+            </span>
           </li>
         </ul>
       </div>
@@ -192,7 +183,7 @@
     }(window, document, 'script', 'ga'));
     ga('create', 'UA-39254352-1'); ga('send', 'pageview');
   </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="./scripts/main.js"></script>
 </body>
 

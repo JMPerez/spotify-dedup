@@ -1,8 +1,8 @@
 import OAuthConfig from './oauth-config';
-var target = window.self === window.top ? window.opener : window.parent;
+const target = window.self === window.top ? window.opener : window.parent;
 
-var hash = window.location.hash;
+const hash = window.location.hash;
 if (hash) {
-  var token = window.location.hash.split('&')[0].split('=')[1];
+  const token = window.location.hash.split('&')[0].split('=')[1];
   target.postMessage(token, OAuthConfig.host);
 }

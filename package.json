@@ -1,6 +1,9 @@
 {
   "name": "spotify-dedup",
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-runtime": "^6.26.0",
     "gh-pages": "^1.2.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
@@ -17,13 +20,11 @@
   },
   "scripts": {
     "precommit": "lint-staged",
-    "dev": "parcel app -p 8005",
+    "dev": "parcel app/*.html -p 8005",
     "build": "rm -rf dist && parcel build app/*.html --public-url ./"
   },
   "dependencies": {
-    "knockout": "^3.4.2",
-    "promise-throttle": "^1.0.0",
-    "spotify-web-api-js": "^0.24.0"
+    "promise-throttle": "^1.0.0"
   },
   "version": "1.0.0",
   "description": "Remove duplicates from your Spotify library",
