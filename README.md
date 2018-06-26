@@ -19,14 +19,12 @@ Install the dependencies:
 
 Run it:
 
-    grunt serve
+    npm run dev
+
+Then open http://localhost:8005/index.html in a browser
 
 ## About the tools used and implementation details
 
 ### Spotify Web API and Promises
 
 This app is a good example of how to traverse a user's library without incurring in rate limit. Have a look at the code and see how Promises and a Promise Queue are used to control the amount of requests sent to the Spotify Web API. If you are interested in throttling promises, check out [promise-throttle](https://github.com/JMPerez/promise-throttle).
-
-### Bootstrap and uncss
-
-The project uses Twitter Bootstrap. I know you might not feel like it's cool, but combined with uncss allows us to remove all the unused CSS rules.
