@@ -1,11 +1,10 @@
-# A Spotify Playlist Duplicator
+# Spotify Deduplicator
 
-Have you ever wanted to remove duplicated tracks from your Spotify Playlists?
-Now you can detect and remove them using Spotify dedup.
+Have you ever wanted to remove duplicated songs from your Spotify library? Now you can find and remove them using Spotify Dedup.
 
-This project uses the [Spotify Web API](https://developer.spotify.com/web-api/) for managing playlists. Just log in and it will traverse your playlists, finding tracks that appear multiple times with the same identifier (Spotify URI) in a given playlist.
+This project uses the [Spotify Web API](https://developer.spotify.com/web-api/) for managing playlists. Just log in and it will traverse your playlists, finding songs that appear multiple times with the same identifier (Spotify URI) in a given playlist.
 
-If it finds duplicates, they can be removed just pushing a button. And since it doesn't create a whole new playlist, it keeps its followers.
+If it finds duplicates, they can be removed just pushing a button. And since it doesn't create a whole new playlist, it keeps all the information like creation date and subscribers.
 
 ## Try it
 
