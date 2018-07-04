@@ -3,12 +3,12 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Spotify dedup - Deleting duplicated songs from your Spotify library</title>
-  <meta name="description" content="Remove duplicates from your Spotify Playlists">
-  <meta name="og:description" content="Remove duplicates from your Spotify Playlists">
-  <meta name="twitter:description" content="Remove duplicates from your Spotify Playlists">
-  <meta name="og:title" content="Spotify dedup - Deleting duplicated songs from your Spotify library">
-  <meta name="twitter:title" content="Spotify dedup - Deleting duplicated songs from your Spotify library">
+  <title>Spotify dedup - Remove duplicated songs from your Spotify library automatically</title>
+  <meta name="description" content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy.">
+  <meta name="og:description" content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy.">
+  <meta name="twitter:description" content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy.">
+  <meta name="og:title" content="Spotify dedup - Remove duplicated songs from your Spotify library automatically">
+  <meta name="twitter:title" content="Spotify dedup - Remove duplicated songs from your Spotify library automatically">
   <meta name="viewport" content="width=device-width">
   <link rel="canonical" href="https://jmperezperez.com/spotify-dedup/">
   <link rel="shortcut icon" href="./favicon.ico">
@@ -80,8 +80,8 @@
 
     <div class="default-content" v-if="!isLoggedIn">
       <div class="jumbotron">
-        <h1>Spotify Playlists Deduplicator</h1>
-        <p class="lead">Remove duplicated tracks from your playlists.</p>
+        <h1>Spotify Deduplicator</h1>
+        <p class="lead">Remove duplicated songs from your playlists and saved songs.</p>
         <p>
           <button class="btn btn-lg btn-success" id="login">Log in with Spotify</button>
         </p>
@@ -90,13 +90,13 @@
       <div class="row marketing">
         <div class="col-sm-4 col-md-4 col-lg-4">
           <h4>Find &amp; remove</h4>
-          <p>Dedup traverses the playlists in
+          <p>Dedup checks your playlists and saved songs in
             <strong>your Spotify library</strong>. Once Dedup finds duplicates you can remove them per-playlist basis.</p>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4">
           <h4>Safe</h4>
-          <p>Dedup won't delete anything except for duplicates, and only in the playlists
-            <strong>you</strong> want to apply the deletion.</p>
+          <p>Dedup will only remove
+            <strong>duplicated songs</strong>, leaving the rest of the playlist and saved songs untouched.</p>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4">
           <h4>Open Source</h4>
@@ -104,7 +104,7 @@
             <strong>
               <a href="https://github.com/JMPerez/spotify-dedup/">source code on GitHub</a>
             </strong>. This web app uses the
-            <a href="https://developer.spotify.com/web-api/">Spotify Web API</a> to manage user's playlists.</p>
+            <a href="https://developer.spotify.com/web-api/">Spotify Web API</a> to manage user's playlists and saved tracks.</p>
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@
               <span>{{ toProcess }}</span> playlists.
             </span>
             <span v-if="toProcess == 0 && duplicates > 0">
-              Your playlists have been processed!
+              Your playlists and saved songs have been processed!
               <br/>Scroll down to see the duplicates. Look for
               <span class="badge">Duplicate</span> badges.
               <div style="padding-top: 1em">
@@ -130,8 +130,8 @@
               </div>
             </span>
             <span v-if="toProcess == 0 && duplicates == 0">
-              Your playlists have been processed!
-              <br/>Congrats! Your playlists don't have duplicates.
+              Your playlists and saved songs have been processed!
+              <br/>Congrats! You don't have duplicates in your playlists nor saved songs.
               <div style="padding-top: 1em">
                 <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
                   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
@@ -142,6 +142,25 @@
           </div>
         </div>
         <ul class="playlists-list">
+          <li v-if="savedTracks.duplicates.length || savedTracks.status">
+            <span>Saved songs in your library</span>
+            <span v-if="savedTracks.status" class="label label-success"> {{ savedTracks.status }}</span>
+            <span v-if="savedTracks.duplicates.length">
+              <span> - There are duplicates</span>
+              <button class="btn btn-primary btn-xs" v-on:click="removeDuplicatesInSavedTracks()">Remove duplicates from your saved songs</button>
+              <ul class="duplicates">
+                <li v-for="duplicate in savedTracks.duplicates">
+                  <span v-if="duplicate.reason === 'same-id'" class="badge">Duplicate</span>
+                  <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and duration)</span>
+                  <strong>
+                    <span>{{ duplicate.track.name }}</span>
+                  </strong> by
+                  <strong>
+                    <span>{{ duplicate.track.artists[0].name }}</span>
+                </li>
+              </ul>
+            </span>
+          </li>
           <li v-for="playlist in playlists">
             <span>{{ playlist.playlist.name }}</span>
             <span v-if="playlist.status" class="label label-success"> {{ playlist.status }}</span>
@@ -183,6 +202,7 @@
     }(window, document, 'script', 'ga'));
     ga('create', 'UA-39254352-1'); ga('send', 'pageview');
   </script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="./scripts/main.js"></script>
 </body>
