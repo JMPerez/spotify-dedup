@@ -1,6 +1,6 @@
 import OAuthManager from './oauth-manager';
 import SpotifyWebApi from './api';
-import Deduplicator from './deduplicator';
+import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
 import PromiseThrottle from 'promise-throttle';
 
 import mainCss from '../styles/main.css';
@@ -8,7 +8,8 @@ import customCss from '../styles/custom.css';
 
 const promiseThrottle = new PromiseThrottle({ requestsPerSecond: 5 });
 
-let deduplicator;
+let playlistDeduplicator;
+let savedTracksDeduplicator;
 
 let token, api;
 
@@ -17,7 +18,11 @@ let app = new Vue({
   data: {
     isLoggedIn: false,
     toProcess: 100,
-    playlists: []
+    playlists: [],
+    savedTracks: {
+      duplicates: [],
+      status: null
+    }
   },
   methods: {
     removeDuplicates: playlistModel =>
@@ -32,20 +37,40 @@ let app = new Vue({
             'It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
           );
         } else {
-          const duplicates = await deduplicator.removeDuplicates(playlistModel);
+          const duplicates = await playlistDeduplicator.removeDuplicates(
+            playlistModel
+          );
           playlistModel.duplicates = [];
           playlistModel.status = 'Duplicates removed';
           if (window.ga) {
             ga('send', 'event', 'spotify-dedup', 'playlist-removed-duplicates');
           }
         }
+      })(),
+    removeDuplicatesInSavedTracks: () =>
+      (async () => {
+        const duplicates = await savedTracksDeduplicator.removeDuplicates(
+          app.savedTracks
+        );
+        app.savedTracks.duplicates = [];
+        app.savedTracks.status = 'Duplicates removed';
+        if (window.ga) {
+          ga(
+            'send',
+            'event',
+            'spotify-dedup',
+            'saved-tracks-removed-duplicates'
+          );
+        }
       })()
   },
   computed: {
     duplicates: function() {
-      return this.playlists.reduce(
-        (prev, current) => prev + current.duplicates.length,
-        0
+      return (
+        this.playlists.reduce(
+          (prev, current) => prev + current.duplicates.length,
+          0
+        ) + this.savedTracks.duplicates.length
       );
     }
   }
@@ -62,7 +87,9 @@ document.getElementById('login').addEventListener('click', function() {
       'playlist-read-private',
       'playlist-read-collaborative',
       'playlist-modify-public',
-      'playlist-modify-private'
+      'playlist-modify-private',
+      'user-library-read',
+      'user-library-modify'
     ]
   })
     .then(function(token) {
@@ -103,7 +130,7 @@ function onPlaylistProcessed(playlist) {
   var remaining = app.toProcess - 1;
   app.toProcess -= 1;
   if (remaining === 0 && window.ga) {
-    ga('send', 'event', 'spotify-dedup', 'playlists-processed');
+    ga('send', 'event', 'spotify-dedup', 'library-processed');
   }
 }
 
@@ -121,12 +148,26 @@ async function onUserDataFetched(data) {
   const ownedPlaylists = await fetchUserOwnedPlaylists(user);
   playlistsToCheck = ownedPlaylists;
   app.playlists = playlistsToCheck.map(p => playlistToPlaylistModel(p));
-  app.toProcess = app.playlists.length;
+  app.toProcess = app.playlists.length + 1 /* saved tracks */;
+  const savedTracksInitial = await api.getMySavedTracks();
+  const savedTracks = await savedTracksDeduplicator.getTracks(
+    savedTracksInitial
+  );
+  app.savedTracks.duplicates = savedTracksDeduplicator.findDuplicatedTracks(
+    savedTracks
+  );
+  if (app.savedTracks.duplicates.length && window.ga) {
+    ga('send', 'event', 'spotify-dedup', 'saved-tracks-found-duplicates');
+  }
+  app.toProcess--;
 
   app.playlists.forEach(playlistModel =>
     (async () => {
-      playlistModel.duplicates = await deduplicator.findDuplicates(
+      const playlistTracks = await playlistDeduplicator.getTracks(
         playlistModel.playlist
+      );
+      playlistModel.duplicates = playlistDeduplicator.findDuplicatedTracks(
+        playlistTracks
       );
       onPlaylistProcessed(playlistModel.playlist);
     })()
@@ -138,7 +179,8 @@ function onTokenReceived(accessToken) {
   api = new SpotifyWebApi();
   api.setAccessToken(accessToken);
 
-  deduplicator = new Deduplicator(api, promiseThrottle);
+  playlistDeduplicator = new PlaylistDeduplicator(api, promiseThrottle);
+  savedTracksDeduplicator = new SavedTracksDeduplicator(api, promiseThrottle);
 
   promiseThrottle.add(function() {
     return api.getMe().then(data =>

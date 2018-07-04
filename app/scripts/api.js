@@ -61,4 +61,30 @@ export default class SpotifyWebApi {
     if (res.ok) return json;
     return null;
   }
+
+  async getMySavedTracks() {
+    const res = await fetch(`${apiPrefix}/me/tracks`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    });
+
+    const json = await res.json();
+    if (res.ok) return json;
+    return null;
+  }
+
+  async removeFromMySavedTracks(trackIds) {
+    const res = await fetch(`${apiPrefix}/me/tracks`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      },
+      body: JSON.stringify(trackIds)
+    });
+
+    if (res.ok) return true;
+    return false;
+  }
 }

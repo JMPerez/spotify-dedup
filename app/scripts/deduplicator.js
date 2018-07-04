@@ -3,17 +3,65 @@ import promisesForPages from './promiseForPages';
 let token;
 let api;
 
-export default class Deduplicator {
+class BaseDeduplicator {
   constructor(api, promiseThrottle) {
     this.api = api;
     this.promiseThrottle = promiseThrottle;
   }
 
-  async findDuplicates(playlist) {
+  async removeDuplicates(model) {
+    throw 'Not implemented';
+  }
+
+  async getTracks() {
+    throw 'Not implemented';
+  }
+
+  findDuplicatedTracks(tracks) {
     const seenIds = {};
     const seenNameAndArtist = {};
-    const duplicates = [];
-    return new Promise((resolve, reject) =>
+    const result = tracks.reduce((duplicates, track, index) => {
+      if (track.id === null) return duplicates;
+      let isDuplicate = false;
+      const seenNameAndArtistKey = `${track.name}:${track.artists[0].name}`;
+      if (track.id in seenIds) {
+        // if the two tracks have the same Spotify ID, they are duplicates
+        isDuplicate = true;
+      } else {
+        // if they have the same name, main artist, and roughly same duration
+        // we consider tem duplicates too
+        if (
+          seenNameAndArtistKey in seenNameAndArtist &&
+          Math.abs(
+            seenNameAndArtist[seenNameAndArtistKey] - track.duration_ms
+          ) < 2000
+        ) {
+          isDuplicate = true;
+        }
+      }
+      if (isDuplicate) {
+        duplicates.push({
+          index: index,
+          track: track,
+          reason: track.id in seenIds ? 'same-id' : 'same-name-artist'
+        });
+      } else {
+        seenIds[track.id] = true;
+        seenNameAndArtist[seenNameAndArtistKey] = track.duration_ms;
+      }
+      return duplicates;
+    }, []);
+    return result;
+  }
+}
+
+export class PlaylistDeduplicator extends BaseDeduplicator {
+  constructor(api, promiseThrottle) {
+    super(api, promiseThrottle);
+  }
+  async getTracks(playlist) {
+    return new Promise((resolve, reject) => {
+      const tracks = [];
       promisesForPages(
         this.promiseThrottle.add(() =>
           this.api.getGeneric(playlist.tracks.href)
@@ -32,46 +80,13 @@ export default class Deduplicator {
           pages.forEach(page => {
             const pageOffset = page.offset;
             page.items.forEach((item, index) => {
-              if (item.track.id !== null) {
-                let isDuplicate = false;
-                const seenNameAndArtistKey = `${item.track.name}:${
-                  item.track.artists[0].name
-                }`;
-                if (item.track.id in seenIds) {
-                  // if the two items have the same Spotify ID, they are duplicates
-                  isDuplicate = true;
-                } else {
-                  // if they have the same name, main artist, and roughly same duration
-                  // we consider tem duplicates too
-                  if (
-                    seenNameAndArtistKey in seenNameAndArtist &&
-                    Math.abs(
-                      seenNameAndArtist[seenNameAndArtistKey] -
-                        item.track.duration_ms
-                    ) < 2000
-                  ) {
-                    isDuplicate = true;
-                  }
-                }
-                if (isDuplicate) {
-                  duplicates.push({
-                    index: pageOffset + index,
-                    track: item.track,
-                    reason:
-                      item.track.id in seenIds ? 'same-id' : 'same-name-artist'
-                  });
-                } else {
-                  seenIds[item.track.id] = true;
-                  seenNameAndArtist[seenNameAndArtistKey] =
-                    item.track.duration_ms;
-                }
-              }
+              tracks.push(item.track);
             });
           });
-          resolve(duplicates);
+          resolve(tracks);
         })
-        .catch(reject)
-    );
+        .catch(reject);
+    });
   }
 
   async removeDuplicates(playlistModel) {
@@ -103,15 +118,67 @@ export default class Deduplicator {
             playlistModel.playlist.id,
             chunk
           );
-          const duplicates = await this.findDuplicates(playlistModel.playlist);
+          const duplicates = await this.findDuplicatesInPlaylist(
+            playlistModel.playlist
+          );
           if (duplicates.length > 0) {
             playlistModel.duplicates = duplicates;
-            this.removeDuplicates(playlistModel);
+            this.removeDuplicatesInPlaylist(playlistModel);
           } else {
             resolve();
           }
         });
       }
+    });
+  }
+}
+
+export class SavedTracksDeduplicator extends BaseDeduplicator {
+  constructor(api, promiseThrottle) {
+    super(api, promiseThrottle);
+  }
+
+  async getTracks(savedTracks) {
+    return new Promise((resolve, reject) => {
+      const tracks = [];
+      promisesForPages(
+        this.promiseThrottle.add(() => this.api.getGeneric(savedTracks.href)),
+        this.promiseThrottle,
+        this.api
+      )
+        .then((
+          pagePromises // todo: I'd love to replace this with
+        ) =>
+          // .then(Promise.all)
+          // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
+          Promise.all(pagePromises)
+        )
+        .then(pages => {
+          pages.forEach(page => {
+            const pageOffset = page.offset;
+            page.items.forEach((item, index) => {
+              tracks.push(item.track);
+            });
+          });
+          resolve(tracks);
+        })
+        .catch(reject);
+    });
+  }
+
+  async removeDuplicates(model) {
+    return new Promise((resolve, reject) => {
+      this.promiseThrottle.add(async () => {
+        const tracksToRemove = model.duplicates.map(
+          d => (d.track.linked_from ? d.track.linked_from.id : d.track.id)
+        );
+        do {
+          const chunk = tracksToRemove.splice(0, 50);
+          await this.api.removeFromMySavedTracks(chunk);
+        } while (tracksToRemove.length > 0);
+        model.duplicates = [];
+        resolve();
+      });
     });
   }
 }
