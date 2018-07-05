@@ -118,12 +118,11 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
             playlistModel.playlist.id,
             chunk
           );
-          const duplicates = await this.findDuplicatesInPlaylist(
-            playlistModel.playlist
-          );
+          const tracks = await this.getTracks(playlistModel.playlist);
+          const duplicates = await this.findDuplicatedTracks(tracks);
           if (duplicates.length > 0) {
             playlistModel.duplicates = duplicates;
-            this.removeDuplicatesInPlaylist(playlistModel);
+            this.removeDuplicates(playlistModel);
           } else {
             resolve();
           }
@@ -168,17 +167,19 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
 
   async removeDuplicates(model) {
     return new Promise((resolve, reject) => {
-      this.promiseThrottle.add(async () => {
-        const tracksToRemove = model.duplicates.map(
-          d => (d.track.linked_from ? d.track.linked_from.id : d.track.id)
-        );
-        do {
+      const tracksToRemove = model.duplicates.map(
+        d => (d.track.linked_from ? d.track.linked_from.id : d.track.id)
+      );
+      do {
+        (async () => {
           const chunk = tracksToRemove.splice(0, 50);
-          await this.api.removeFromMySavedTracks(chunk);
-        } while (tracksToRemove.length > 0);
-        model.duplicates = [];
-        resolve();
-      });
+          await this.promiseThrottle.add(() =>
+            this.api.removeFromMySavedTracks(chunk)
+          );
+        })();
+      } while (tracksToRemove.length > 0);
+      model.duplicates = [];
+      resolve();
     });
   }
 }

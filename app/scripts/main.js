@@ -1,10 +1,101 @@
 import OAuthManager from './oauth-manager';
-import SpotifyWebApi from './api';
+
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
 import PromiseThrottle from 'promise-throttle';
 
 import mainCss from '../styles/main.css';
 import customCss from '../styles/custom.css';
+
+const apiPrefix = 'https://api.spotify.com/v1';
+class SpotifyWebApi {
+  constructor() {
+    this.token = null;
+  }
+
+  setAccessToken(token) {
+    this.token = token;
+  }
+
+  async getMe() {
+    return await this.getGeneric(`${apiPrefix}/me`);
+  }
+
+  async getGeneric(url, options) {
+    const optionsString =
+      options === undefined
+        ? ''
+        : `?${Object.keys(options)
+            .map(k => `${k}=${options[k]}`)
+            .join('&')}`;
+
+    const res = await fetch(`${url}${optionsString}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    });
+    const json = await res.json();
+    if (res.ok) return json;
+    return null;
+  }
+
+  async getUserPlaylists(userId, options) {
+    const url =
+      typeof userId === 'string'
+        ? `${apiPrefix}/users/${encodeURIComponent(userId)}/playlists`
+        : `${apiPrefix}/me/playlists`;
+    return await this.getGeneric(url, options);
+  }
+
+  async removeTracksFromPlaylist(userId, playlistId, uris) {
+    const dataToBeSent = {
+      tracks: uris.map(uri => (typeof uri === 'string' ? { uri: uri } : uri))
+    };
+
+    const res = await fetch(
+      `${apiPrefix}/users/${encodeURIComponent(
+        userId
+      )}/playlists/${playlistId}/tracks`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify(dataToBeSent)
+      }
+    );
+
+    const json = await res.json();
+    if (res.ok) return json;
+    return null;
+  }
+
+  async getMySavedTracks() {
+    const res = await fetch(`${apiPrefix}/me/tracks`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    });
+
+    const json = await res.json();
+    if (res.ok) return json;
+    return null;
+  }
+
+  async removeFromMySavedTracks(trackIds) {
+    const res = await fetch(`${apiPrefix}/me/tracks`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      },
+      body: JSON.stringify(trackIds)
+    });
+
+    if (res.ok) return true;
+    return false;
+  }
+}
 
 const promiseThrottle = new PromiseThrottle({ requestsPerSecond: 5 });
 
@@ -80,10 +171,10 @@ document.getElementById('login').addEventListener('click', function() {
   OAuthManager.obtainToken({
     scopes: [
       /*
-          the permission for reading public playlists is granted
-          automatically when obtaining an access token through
-          the user login form
-          */
+        the permission for reading public playlists is granted
+        automatically when obtaining an access token through
+        the user login form
+        */
       'playlist-read-private',
       'playlist-read-collaborative',
       'playlist-modify-public',
@@ -206,11 +297,11 @@ function promisesForPages(promise) {
   return new Promise(function(resolve, reject) {
     promise
       .then(function(results) {
-        var promises = [promise], // add the initial page
-          offset = results.limit + results.offset, // start from the second page
-          limit = results.limit;
+        const promises = [promise]; // add the initial page
+        let offset = results.limit + results.offset; // start from the second page
+        const limit = results.limit;
         while (results.total > offset) {
-          var q = promiseThrottle.add(
+          const q = promiseThrottle.add(
             fetchGeneric.bind(this, results, offset, limit)
           );
           promises.push(q);
