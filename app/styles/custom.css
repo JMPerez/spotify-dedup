@@ -97,3 +97,88 @@ h6,
 .jumbotron {
   background-color: transparent;
 }
+
+.playlists-list {
+  list-style: none;
+  padding: 0;
+}
+
+.playlists-list-item {
+  margin-bottom: 2rem;
+}
+
+.playlists-list-item__img {
+  width: 100px;
+}
+
+.playlists-list-item__placeholder {
+  background-image: url('../placeholder.png');
+  background-size: cover;
+  height: 100px;
+  width: 100px;
+}
+
+.playlists-list-item__name {
+  display: block;
+  font-weight: bold;
+  max-width: 50%;
+}
+
+.playlist-list-item__btn {
+  max-width: 50%;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+@media (max-width: 700px) {
+  .playlists-list-item__name {
+    max-width: 100%;
+  }
+  .playlist-list-item__btn {
+    position: relative;
+    max-width: 100%;
+  }
+}
+
+.playlist-list-item__btn:hover {
+  cursor: pointer;
+}
+
+.btn-primary.playlist-list-item__btn:hover {
+  background-color: #69a3d3;
+}
+
+.gray {
+  color: #999;
+}
+
+.duplicates {
+  margin-top: 1rem;
+  padding: 0;
+}
+
+.bd {
+  position: relative;
+}
+
+.media,
+.bd {
+  overflow: hidden;
+  _overflow: visible;
+  zoom: 1;
+}
+.media .img {
+  float: left;
+  margin-right: 20px;
+}
+
+@media (max-width: 500px) {
+  .media .img {
+    float: none;
+  }
+}
+
+.media .img {
+  display: block;
+}

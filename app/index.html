@@ -37,7 +37,6 @@
       box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
       -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
       margin: 0 auto !important;
-      font-family: 'Lato', sans-serif !important;
       -webkit-box-sizing: border-box !important;
       box-sizing: border-box !important;
       -o-transition: 0.3s all linear !important;
@@ -66,8 +65,8 @@
 
 <body>
   <!--[if lt IE 10]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
   <div class="container" id="app">
     <div class="header">
       <ul class="nav nav-pills pull-right">
@@ -111,17 +110,21 @@
 
     <div class="dedup-result row" v-if="isLoggedIn">
       <div class="playlists col-lg-12">
-        <h3>These are the Spotify playlists you have created</h3>
+        <span v-if="toProcess > 0">
+          <h3>Finding duplicated in your playlists and saved songs...</h3>
+        </span>
+        <span v-if="toProcess == 0">
+          <h3>Processing complete!</h3>
+        </span>
         <div class="panel panel-default">
           <div class="panel-body">
             <span v-if="toProcess > 0">
-              We are finding duplicates, wait a sec. Still to process
+              Searching for duplicated songs, wait a sec. Still to process
               <span>{{ toProcess }}</span> playlists.
             </span>
             <span v-if="toProcess == 0 && duplicates > 0">
-              Your playlists and saved songs have been processed!
-              <br/>Scroll down to see the duplicates. Look for
-              <span class="badge">Duplicate</span> badges.
+              Your playlists and saved songs have been processed! Click on
+              <strong>Remove duplicates</strong> to get rid of duplicates in that playlist or saved songs collection.
               <div style="padding-top: 1em">
                 <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
                   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
@@ -142,43 +145,52 @@
           </div>
         </div>
         <ul class="playlists-list">
-          <li v-if="savedTracks.duplicates.length || savedTracks.status">
-            <span>Saved songs in your library</span>
-            <span v-if="savedTracks.status" class="label label-success"> {{ savedTracks.status }}</span>
-            <span v-if="savedTracks.duplicates.length">
-              <span> - There are duplicates</span>
-              <button class="btn btn-primary btn-xs" v-on:click="removeDuplicatesInSavedTracks()">Remove duplicates from your saved songs</button>
-              <ul class="duplicates">
-                <li v-for="duplicate in savedTracks.duplicates">
-                  <span v-if="duplicate.reason === 'same-id'" class="badge">Duplicate</span>
-                  <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and duration)</span>
-                  <strong>
+          <li class="playlists-list-item media" v-if="savedTracks.duplicates.length || savedTracks.status">
+            <div class="img">
+              <div class="playlists-list-item__placeholder playlists-list-item__img"></div>
+            </div>
+            <div class="bd">
+              <span class="playlists-list-item__name">Saved songs in your library</span>
+              <span v-if="savedTracks.status" class="label label-success"> {{ savedTracks.status }}</span>
+              <span v-if="savedTracks.duplicates.length">
+                <span>This collection has {{ savedTracks.duplicates.length }} duplicated {{ savedTracks.duplicates.length > 1 ?
+                  'songs' : 'song' }}</span>
+                <button class="btn btn-primary btn-sm playlist-list-item__btn" v-on:click="removeDuplicatesInSavedTracks()">Remove duplicates from your saved songs</button>
+                <ul class="duplicates">
+                  <li v-for="duplicate in savedTracks.duplicates">
+                    <span v-if="duplicate.reason === 'same-id'" class="badge">Duplicate</span>
+                    <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and duration)</span>
                     <span>{{ duplicate.track.name }}</span>
-                  </strong> by
-                  <strong>
-                    <span>{{ duplicate.track.artists[0].name }}</span>
-                </li>
-              </ul>
-            </span>
+                    <span class="gray"> by </span>
+                    <span> {{ duplicate.track.artists[0].name }}</span>
+                  </li>
+                </ul>
+              </span>
+            </div>
           </li>
-          <li v-for="playlist in playlists">
-            <span>{{ playlist.playlist.name }}</span>
-            <span v-if="playlist.status" class="label label-success"> {{ playlist.status }}</span>
-            <span v-if="playlist.duplicates.length">
-              <span> - There are duplicates in this playlist </span>
-              <button class="btn btn-primary btn-xs" v-on:click="removeDuplicates(playlist)">Remove duplicates from this playlist</button>
-              <ul class="duplicates">
-                <li v-for="duplicate in playlist.duplicates">
-                  <span v-if="duplicate.reason === 'same-id'" class="badge">Duplicate</span>
-                  <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and duration)</span>
-                  <strong>
+          <li class="playlists-list-item media" v-for="playlist in playlists.filter(p => p.duplicates.length || p.status != '')">
+            <div class="img">
+              <img width="100" height="100" class="playlists-list-item__img" v-bind:src="playlist.playlist.images && playlist.playlist.images[0].url"
+              />
+            </div>
+            <div class="bd">
+              <span class="playlists-list-item__name">{{ playlist.playlist.name }}</span>
+              <span v-if="playlist.status" class="label label-success"> {{ playlist.status }}</span>
+              <span v-if="playlist.duplicates.length">
+                <span>This playlist has {{ playlist.duplicates.length }} duplicated {{ playlist.duplicates.length > 1 ? 'songs'
+                  : 'song' }}</span>
+                <button class="btn btn-primary btn-sm playlist-list-item__btn" v-on:click="removeDuplicates(playlist)">Remove duplicates from this playlist</button>
+                <ul class="duplicates">
+                  <li v-for="duplicate in playlist.duplicates">
+                    <span v-if="duplicate.reason === 'same-id'" class="badge">Duplicate</span>
+                    <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and duration)</span>
                     <span>{{ duplicate.track.name }}</span>
-                  </strong> by
-                  <strong>
+                    <span class="gray"> by </span>
                     <span>{{ duplicate.track.artists[0].name }}</span>
-                </li>
-              </ul>
-            </span>
+                  </li>
+                </ul>
+              </span>
+            </div>
           </li>
         </ul>
       </div>
@@ -204,6 +216,7 @@
   </script>
   <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdn.ravenjs.com/3.26.2/raven.min.js" crossorigin="anonymous"></script>
   <script src="./scripts/main.js"></script>
 </body>
 

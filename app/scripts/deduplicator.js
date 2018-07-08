@@ -21,6 +21,7 @@ class BaseDeduplicator {
     const seenIds = {};
     const seenNameAndArtist = {};
     const result = tracks.reduce((duplicates, track, index) => {
+      if (track === null) return duplicates;
       if (track.id === null) return duplicates;
       let isDuplicate = false;
       const seenNameAndArtistKey = `${track.name}:${track.artists[0].name}`;
@@ -102,30 +103,29 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         );
       } else {
         this.promiseThrottle.add(async () => {
-          const tracksToRemove = playlistModel.duplicates.map(d => ({
-            uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
-            positions: [d.index]
-          }));
-
-          // remove chunks of max 100 tracks
-          // find again duplicated tracks
-          // delete another chunk
-
-          const chunk = tracksToRemove.splice(0, 100);
-
-          const result = await this.api.removeTracksFromPlaylist(
-            playlistModel.playlist.owner.id,
-            playlistModel.playlist.id,
-            chunk
-          );
-          const tracks = await this.getTracks(playlistModel.playlist);
-          const duplicates = await this.findDuplicatedTracks(tracks);
-          if (duplicates.length > 0) {
-            playlistModel.duplicates = duplicates;
-            this.removeDuplicates(playlistModel);
-          } else {
+          const tracksToRemove = playlistModel.duplicates
+            .map(d => ({
+              uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
+              positions: [d.index]
+            }))
+            .reverse(); // reverse so we delete the last ones first
+          const promises = [];
+          do {
+            const chunk = tracksToRemove.splice(0, 100);
+            promises.push(
+              this.promiseThrottle.add(() => {
+                return this.api.removeTracksFromPlaylist(
+                  playlistModel.playlist.owner.id,
+                  playlistModel.playlist.id,
+                  chunk
+                );
+              })
+            );
+          } while (tracksToRemove.length > 0);
+          Promise.all(promises).then(() => {
+            playlistModel.duplicates.duplicates = [];
             resolve();
-          }
+          });
         });
       }
     });
