@@ -1,7 +1,6 @@
-import OAuthManager from './oauth-manager';
-
-import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
 import PromiseThrottle from 'promise-throttle';
+import OAuthManager from './oauth-manager';
+import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
 
 import mainCss from '../styles/main.css';
 import customCss from '../styles/custom.css';
@@ -16,7 +15,33 @@ const fetch = (url, options) =>
     return response;
   });
 
+class PlaylistCache {
+  needsCheckForDuplicates(playlist) {
+    if ('snapshot_id' in playlist) {
+      try {
+        if (localStorage.getItem(playlist.snapshot_id) === '0') {
+          return false;
+        }
+      } catch (e) {
+        return true;
+      }
+    }
+    return true;
+  }
+
+  storePlaylistWithoutDuplicates(playlist) {
+    if ('snapshot_id' in playlist) {
+      try {
+        localStorage.setItem(playlist.snapshot_id, '0');
+      } catch (e) {}
+    }
+  }
+}
+
+const playlistCache = new PlaylistCache();
+
 const apiPrefix = 'https://api.spotify.com/v1';
+
 class SpotifyWebApi {
   constructor() {
     this.token = null;
@@ -76,7 +101,18 @@ class SpotifyWebApi {
     );
 
     const json = await res.json();
-    if (res.ok) return json;
+    if (res.ok) {
+      return json;
+    } else {
+      Raven.captureMessage(
+        `Status ${res.status} when deleting tracks from playlist`,
+        {
+          extra: {
+            json: json
+          }
+        }
+      );
+    }
     return null;
   }
 
@@ -264,12 +300,19 @@ Raven.context(function() {
 
     app.playlists.forEach(playlistModel =>
       (async () => {
-        const playlistTracks = await playlistDeduplicator.getTracks(
-          playlistModel.playlist
-        );
-        playlistModel.duplicates = playlistDeduplicator.findDuplicatedTracks(
-          playlistTracks
-        );
+        if (playlistCache.needsCheckForDuplicates(playlistModel.playlist)) {
+          const playlistTracks = await playlistDeduplicator.getTracks(
+            playlistModel.playlist
+          );
+          playlistModel.duplicates = playlistDeduplicator.findDuplicatedTracks(
+            playlistTracks
+          );
+          if (playlistModel.duplicates.length === 0) {
+            playlistCache.storePlaylistWithoutDuplicates(
+              playlistModel.playlist
+            );
+          }
+        }
         onPlaylistProcessed(playlistModel.playlist);
       })()
     );
