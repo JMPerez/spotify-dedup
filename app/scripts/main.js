@@ -326,13 +326,27 @@ Raven.context(function() {
     playlistDeduplicator = new PlaylistDeduplicator(api, promiseThrottle);
     savedTracksDeduplicator = new SavedTracksDeduplicator(api, promiseThrottle);
 
-    promiseThrottle.add(function() {
-      return api.getMe().then(data =>
-        (async () => {
-          await onUserDataFetched(data);
-        })()
-      );
-    });
+    let attempts = 0;
+    const loginFunction = () => {
+      promiseThrottle.add(function() {
+        return api.getMe().then(data => {
+          if (data === null) {
+            attempts++;
+            Raven.captureMessage(`Retrying logging user in`, {
+              extra: {
+                attempts: attempts
+              }
+            });
+            loginFunction();
+          } else {
+            (async () => {
+              await onUserDataFetched(data);
+            })();
+          }
+        });
+      });
+    };
+    loginFunction();
   }
 
   function promisesForPages(promise) {
