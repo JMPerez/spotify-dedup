@@ -138,7 +138,7 @@ Raven.config(
   'https://22cbac299caf4962b74de18bc87a8d74@sentry.io/1239123'
 ).install();
 Raven.context(function() {
-  const promiseThrottle = new PromiseThrottle({ requestsPerSecond: 4 });
+  const promiseThrottle = new PromiseThrottle({ requestsPerSecond: 3 });
 
   let playlistDeduplicator;
   let savedTracksDeduplicator;
