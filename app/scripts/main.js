@@ -1,20 +1,12 @@
 import PromiseThrottle from 'promise-throttle';
 import OAuthManager from './oauth-manager';
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
+import fetch from './fetch';
 
 import mainCss from '../styles/main.css';
 import customCss from '../styles/custom.css';
 
-const fetch = (url, options) =>
-  window.fetch(url, options).then(response => {
-    if (response.status >= 300 && window.Raven) {
-      Raven.captureMessage(`Status ${response.status} when requesting ${url}`, {
-        extra: options
-      });
-    }
-    return response;
-  });
-
+const retryOnCodes = [400, 401, 429, 500, 502, 503];
 class PlaylistCache {
   needsCheckForDuplicates(playlist) {
     if ('snapshot_id' in playlist) {
@@ -67,7 +59,8 @@ class SpotifyWebApi {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${this.token}`
-      }
+      },
+      retryOn: retryOnCodes
     });
     const json = await res.json();
     if (res.ok) return json;
@@ -96,7 +89,8 @@ class SpotifyWebApi {
         headers: {
           Authorization: `Bearer ${this.token}`
         },
-        body: JSON.stringify(dataToBeSent)
+        body: JSON.stringify(dataToBeSent),
+        retryOn: retryOnCodes
       }
     );
 
@@ -126,7 +120,8 @@ class SpotifyWebApi {
       headers: {
         Authorization: `Bearer ${this.token}`
       },
-      body: JSON.stringify(trackIds)
+      body: JSON.stringify(trackIds),
+      retryOn: retryOnCodes
     });
 
     if (res.ok) return true;
@@ -138,7 +133,7 @@ Raven.config(
   'https://22cbac299caf4962b74de18bc87a8d74@sentry.io/1239123'
 ).install();
 Raven.context(function() {
-  const promiseThrottle = new PromiseThrottle({ requestsPerSecond: 3 });
+  const promiseThrottle = new PromiseThrottle({ requestsPerSecond: 4 });
 
   let playlistDeduplicator;
   let savedTracksDeduplicator;
