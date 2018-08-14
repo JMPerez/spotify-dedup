@@ -1,20 +1,13 @@
 import PromiseThrottle from 'promise-throttle';
 import OAuthManager from './oauth-manager';
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
+import fetch from './custom-fetch';
 
 import mainCss from '../styles/main.css';
 import customCss from '../styles/custom.css';
+import favicon from '../favicon.ico';
 
-const fetch = (url, options) =>
-  window.fetch(url, options).then(response => {
-    if (response.status >= 300 && window.Raven) {
-      Raven.captureMessage(`Status ${response.status} when requesting ${url}`, {
-        extra: options
-      });
-    }
-    return response;
-  });
-
+const retryOnCodes = [400, 401, 404, 429, 500, 502, 503, 504];
 class PlaylistCache {
   needsCheckForDuplicates(playlist) {
     if ('snapshot_id' in playlist) {
@@ -67,7 +60,8 @@ class SpotifyWebApi {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${this.token}`
-      }
+      },
+      retryOn: retryOnCodes
     });
     const json = await res.json();
     if (res.ok) return json;
@@ -96,7 +90,8 @@ class SpotifyWebApi {
         headers: {
           Authorization: `Bearer ${this.token}`
         },
-        body: JSON.stringify(dataToBeSent)
+        body: JSON.stringify(dataToBeSent),
+        retryOn: retryOnCodes
       }
     );
 
@@ -104,14 +99,15 @@ class SpotifyWebApi {
     if (res.ok) {
       return json;
     } else {
-      Raven.captureMessage(
-        `Status ${res.status} when deleting tracks from playlist`,
-        {
-          extra: {
-            json: json
+      global.Raven &&
+        Raven.captureMessage(
+          `Status ${res.status} when deleting tracks from playlist`,
+          {
+            extra: {
+              json: json
+            }
           }
-        }
-      );
+        );
     }
     return null;
   }
@@ -126,7 +122,8 @@ class SpotifyWebApi {
       headers: {
         Authorization: `Bearer ${this.token}`
       },
-      body: JSON.stringify(trackIds)
+      body: JSON.stringify(trackIds),
+      retryOn: retryOnCodes
     });
 
     if (res.ok) return true;
@@ -134,12 +131,7 @@ class SpotifyWebApi {
   }
 }
 
-Raven.config(
-  'https://22cbac299caf4962b74de18bc87a8d74@sentry.io/1239123'
-).install();
-Raven.context(function() {
-  const promiseThrottle = new PromiseThrottle({ requestsPerSecond: 3 });
-
+const init = function() {
   let playlistDeduplicator;
   let savedTracksDeduplicator;
 
@@ -160,27 +152,39 @@ Raven.context(function() {
       removeDuplicates: playlistModel =>
         (async () => {
           if (playlistModel.playlist.id === 'starred') {
-            window.alert(
+            global.alert(
               'It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
             );
           }
           if (playlistModel.playlist.collaborative) {
-            window.alert(
+            global.alert(
               'It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
             );
           } else {
-            const duplicates = await playlistDeduplicator.removeDuplicates(
-              playlistModel
-            );
-            playlistModel.duplicates = [];
-            playlistModel.status = 'Duplicates removed';
-            if (window.ga) {
-              ga(
-                'send',
-                'event',
-                'spotify-dedup',
-                'playlist-removed-duplicates'
+            try {
+              const duplicates = await playlistDeduplicator.removeDuplicates(
+                playlistModel
               );
+              playlistModel.duplicates = [];
+              playlistModel.status = 'Duplicates removed';
+              if (global.ga) {
+                ga(
+                  'send',
+                  'event',
+                  'spotify-dedup',
+                  'playlist-removed-duplicates'
+                );
+              }
+            } catch (e) {
+              global.Raven &&
+                Raven.captureMessage(
+                  `Exception trying to remove duplicates from playlist`,
+                  {
+                    extra: {
+                      duplicates: playlistModel.duplicates
+                    }
+                  }
+                );
             }
           }
         })(),
@@ -191,7 +195,7 @@ Raven.context(function() {
           );
           app.savedTracks.duplicates = [];
           app.savedTracks.status = 'Duplicates removed';
-          if (window.ga) {
+          if (global.ga) {
             ga(
               'send',
               'event',
@@ -235,108 +239,99 @@ Raven.context(function() {
       .catch(function(error) {
         console.error(error);
       });
-  });
+    // });
 
-  function fetchUserOwnedPlaylists(user) {
-    return promisesForPages(
-      promiseThrottle.add(function() {
-        // fetch user's playlists, 50 at a time
-        return api.getUserPlaylists(user, { limit: 50 });
-      })
-    )
-      .then(function(pagePromises) {
-        // wait for all promises to be finished
-        return Promise.all(pagePromises);
-      })
-      .then(function(pages) {
-        // combine and filter playlists
-        var userOwnedPlaylists = [];
-        pages.forEach(function(page) {
-          userOwnedPlaylists = userOwnedPlaylists.concat(
-            page.items.filter(function(playlist) {
-              return playlist.owner.id === user;
-            })
-          );
-        });
-        return userOwnedPlaylists;
-      });
-  }
-
-  function onPlaylistProcessed(playlist) {
-    playlist.processed = true;
-    var remaining = app.toProcess - 1;
-    app.toProcess -= 1;
-    if (remaining === 0 && window.ga) {
-      ga('send', 'event', 'spotify-dedup', 'library-processed');
+    function fetchUserOwnedPlaylists(user) {
+      return promisesForPages(api.getUserPlaylists(user, { limit: 50 })).then(
+        function(pages) {
+          // combine and filter playlists
+          var userOwnedPlaylists = [];
+          pages.forEach(function(page) {
+            userOwnedPlaylists = userOwnedPlaylists.concat(
+              page.items.filter(function(playlist) {
+                return playlist.owner.id === user;
+              })
+            );
+          });
+          return userOwnedPlaylists;
+        }
+      );
     }
-  }
 
-  const playlistToPlaylistModel = playlist => ({
-    playlist: playlist,
-    duplicates: [],
-    status: '',
-    processed: false
-  });
-
-  async function onUserDataFetched(data) {
-    var user = data.id,
-      playlistsToCheck = [];
-
-    const ownedPlaylists = await fetchUserOwnedPlaylists(user);
-    playlistsToCheck = ownedPlaylists;
-    app.playlists = playlistsToCheck.map(p => playlistToPlaylistModel(p));
-    app.toProcess = app.playlists.length + 1 /* saved tracks */;
-    const savedTracksInitial = await api.getMySavedTracks({ limit: 50 });
-    const savedTracks = await savedTracksDeduplicator.getTracks(
-      savedTracksInitial
-    );
-    app.savedTracks.duplicates = savedTracksDeduplicator.findDuplicatedTracks(
-      savedTracks
-    );
-    if (app.savedTracks.duplicates.length && window.ga) {
-      ga('send', 'event', 'spotify-dedup', 'saved-tracks-found-duplicates');
+    function onPlaylistProcessed(playlist) {
+      playlist.processed = true;
+      var remaining = app.toProcess - 1;
+      app.toProcess -= 1;
+      if (remaining === 0 && global.ga) {
+        ga('send', 'event', 'spotify-dedup', 'library-processed');
+      }
     }
-    app.toProcess--;
 
-    app.playlists.forEach(playlistModel =>
-      (async () => {
-        if (playlistCache.needsCheckForDuplicates(playlistModel.playlist)) {
-          const playlistTracks = await playlistDeduplicator.getTracks(
-            playlistModel.playlist
-          );
-          playlistModel.duplicates = playlistDeduplicator.findDuplicatedTracks(
-            playlistTracks
-          );
-          if (playlistModel.duplicates.length === 0) {
-            playlistCache.storePlaylistWithoutDuplicates(
+    const playlistToPlaylistModel = playlist => ({
+      playlist: playlist,
+      duplicates: [],
+      status: '',
+      processed: false
+    });
+
+    async function onUserDataFetched(data) {
+      var user = data.id,
+        playlistsToCheck = [];
+
+      const ownedPlaylists = await fetchUserOwnedPlaylists(user);
+      playlistsToCheck = ownedPlaylists;
+      app.playlists = playlistsToCheck.map(p => playlistToPlaylistModel(p));
+      app.toProcess = app.playlists.length + 1 /* saved tracks */;
+      const savedTracks = await savedTracksDeduplicator.getTracks(
+        api.getMySavedTracks({ limit: 50 })
+      );
+      app.savedTracks.duplicates = savedTracksDeduplicator.findDuplicatedTracks(
+        savedTracks
+      );
+      if (app.savedTracks.duplicates.length && global.ga) {
+        ga('send', 'event', 'spotify-dedup', 'saved-tracks-found-duplicates');
+      }
+      app.toProcess--;
+
+      app.playlists.forEach(playlistModel =>
+        (async () => {
+          if (playlistCache.needsCheckForDuplicates(playlistModel.playlist)) {
+            const playlistTracks = await playlistDeduplicator.getTracks(
               playlistModel.playlist
             );
+            playlistModel.duplicates = playlistDeduplicator.findDuplicatedTracks(
+              playlistTracks
+            );
+            if (playlistModel.duplicates.length === 0) {
+              playlistCache.storePlaylistWithoutDuplicates(
+                playlistModel.playlist
+              );
+            }
           }
-        }
-        onPlaylistProcessed(playlistModel.playlist);
-      })()
-    );
-  }
+          onPlaylistProcessed(playlistModel.playlist);
+        })()
+      );
+    }
 
-  function onTokenReceived(accessToken) {
-    app.isLoggedIn = true;
-    api = new SpotifyWebApi();
-    api.setAccessToken(accessToken);
+    function onTokenReceived(accessToken) {
+      app.isLoggedIn = true;
+      api = new SpotifyWebApi();
+      api.setAccessToken(accessToken);
 
-    playlistDeduplicator = new PlaylistDeduplicator(api, promiseThrottle);
-    savedTracksDeduplicator = new SavedTracksDeduplicator(api, promiseThrottle);
+      playlistDeduplicator = new PlaylistDeduplicator(api);
+      savedTracksDeduplicator = new SavedTracksDeduplicator(api);
 
-    let attempts = 0;
-    const loginFunction = () => {
-      promiseThrottle.add(function() {
+      let attempts = 0;
+      const loginFunction = () => {
         return api.getMe().then(data => {
           if (data === null) {
             attempts++;
-            Raven.captureMessage(`Retrying logging user in`, {
-              extra: {
-                attempts: attempts
-              }
-            });
+            global.Raven &&
+              Raven.captureMessage(`Retrying logging user in`, {
+                extra: {
+                  attempts: attempts
+                }
+              });
             loginFunction();
           } else {
             (async () => {
@@ -344,41 +339,64 @@ Raven.context(function() {
             })();
           }
         });
-      });
-    };
-    loginFunction();
-  }
-
-  function promisesForPages(promise) {
-    function stripParameters(href) {
-      var u = new URL(href);
-      return u.origin + u.pathname;
+      };
+      loginFunction();
     }
 
-    function fetchGeneric(results, offset, limit) {
-      return api.getGeneric(
-        stripParameters(results.href) + '?offset=' + offset + '&limit=' + limit
+    async function promisesForPages(initialRequest) {
+      console.log('promisesForPages!');
+      function stripParameters(href) {
+        var u = new URL(href);
+        return u.origin + u.pathname;
+      }
+
+      function fetchGeneric(results, offset, limit) {
+        return api.getGeneric(
+          stripParameters(results.href) +
+            '?offset=' +
+            offset +
+            '&limit=' +
+            limit
+        );
+      }
+
+      console.log(initialRequest);
+      const results = await initialRequest;
+      console.log('got initial request', results);
+      if (results === null) {
+        return [];
+      }
+      const promises = [() => initialRequest];
+      let offset = results.limit + results.offset;
+      const limit = results.limit;
+      while (results.total > offset) {
+        (function(results, offset, limit) {
+          const q = () => fetchGeneric(results, offset, limit);
+          promises.push(q);
+        })(results, offset, limit);
+        offset += limit;
+      }
+
+      console.log(promises[0]());
+      return promises.reduce(
+        (promise, func) =>
+          promise.then(result => {
+            console.log('executing', func);
+            return func().then(Array.prototype.concat.bind(result));
+          }),
+        Promise.resolve([])
       );
     }
+  });
+};
 
-    return new Promise(function(resolve, reject) {
-      promise
-        .then(function(results) {
-          const promises = [promise]; // add the initial page
-          let offset = results.limit + results.offset; // start from the second page
-          const limit = results.limit;
-          while (results.total > offset) {
-            const q = promiseThrottle.add(
-              fetchGeneric.bind(this, results, offset, limit)
-            );
-            promises.push(q);
-            offset += limit;
-          }
-          resolve(promises);
-        })
-        .catch(function() {
-          reject([]);
-        });
-    });
-  }
-});
+global.Raven &&
+  Raven.config(
+    'https://22cbac299caf4962b74de18bc87a8d74@sentry.io/1239123'
+  ).install();
+
+if (global.Raven) {
+  Raven.context(init);
+} else {
+  init();
+}

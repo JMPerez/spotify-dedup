@@ -1,13 +1,25 @@
 {
   "name": "spotify-dedup",
+  "private": false,
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-runtime": "^6.26.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11",
     "gh-pages": "^1.2.0",
+    "html-webpack-plugin": "^3.2.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
-    "prettier": "^1.13.5"
+    "mini-css-extract-plugin": "^0.4.1",
+    "optimize-css-assets-webpack-plugin": "^4.0.3",
+    "prettier": "^1.13.5",
+    "style-loader": "^0.21.0",
+    "uglifyjs-webpack-plugin": "^1.2.7",
+    "webpack": "^4.16.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -21,9 +33,12 @@
   "scripts": {
     "precommit": "lint-staged",
     "dev": "parcel app/*.html -p 8005",
-    "build": "rm -rf dist && parcel build app/*.html --public-url ./"
+    "build": "rm -rf dist && parcel build app/*.html --public-url ./",
+    "start": "webpack-dev-server --open",
+    "webpack-build": "webpack"
   },
   "dependencies": {
+    "fetch-retry": "^1.2.1",
     "promise-throttle": "^1.0.0"
   },
   "version": "1.0.0",
@@ -31,6 +46,5 @@
   "main": "index.js",
   "repository": "git@github.com:JMPerez/spotify-dedup.git",
   "author": "José M. Pérez <jperez@spotify.com>",
-  "license": "MIT",
-  "private": false
+  "license": "MIT"
 }

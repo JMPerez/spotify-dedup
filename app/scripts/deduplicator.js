@@ -1,3 +1,4 @@
+import fetch from './custom-fetch';
 import promisesForPages from './promiseForPages';
 
 let token;
@@ -64,9 +65,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
     return new Promise((resolve, reject) => {
       const tracks = [];
       promisesForPages(
-        this.promiseThrottle.add(() =>
-          this.api.getGeneric(playlist.tracks.href)
-        ),
+        this.api.getGeneric(playlist.tracks.href), // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
         this.promiseThrottle,
         this.api
       )
@@ -79,7 +78,6 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         )
         .then(pages => {
           pages.forEach(page => {
-            const pageOffset = page.offset;
             page.items.forEach((item, index) => {
               tracks.push(item.track);
             });
@@ -102,31 +100,38 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
           'It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
         );
       } else {
-        this.promiseThrottle.add(async () => {
-          const tracksToRemove = playlistModel.duplicates
-            .map(d => ({
-              uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
-              positions: [d.index]
-            }))
-            .reverse(); // reverse so we delete the last ones first
-          const promises = [];
-          do {
-            const chunk = tracksToRemove.splice(0, 100);
-            promises.push(
-              this.promiseThrottle.add(() => {
-                return this.api.removeTracksFromPlaylist(
-                  playlistModel.playlist.owner.id,
-                  playlistModel.playlist.id,
-                  chunk
-                );
-              })
+        const tracksToRemove = playlistModel.duplicates
+          .map(d => ({
+            uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
+            positions: [d.index]
+          }))
+          .reverse(); // reverse so we delete the last ones first
+        const promises = [];
+        do {
+          const chunk = tracksToRemove.splice(0, 100);
+          (function(playlistModel, chunk, api) {
+            promises.push(() =>
+              api.removeTracksFromPlaylist(
+                playlistModel.playlist.owner.id,
+                playlistModel.playlist.id,
+                chunk
+              )
             );
-          } while (tracksToRemove.length > 0);
-          Promise.all(promises).then(() => {
+          })(playlistModel, chunk, this.api);
+        } while (tracksToRemove.length > 0);
+
+        promises
+          .reduce(
+            (promise, func) => promise.then(() => func()),
+            Promise.resolve(null)
+          )
+          .then(() => {
             playlistModel.duplicates.duplicates = [];
             resolve();
+          })
+          .catch(e => {
+            reject(e);
           });
-        });
       }
     });
   }
@@ -137,14 +142,10 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
     super(api, promiseThrottle);
   }
 
-  async getTracks(savedTracks) {
+  async getTracks(initialRequest) {
     return new Promise((resolve, reject) => {
       const tracks = [];
-      promisesForPages(
-        this.promiseThrottle.add(() => this.api.getGeneric(savedTracks.href)),
-        this.promiseThrottle,
-        this.api
-      )
+      promisesForPages(initialRequest, this.promiseThrottle, this.api)
         .then((
           pagePromises // todo: I'd love to replace this with
         ) =>
@@ -154,7 +155,6 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
         )
         .then(pages => {
           pages.forEach(page => {
-            const pageOffset = page.offset;
             page.items.forEach((item, index) => {
               tracks.push(item.track);
             });
@@ -173,9 +173,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
       do {
         (async () => {
           const chunk = tracksToRemove.splice(0, 50);
-          await this.promiseThrottle.add(() =>
-            this.api.removeFromMySavedTracks(chunk)
-          );
+          await this.api.removeFromMySavedTracks(chunk);
         })();
       } while (tracksToRemove.length > 0);
       model.duplicates = [];

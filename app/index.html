@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Spotify dedup - Remove duplicated songs from your Spotify library automatically</title>
+  <title>Spotify Dedup - Remove duplicated songs from your Spotify library automatically</title>
   <meta name="description" content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy.">
   <meta name="og:description" content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy.">
   <meta name="twitter:description" content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy.">
@@ -11,7 +11,7 @@
   <meta name="twitter:title" content="Spotify dedup - Remove duplicated songs from your Spotify library automatically">
   <meta name="viewport" content="width=device-width">
   <link rel="canonical" href="https://jmperezperez.com/spotify-dedup/">
-  <link rel="shortcut icon" href="./favicon.ico">
+  <link rel="shortcut icon" href="favicon.ico">
   <style>
     .bmc-button img {
       width: 27px !important;
@@ -123,8 +123,8 @@
               <span>{{ toProcess }}</span> playlists.
             </span>
             <span v-if="toProcess == 0 && duplicates > 0">
-              Your playlists and saved songs have been processed! Click on
-              <strong>Remove duplicates</strong> to get rid of duplicates in that playlist or saved songs collection.
+              Your playlists and saved songs have been processed! Click on the
+              <strong>Remove duplicates</strong> button to get rid of duplicates in that playlist or saved songs collection.
               <div style="padding-top: 1em">
                 <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
                   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
@@ -196,28 +196,38 @@
       </div>
     </div>
 
+    <div v-if="!isLoggedIn">
+      <p style="text-align:center;font-weight:bold;font-size:2rem;margin-top:2rem">This is what users are saying</p>
+      <ul class="quotes">
+        <li><blockquote>I just discovered your @Spotify dedup web app & it is awesome!!! Recommend to all #Spotify users! – <a href="https://twitter.com/VanKenton">@VanKenton</a></blockquote></li>
+        <li><blockquote>@jmperezperez I've been using your spotify dedup code for years. Today, I finally decided to check out your other stuff. Amazing! I can't believe it took me this long to discover it – <a href="https://twitter.com/wormx">@wormx</a></blockquote></li>
+        <li><blockquote>Thanks for the Spotify De-Dup! Very helpful and extremely easy to use. – <a href="https://www.buymeacoffee.com/jmp">PTR</a></blockquote></li>
+      </ul>
+    </div>
     <div class="footer">
       <p>Made with ♥ by
-        <a href="https://jmperezperez.com">JMPerez</a> · Check out the
-        <a href="https://github.com/JMPerez/spotify-dedup/">code on GitHub</a>
+        <a target="_blank" href="https://jmperezperez.com">JMPerez 👨‍💻</a> · Check out the
+        <a target="_blank" href="https://github.com/JMPerez/spotify-dedup/">code on GitHub 📃</a> · Support the project
+        <a target="_blank" href="https://www.buymeacoffee.com/jmp">buying a coffee ☕</a>
       </p>
     </div>
   </div>
 
   <script>
-    (function (b, o, i, l, e, r) {
-      b.GoogleAnalyticsObject = l; b[l] || (b[l] =
-        function () { (b[l].q = b[l].q || []).push(arguments) }); b[l].l = +new Date;
-      e = o.createElement(i); r = o.getElementsByTagName(i)[0];
-      e.src = '//www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e, r)
-    }(window, document, 'script', 'ga'));
-    ga('create', 'UA-39254352-1'); ga('send', 'pageview');
+    if (location.host === 'jmperezperez.com') {
+      (function (b, o, i, l, e, r) {
+        b.GoogleAnalyticsObject = l; b[l] || (b[l] =
+          function () { (b[l].q = b[l].q || []).push(arguments) }); b[l].l = +new Date;
+        e = o.createElement(i); r = o.getElementsByTagName(i)[0];
+        e.src = '//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e, r)
+      }(window, document, 'script', 'ga'));
+      ga('create', 'UA-39254352-1'); ga('send', 'pageview');
+    }
   </script>
   <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="https://cdn.ravenjs.com/3.26.2/raven.min.js" crossorigin="anonymous"></script>
-  <script src="./scripts/main.js"></script>
 </body>
 
 </html>
