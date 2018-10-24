@@ -1,5 +1,7 @@
 # Spotify Deduplicator
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/JMPerez/spotify-dedup.svg)](https://greenkeeper.io/)
+
 Have you ever wanted to remove duplicated songs from your Spotify library? Now you can find and remove them using Spotify Dedup.
 
 This project uses the [Spotify Web API](https://developer.spotify.com/web-api/) for managing playlists. Just log in and it will traverse your playlists, finding songs that appear multiple times with the same identifier (Spotify URI) in a given playlist.
