@@ -103,7 +103,8 @@
             <strong>
               <a href="https://github.com/JMPerez/spotify-dedup/">source code on GitHub</a>
             </strong>. This web app uses the
-            <a href="https://developer.spotify.com/web-api/">Spotify Web API</a> to manage user's playlists and saved tracks.</p>
+            <a href="https://developer.spotify.com/web-api/">Spotify Web API</a> to manage user's playlists and saved
+            tracks.</p>
         </div>
       </div>
     </div>
@@ -124,7 +125,8 @@
             </span>
             <span v-if="toProcess == 0 && duplicates > 0">
               Your playlists and saved songs have been processed! Click on the
-              <strong>Remove duplicates</strong> button to get rid of duplicates in that playlist or saved songs collection.
+              <strong>Remove duplicates</strong> button to get rid of duplicates in that playlist or saved songs
+              collection.
               <div style="padding-top: 1em">
                 <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
                   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
@@ -134,7 +136,7 @@
             </span>
             <span v-if="toProcess == 0 && duplicates == 0">
               Your playlists and saved songs have been processed!
-              <br/>Congrats! You don't have duplicates in your playlists nor saved songs.
+              <br />Congrats! You don't have duplicates in your playlists nor saved songs.
               <div style="padding-top: 1em">
                 <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/jmp">
                   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Would you buy me a coffee?">
@@ -153,13 +155,16 @@
               <span class="playlists-list-item__name">Saved songs in your library</span>
               <span v-if="savedTracks.status" class="label label-success"> {{ savedTracks.status }}</span>
               <span v-if="savedTracks.duplicates.length">
-                <span>This collection has {{ savedTracks.duplicates.length }} duplicated {{ savedTracks.duplicates.length > 1 ?
+                <span>This collection has {{ savedTracks.duplicates.length }} duplicated {{
+                  savedTracks.duplicates.length > 1 ?
                   'songs' : 'song' }}</span>
-                <button class="btn btn-primary btn-sm playlist-list-item__btn" v-on:click="removeDuplicatesInSavedTracks()">Remove duplicates from your saved songs</button>
+                <button class="btn btn-primary btn-sm playlist-list-item__btn" v-on:click="removeDuplicatesInSavedTracks()">Remove
+                  duplicates from your saved songs</button>
                 <ul class="duplicates">
                   <li v-for="duplicate in savedTracks.duplicates">
                     <span v-if="duplicate.reason === 'same-id'" class="badge">Duplicate</span>
-                    <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and duration)</span>
+                    <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and
+                      duration)</span>
                     <span>{{ duplicate.track.name }}</span>
                     <span class="gray"> by </span>
                     <span> {{ duplicate.track.artists[0].name }}</span>
@@ -170,20 +175,22 @@
           </li>
           <li class="playlists-list-item media" v-for="playlist in playlists.filter(p => p.duplicates.length || p.status != '')">
             <div class="img">
-              <img width="100" height="100" class="playlists-list-item__img" v-bind:src="playlist.playlist.images && playlist.playlist.images[0].url"
-              />
+              <img width="100" height="100" class="playlists-list-item__img" v-bind:src="playlist.playlist.images && playlist.playlist.images[0] && playlist.playlist.images[0].url" />
             </div>
             <div class="bd">
               <span class="playlists-list-item__name">{{ playlist.playlist.name }}</span>
               <span v-if="playlist.status" class="label label-success"> {{ playlist.status }}</span>
               <span v-if="playlist.duplicates.length">
-                <span>This playlist has {{ playlist.duplicates.length }} duplicated {{ playlist.duplicates.length > 1 ? 'songs'
+                <span>This playlist has {{ playlist.duplicates.length }} duplicated {{ playlist.duplicates.length > 1 ?
+                  'songs'
                   : 'song' }}</span>
-                <button class="btn btn-primary btn-sm playlist-list-item__btn" v-on:click="removeDuplicates(playlist)">Remove duplicates from this playlist</button>
+                <button class="btn btn-primary btn-sm playlist-list-item__btn" v-on:click="removeDuplicates(playlist)">Remove
+                  duplicates from this playlist</button>
                 <ul class="duplicates">
                   <li v-for="duplicate in playlist.duplicates">
                     <span v-if="duplicate.reason === 'same-id'" class="badge">Duplicate</span>
-                    <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and duration)</span>
+                    <span v-if="duplicate.reason === 'same-name-artist'" class="badge">Duplicate (same name, artist and
+                      duration)</span>
                     <span>{{ duplicate.track.name }}</span>
                     <span class="gray"> by </span>
                     <span>{{ duplicate.track.artists[0].name }}</span>
@@ -199,9 +206,17 @@
     <div v-if="!isLoggedIn">
       <p style="text-align:center;font-weight:bold;font-size:2rem;margin-top:2rem">This is what users are saying</p>
       <ul class="quotes">
-        <li><blockquote>I just discovered your @Spotify dedup web app & it is awesome!!! Recommend to all #Spotify users! – <a href="https://twitter.com/VanKenton">@VanKenton</a></blockquote></li>
-        <li><blockquote>@jmperezperez I've been using your spotify dedup code for years. Today, I finally decided to check out your other stuff. Amazing! I can't believe it took me this long to discover it – <a href="https://twitter.com/wormx">@wormx</a></blockquote></li>
-        <li><blockquote>Thanks for the Spotify De-Dup! Very helpful and extremely easy to use. – <a href="https://www.buymeacoffee.com/jmp">PTR</a></blockquote></li>
+        <li>
+          <blockquote>I just discovered your @Spotify dedup web app & it is awesome!!! Recommend to all #Spotify users!
+            – <a href="https://twitter.com/VanKenton">@VanKenton</a></blockquote>
+        </li>
+        <li>
+          <blockquote>@jmperezperez I've been using your spotify dedup code for years. Today, I finally decided to
+            check out your other stuff. Amazing! I can't believe it took me this long to discover it – <a href="https://twitter.com/wormx">@wormx</a></blockquote>
+        </li>
+        <li>
+          <blockquote>Thanks for the Spotify De-Dup! Very helpful and extremely easy to use. – <a href="https://www.buymeacoffee.com/jmp">PTR</a></blockquote>
+        </li>
       </ul>
     </div>
     <div class="footer">
@@ -225,9 +240,9 @@
       ga('create', 'UA-39254352-1'); ga('send', 'pageview');
     }
   </script>
-  <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  <script src="https://cdn.ravenjs.com/3.26.2/raven.min.js" crossorigin="anonymous"></script>
+  <!--<<script src="https://cdn.ravenjs.com/3.26.2/raven.min.js" crossorigin="anonymous"></script>-->
 </body>
 
 </html>

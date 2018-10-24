@@ -1,9 +1,4 @@
-import fetch from './custom-fetch';
-export default async function promisesForPages(
-  initialRequest,
-  promiseThrottle,
-  api
-) {
+export default async function promisesForPages(initialRequest, api) {
   function stripParameters(href) {
     return href.indexOf('?') !== -1 ? href.substr(0, href.indexOf('?')) : href;
   }
@@ -24,8 +19,26 @@ export default async function promisesForPages(
   const limit = results.limit;
   while (results.total > offset) {
     (function(results, offset, limit) {
-      console.log(offset, limit);
-      const q = () => fetchGeneric(results, offset, limit);
+      const q = () => {
+        return new Promise(async resolve => {
+          try {
+            const result = await fetchGeneric(results, offset, limit).catch(
+              e => {
+                console.error(
+                  `Error making request to fetch tracks from ${
+                    results.href
+                  } with offset ${offset} and limit ${limit}`,
+                  e
+                );
+                resolve({ items: new Array(limit) });
+              }
+            );
+            resolve(result);
+          } catch (e) {
+            console.error(e);
+          }
+        });
+      };
       promises.push(q);
     })(results, offset, limit);
     offset += limit;
@@ -33,7 +46,17 @@ export default async function promisesForPages(
 
   return promises.reduce(
     (promise, func) =>
-      promise.then(result => func().then(Array.prototype.concat.bind(result))),
+      promise
+        .then(result =>
+          func()
+            .then(Array.prototype.concat.bind(result))
+            .catch(e => {
+              console.error(e);
+            })
+        )
+        .catch(e => {
+          console.error(e);
+        }),
     Promise.resolve([])
   );
 }

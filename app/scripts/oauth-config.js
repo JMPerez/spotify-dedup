@@ -9,5 +9,5 @@ const host = /http[s]?:\/\/[^/]+/.exec(redirectUri)[0];
 export default {
   clientId,
   redirectUri,
-  host
+  host,
 };
