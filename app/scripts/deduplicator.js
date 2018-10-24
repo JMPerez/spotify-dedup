@@ -1,13 +1,11 @@
-import fetch from './custom-fetch';
 import promisesForPages from './promiseForPages';
 
 let token;
 let api;
 
 class BaseDeduplicator {
-  constructor(api, promiseThrottle) {
+  constructor(api) {
     this.api = api;
-    this.promiseThrottle = promiseThrottle;
   }
 
   async removeDuplicates(model) {
@@ -45,7 +43,7 @@ class BaseDeduplicator {
         duplicates.push({
           index: index,
           track: track,
-          reason: track.id in seenIds ? 'same-id' : 'same-name-artist'
+          reason: track.id in seenIds ? 'same-id' : 'same-name-artist',
         });
       } else {
         seenIds[track.id] = true;
@@ -58,15 +56,14 @@ class BaseDeduplicator {
 }
 
 export class PlaylistDeduplicator extends BaseDeduplicator {
-  constructor(api, promiseThrottle) {
-    super(api, promiseThrottle);
+  constructor(api) {
+    super(api);
   }
   async getTracks(playlist) {
     return new Promise((resolve, reject) => {
       const tracks = [];
       promisesForPages(
         this.api.getGeneric(playlist.tracks.href), // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
-        this.promiseThrottle,
         this.api
       )
         .then((
@@ -78,8 +75,8 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         )
         .then(pages => {
           pages.forEach(page => {
-            page.items.forEach((item, index) => {
-              tracks.push(item.track);
+            page.items.forEach(item => {
+              tracks.push(item && item.track);
             });
           });
           resolve(tracks);
@@ -103,7 +100,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         const tracksToRemove = playlistModel.duplicates
           .map(d => ({
             uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
-            positions: [d.index]
+            positions: [d.index],
           }))
           .reverse(); // reverse so we delete the last ones first
         const promises = [];
@@ -138,14 +135,14 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
 }
 
 export class SavedTracksDeduplicator extends BaseDeduplicator {
-  constructor(api, promiseThrottle) {
-    super(api, promiseThrottle);
+  constructor(api) {
+    super(api);
   }
 
   async getTracks(initialRequest) {
     return new Promise((resolve, reject) => {
       const tracks = [];
-      promisesForPages(initialRequest, this.promiseThrottle, this.api)
+      promisesForPages(initialRequest, this.api)
         .then((
           pagePromises // todo: I'd love to replace this with
         ) =>
@@ -161,7 +158,15 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
           });
           resolve(tracks);
         })
-        .catch(reject);
+        .catch(e => {
+          console.error(
+            `There was an error fetching the tracks from playlist ${
+              initialRequest.href
+            }`,
+            e
+          );
+          reject(e);
+        });
     });
   }
 

@@ -18,7 +18,7 @@ Install the dependencies:
 
 Run it:
 
-    npm run dev
+    npm start
 
 Then open http://localhost:8005/index.html in a browser
 

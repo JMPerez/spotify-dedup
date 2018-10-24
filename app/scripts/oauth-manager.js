@@ -44,7 +44,7 @@ function obtainToken(options = {}) {
     const params = {
       client_id: OAuthConfig.clientId,
       redirect_uri: OAuthConfig.redirectUri,
-      response_type: 'token'
+      response_type: 'token',
     };
 
     if (options.scopes) {
