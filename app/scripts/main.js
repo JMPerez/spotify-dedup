@@ -1,6 +1,5 @@
 import OAuthManager from './oauth-manager';
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
-import fetch from './custom-fetch';
 import promisesForPages from './promiseForPages';
 import SpotifyWebApi from './spotify-api';
 import PlaylistCache from './playlist-cache';
@@ -118,7 +117,6 @@ const init = function() {
       .catch(function(error) {
         console.error(error);
       });
-    // });
 
     function fetchUserOwnedPlaylists(user) {
       return promisesForPages(

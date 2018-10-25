@@ -1,10 +1,54 @@
+import fetch from './custom-fetch';
+
 const apiPrefix = 'https://api.spotify.com/v1';
+
+const parseAPIResponse = response =>
+  new Promise(resolve => resolve(response.text()))
+    .catch(err =>
+      Promise.reject({
+        type: 'NetworkError',
+        status: response.status,
+        message: err,
+      })
+    )
+    .then(responseBody => {
+      try {
+        const parsedJSON = JSON.parse(responseBody);
+        if (response.ok) return parsedJSON;
+        if (response.status >= 500) {
+          return Promise.reject({
+            type: 'ServerError',
+            status: response.status,
+            body: parsedJSON,
+          });
+        } else {
+          // eslint-disable-next-line prefer-promise-reject-errors
+          return Promise.reject({
+            type: 'ApplicationError',
+            status: response.status,
+            body: parsedJSON,
+          });
+        }
+      } catch (e) {
+        // We should never get these unless response is mangled
+        // Or API is not properly implemented
+        return Promise.reject({
+          type: 'InvalidJSON',
+          status: response.status,
+          body: responseBody,
+        });
+      }
+    });
 
 export default class SpotifyWebApi {
   constructor() {
     this.token = null;
   }
 
+  /**
+   * @void
+   * @param {string} token
+   */
   setAccessToken(token) {
     this.token = token;
   }
@@ -27,9 +71,7 @@ export default class SpotifyWebApi {
         Authorization: `Bearer ${this.token}`,
       },
     });
-    const json = await res.json();
-    if (res.ok) return json;
-    return null;
+    return parseAPIResponse(res);
   }
 
   async getUserPlaylists(userId, options) {
@@ -57,22 +99,7 @@ export default class SpotifyWebApi {
         body: JSON.stringify(dataToBeSent),
       }
     );
-
-    const json = await res.json();
-    if (res.ok) {
-      return json;
-    } else {
-      global.Raven &&
-        Raven.captureMessage(
-          `Status ${res.status} when deleting tracks from playlist`,
-          {
-            extra: {
-              json: json,
-            },
-          }
-        );
-    }
-    return null;
+    return parseAPIResponse(res);
   }
 
   async getMySavedTracks(options) {
@@ -87,8 +114,6 @@ export default class SpotifyWebApi {
       },
       body: JSON.stringify(trackIds),
     });
-
-    if (res.ok) return true;
-    return false;
+    return parseAPIResponse(res);
   }
 }

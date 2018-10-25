@@ -1,0 +1,287 @@
+{
+  "href": "https://api.spotify.com/v1/me/tracks?offset=0&limit=3&market=ES",
+  "items": [
+    {
+      "added_at": "2018-10-06T17:06:57Z",
+      "track": {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/3t5xRXzsuZmMDkQzgOX35S"
+              },
+              "href": "https://api.spotify.com/v1/artists/3t5xRXzsuZmMDkQzgOX35S",
+              "id": "3t5xRXzsuZmMDkQzgOX35S",
+              "name": "Robin Schulz",
+              "type": "artist",
+              "uri": "spotify:artist:3t5xRXzsuZmMDkQzgOX35S"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/1Cs0zKBU1kc0i8ypK3B9ai"
+              },
+              "href": "https://api.spotify.com/v1/artists/1Cs0zKBU1kc0i8ypK3B9ai",
+              "id": "1Cs0zKBU1kc0i8ypK3B9ai",
+              "name": "David Guetta",
+              "type": "artist",
+              "uri": "spotify:artist:1Cs0zKBU1kc0i8ypK3B9ai"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/7DMveApC7UnC2NPfPvlHSU"
+              },
+              "href": "https://api.spotify.com/v1/artists/7DMveApC7UnC2NPfPvlHSU",
+              "id": "7DMveApC7UnC2NPfPvlHSU",
+              "name": "Cheat Codes",
+              "type": "artist",
+              "uri": "spotify:artist:7DMveApC7UnC2NPfPvlHSU"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/65h91TpH6k56OdninmMeov"
+          },
+          "href": "https://api.spotify.com/v1/albums/65h91TpH6k56OdninmMeov",
+          "id": "65h91TpH6k56OdninmMeov",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/62a3693ed98893188b3d017ee1d3c4a779faa10c",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/7b23cc771c9e83432c3e47bbbe299098fcc40708",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/61aa3dc9ce3a39e3f5cbe3ab7988238b92947706",
+              "width": 64
+            }
+          ],
+          "name": "Shed A Light (The Remixes Part 2)",
+          "release_date": "2017-02-24",
+          "release_date_precision": "day",
+          "total_tracks": 6,
+          "type": "album",
+          "uri": "spotify:album:65h91TpH6k56OdninmMeov"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/3t5xRXzsuZmMDkQzgOX35S"
+            },
+            "href": "https://api.spotify.com/v1/artists/3t5xRXzsuZmMDkQzgOX35S",
+            "id": "3t5xRXzsuZmMDkQzgOX35S",
+            "name": "Robin Schulz",
+            "type": "artist",
+            "uri": "spotify:artist:3t5xRXzsuZmMDkQzgOX35S"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1Cs0zKBU1kc0i8ypK3B9ai"
+            },
+            "href": "https://api.spotify.com/v1/artists/1Cs0zKBU1kc0i8ypK3B9ai",
+            "id": "1Cs0zKBU1kc0i8ypK3B9ai",
+            "name": "David Guetta",
+            "type": "artist",
+            "uri": "spotify:artist:1Cs0zKBU1kc0i8ypK3B9ai"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7DMveApC7UnC2NPfPvlHSU"
+            },
+            "href": "https://api.spotify.com/v1/artists/7DMveApC7UnC2NPfPvlHSU",
+            "id": "7DMveApC7UnC2NPfPvlHSU",
+            "name": "Cheat Codes",
+            "type": "artist",
+            "uri": "spotify:artist:7DMveApC7UnC2NPfPvlHSU"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 199120,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "DEA621700364"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/0GGVNLSXv3uaN0GrXvDsOC"
+        },
+        "href": "https://api.spotify.com/v1/tracks/0GGVNLSXv3uaN0GrXvDsOC",
+        "id": "0GGVNLSXv3uaN0GrXvDsOC",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Shed a Light - Acoustic Version",
+        "popularity": 55,
+        "preview_url": "https://p.scdn.co/mp3-preview/2ab0970479c7bded476f75104178aa11b3b5bfdf?cid=774b29d4f13844c495f206cafdad9c86",
+        "track_number": 6,
+        "type": "track",
+        "uri": "spotify:track:0GGVNLSXv3uaN0GrXvDsOC"
+      }
+    },
+    {
+      "added_at": "2018-10-01T07:53:19Z",
+      "track": {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/7Aq8lpLMSt1Zxu56pe9bmp"
+              },
+              "href": "https://api.spotify.com/v1/artists/7Aq8lpLMSt1Zxu56pe9bmp",
+              "id": "7Aq8lpLMSt1Zxu56pe9bmp",
+              "name": "Jagged Edge",
+              "type": "artist",
+              "uri": "spotify:artist:7Aq8lpLMSt1Zxu56pe9bmp"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/71V8liHaRbtSZ2ZGkjcqZB"
+          },
+          "href": "https://api.spotify.com/v1/albums/71V8liHaRbtSZ2ZGkjcqZB",
+          "id": "71V8liHaRbtSZ2ZGkjcqZB",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/5997b64f7c4813a2ddbe80b8e812a4570a50fd6d",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/e3ffbe885544c878428e8388a0c7721b0747b3ae",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/19629b7fb5201c4f29d83d315d7832e8e119efbc",
+              "width": 64
+            }
+          ],
+          "name": "A Jagged Era",
+          "release_date": "1997-10-21",
+          "release_date_precision": "day",
+          "total_tracks": 10,
+          "type": "album",
+          "uri": "spotify:album:71V8liHaRbtSZ2ZGkjcqZB"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7Aq8lpLMSt1Zxu56pe9bmp"
+            },
+            "href": "https://api.spotify.com/v1/artists/7Aq8lpLMSt1Zxu56pe9bmp",
+            "id": "7Aq8lpLMSt1Zxu56pe9bmp",
+            "name": "Jagged Edge",
+            "type": "artist",
+            "uri": "spotify:artist:7Aq8lpLMSt1Zxu56pe9bmp"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 215266,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "USSM19701387"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/5nS5mDWAyce9gjD8crHcZX"
+        },
+        "href": "https://api.spotify.com/v1/tracks/5nS5mDWAyce9gjD8crHcZX",
+        "id": "5nS5mDWAyce9gjD8crHcZX",
+        "is_local": false,
+        "is_playable": true,
+        "name": "I Gotta Be",
+        "popularity": 59,
+        "preview_url": "https://p.scdn.co/mp3-preview/77d1f4afa08edcceff273656e8c802fe300e576e?cid=774b29d4f13844c495f206cafdad9c86",
+        "track_number": 3,
+        "type": "track",
+        "uri": "spotify:track:5nS5mDWAyce9gjD8crHcZX"
+      }
+    },
+    {
+      "added_at": "2018-09-10T13:34:15Z",
+      "track": {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/73sIBHcqh3Z3NyqHKZ7FOL"
+              },
+              "href": "https://api.spotify.com/v1/artists/73sIBHcqh3Z3NyqHKZ7FOL",
+              "id": "73sIBHcqh3Z3NyqHKZ7FOL",
+              "name": "Childish Gambino",
+              "type": "artist",
+              "uri": "spotify:artist:73sIBHcqh3Z3NyqHKZ7FOL"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/63McpWDS7P0dF06fqXQMCZ"
+          },
+          "href": "https://api.spotify.com/v1/albums/63McpWDS7P0dF06fqXQMCZ",
+          "id": "63McpWDS7P0dF06fqXQMCZ",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/e8105905a27688a772428088e347ff3eeab59fa1",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/c406fe8d4c9599deee71039921debbdcf97614e0",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/b6535e09db1da4394ee54930e9ce8bf8732a0096",
+              "width": 64
+            }
+          ],
+          "name": "because the internet",
+          "release_date": "2013-01-01",
+          "release_date_precision": "day",
+          "total_tracks": 19,
+          "type": "album",
+          "uri": "spotify:album:63McpWDS7P0dF06fqXQMCZ"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/73sIBHcqh3Z3NyqHKZ7FOL"
+            },
+            "href": "https://api.spotify.com/v1/artists/73sIBHcqh3Z3NyqHKZ7FOL",
+            "id": "73sIBHcqh3Z3NyqHKZ7FOL",
+            "name": "Childish Gambino",
+            "type": "artist",
+            "uri": "spotify:artist:73sIBHcqh3Z3NyqHKZ7FOL"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 234215,
+        "explicit": true,
+        "external_ids": {
+          "isrc": "USYAH1300224"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/7wwifjNAb172PtDpKK3CoR"
+        },
+        "href": "https://api.spotify.com/v1/tracks/7wwifjNAb172PtDpKK3CoR",
+        "id": "7wwifjNAb172PtDpKK3CoR",
+        "is_local": false,
+        "is_playable": true,
+        "name": "V. 3005",
+        "popularity": 68,
+        "preview_url": "https://p.scdn.co/mp3-preview/aa787d9b2bb9d244e1525268fbb948fe65bd52f9?cid=774b29d4f13844c495f206cafdad9c86",
+        "track_number": 9,
+        "type": "track",
+        "uri": "spotify:track:7wwifjNAb172PtDpKK3CoR"
+      }
+    }
+  ],
+  "limit": 3,
+  "next": "https://api.spotify.com/v1/me/tracks?offset=3&limit=3&market=ES",
+  "offset": 0,
+  "previous": null,
+  "total": 534
+}
