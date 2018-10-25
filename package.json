@@ -55,7 +55,10 @@
   "jest": {
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest"
-    }
+    },
+    "collectCoverageFrom": [
+      "app/**/*.js"
+    ]
   },
   "version": "1.0.0",
   "description": "Remove duplicates from your Spotify library",
