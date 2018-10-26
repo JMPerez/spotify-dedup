@@ -1,20 +1,17 @@
 import OAuthManager from './oauth-manager';
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
-import promisesForPages from './promiseForPages';
 import SpotifyWebApi from './spotify-api';
 import PlaylistCache from './playlist-cache';
 import mainCss from '../styles/main.css';
 import customCss from '../styles/custom.css';
 import favicon from '../favicon.ico';
+import { fetchUserOwnedPlaylists } from './library';
 
 const playlistCache = new PlaylistCache();
 
+let api;
+
 const init = function() {
-  let playlistDeduplicator;
-  let savedTracksDeduplicator;
-
-  let token, api;
-
   let app = new Vue({
     el: '#app',
     data: {
@@ -40,7 +37,8 @@ const init = function() {
             );
           } else {
             try {
-              const duplicates = await playlistDeduplicator.removeDuplicates(
+              const duplicates = await PlaylistDeduplicator.removeDuplicates(
+                api,
                 playlistModel
               );
               playlistModel.duplicates = [];
@@ -95,8 +93,8 @@ const init = function() {
     },
   });
 
-  document.getElementById('login').addEventListener('click', function() {
-    OAuthManager.obtainToken({
+  document.getElementById('login').addEventListener('click', async () => {
+    const token = await OAuthManager.obtainToken({
       scopes: [
         /*
           the permission for reading public playlists is granted
@@ -110,31 +108,11 @@ const init = function() {
         'user-library-read',
         'user-library-modify',
       ],
-    })
-      .then(function(token) {
-        onTokenReceived(token);
-      })
-      .catch(function(error) {
-        console.error(error);
-      });
+    }).catch(function(error) {
+      console.error(error);
+    });
 
-    function fetchUserOwnedPlaylists(user) {
-      return promisesForPages(
-        api.getUserPlaylists(user, { limit: 50 }),
-        api
-      ).then(function(pages) {
-        // combine and filter playlists
-        var userOwnedPlaylists = [];
-        pages.forEach(function(page) {
-          userOwnedPlaylists = userOwnedPlaylists.concat(
-            page.items.filter(function(playlist) {
-              return playlist.owner.id === user;
-            })
-          );
-        });
-        return userOwnedPlaylists;
-      });
-    }
+    onTokenReceived(token);
 
     function onPlaylistProcessed(playlist) {
       playlist.processed = true;
@@ -157,23 +135,22 @@ const init = function() {
         playlistsToCheck = [];
 
       let ownedPlaylists;
-      try {
-        ownedPlaylists = await fetchUserOwnedPlaylists(user);
-      } catch (e) {
+      ownedPlaylists = await fetchUserOwnedPlaylists(api, user).catch(e => {
         if (global.ga) {
           ga('send', 'event', 'spotify-dedup', 'error-fetching-user-playlists');
         }
         console.error("There was an error fetching user's playlists", e);
-      }
+      });
 
       if (ownedPlaylists) {
         playlistsToCheck = ownedPlaylists;
         app.playlists = playlistsToCheck.map(p => playlistToPlaylistModel(p));
         app.toProcess = app.playlists.length + 1 /* saved tracks */;
-        const savedTracks = await savedTracksDeduplicator.getTracks(
+        const savedTracks = await SavedTracksDeduplicator.getTracks(
+          api,
           api.getMySavedTracks({ limit: 50 })
         );
-        app.savedTracks.duplicates = savedTracksDeduplicator.findDuplicatedTracks(
+        app.savedTracks.duplicates = SavedTracksDeduplicator.findDuplicatedTracks(
           savedTracks
         );
         if (app.savedTracks.duplicates.length && global.ga) {
@@ -186,10 +163,11 @@ const init = function() {
             if (playlistCache.needsCheckForDuplicates(playlistModel.playlist)) {
               let playlistTracks;
               try {
-                playlistTracks = await playlistDeduplicator.getTracks(
+                playlistTracks = await PlaylistDeduplicator.getTracks(
+                  api,
                   playlistModel.playlist
                 );
-                playlistModel.duplicates = playlistDeduplicator.findDuplicatedTracks(
+                playlistModel.duplicates = PlaylistDeduplicator.findDuplicatedTracks(
                   playlistTracks
                 );
                 if (playlistModel.duplicates.length === 0) {
@@ -211,34 +189,13 @@ const init = function() {
       }
     }
 
-    function onTokenReceived(accessToken) {
+    async function onTokenReceived(accessToken) {
       app.isLoggedIn = true;
       api = new SpotifyWebApi();
       api.setAccessToken(accessToken);
 
-      playlistDeduplicator = new PlaylistDeduplicator(api);
-      savedTracksDeduplicator = new SavedTracksDeduplicator(api);
-
-      let attempts = 0;
-      const loginFunction = () => {
-        return api.getMe().then(data => {
-          if (data === null) {
-            attempts++;
-            global.Raven &&
-              Raven.captureMessage(`Retrying logging user in`, {
-                extra: {
-                  attempts: attempts,
-                },
-              });
-            loginFunction();
-          } else {
-            (async () => {
-              await onUserDataFetched(data);
-            })();
-          }
-        });
-      };
-      loginFunction();
+      const meData = await api.getMe();
+      onUserDataFetched(meData);
     }
   });
 };

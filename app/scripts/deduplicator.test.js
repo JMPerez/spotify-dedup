@@ -51,7 +51,6 @@ describe('PlaylistDeduplicator', () => {
 
     const api = new SpotifyWebApi();
     api.setAccessToken(token);
-    const deduplicator = new PlaylistDeduplicator(api);
     const playlist = {
       tracks: {
         href:
@@ -59,7 +58,7 @@ describe('PlaylistDeduplicator', () => {
         total: 3,
       },
     };
-    const tracks = await deduplicator.getTracks(playlist);
+    const tracks = await PlaylistDeduplicator.getTracks(api, playlist);
     expect(tracks).toEqual([
       { id: '5iufLITrEbQJRT7WR8Vrxl' },
       { id: '1iufLITrEbQJRT7WR8Vrxl' },
@@ -171,7 +170,6 @@ describe('PlaylistDeduplicator', () => {
 
     const api = new SpotifyWebApi();
     api.setAccessToken(token);
-    const deduplicator = new PlaylistDeduplicator(api);
     const playlist = {
       tracks: {
         href:
@@ -179,7 +177,7 @@ describe('PlaylistDeduplicator', () => {
         total: 7,
       },
     };
-    const tracks = await deduplicator.getTracks(playlist);
+    const tracks = await PlaylistDeduplicator.getTracks(api, playlist);
     expect(tracks).toEqual([
       { id: '0' },
       { id: '1' },
@@ -276,7 +274,6 @@ describe('PlaylistDeduplicator', () => {
 
     const api = new SpotifyWebApi();
     api.setAccessToken(token);
-    const deduplicator = new PlaylistDeduplicator(api);
     const playlist = {
       tracks: {
         href:
@@ -284,7 +281,7 @@ describe('PlaylistDeduplicator', () => {
         total: 7,
       },
     };
-    const tracks = await deduplicator.getTracks(playlist);
+    const tracks = await PlaylistDeduplicator.getTracks(api, playlist);
     expect(tracks).toEqual([
       { id: '0' },
       { id: '1' },
@@ -300,8 +297,7 @@ describe('PlaylistDeduplicator', () => {
     const token = 'my token';
     const api = new SpotifyWebApi();
     api.setAccessToken(token);
-    const deduplicator = new PlaylistDeduplicator(api);
-    const tracks = deduplicator.findDuplicatedTracks([
+    const tracks = PlaylistDeduplicator.findDuplicatedTracks([
       {
         id: '5iufLITrEbQJRT7WR8Vrxl',
         artists: [{ name: 'Madonna' }],
@@ -335,8 +331,7 @@ describe('PlaylistDeduplicator', () => {
     const token = 'my token';
     const api = new SpotifyWebApi();
     api.setAccessToken(token);
-    const deduplicator = new PlaylistDeduplicator(api);
-    const tracks = deduplicator.findDuplicatedTracks([
+    const tracks = PlaylistDeduplicator.findDuplicatedTracks([
       {
         id: '5iufLITrEbQJRT7WR8Vrxl',
         artists: [{ name: 'Madonna' }],
@@ -374,8 +369,7 @@ describe('PlaylistDeduplicator', () => {
     const token = 'my token';
     const api = new SpotifyWebApi();
     api.setAccessToken(token);
-    const deduplicator = new PlaylistDeduplicator(api);
-    const tracks = deduplicator.findDuplicatedTracks([
+    const tracks = PlaylistDeduplicator.findDuplicatedTracks([
       {
         id: '5iufLITrEbQJRT7WR8Vrxl',
         artists: [{ name: 'Madonna' }],
