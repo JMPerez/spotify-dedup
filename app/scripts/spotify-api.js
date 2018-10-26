@@ -22,7 +22,6 @@ const parseAPIResponse = response =>
             body: parsedJSON,
           });
         } else {
-          // eslint-disable-next-line prefer-promise-reject-errors
           return Promise.reject({
             type: 'ApplicationError',
             status: response.status,
@@ -45,10 +44,6 @@ export default class SpotifyWebApi {
     this.token = null;
   }
 
-  /**
-   * @void
-   * @param {string} token
-   */
   setAccessToken(token) {
     this.token = token;
   }

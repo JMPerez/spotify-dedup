@@ -3,10 +3,23 @@ export default async function promisesForPages(initialRequest, api) {
     return href.indexOf('?') !== -1 ? href.substr(0, href.indexOf('?')) : href;
   }
 
-  async function fetchGeneric(results, offset, limit) {
+  async function fetchGeneric(href, offset, limit) {
     return api.getGeneric(
-      `${stripParameters(results.href)}?offset=${offset}&limit=${limit}`
+      `${stripParameters(href)}?offset=${offset}&limit=${limit}`
     );
+  }
+
+  async function fetchPageWithDefaults(href, offset, limit) {
+    let result;
+    try {
+      result = fetchGeneric(href, offset, limit);
+    } catch (e) {
+      console.error(
+        `Error making request to fetch tracks from ${href} with offset ${offset} and limit ${limit}`
+      );
+      result = { items: new Array(limit) };
+    }
+    return result;
   }
 
   const results = await initialRequest;
@@ -14,35 +27,22 @@ export default async function promisesForPages(initialRequest, api) {
     return [];
   }
 
-  const promises = [() => initialRequest];
-  let offset = results.limit + results.offset;
-  const limit = results.limit;
-  while (results.total > offset) {
-    (function(results, offset, limit) {
-      const q = () => {
-        return new Promise(async resolve => {
-          try {
-            const result = await fetchGeneric(results, offset, limit).catch(
-              e => {
-                console.error(
-                  `Error making request to fetch tracks from ${
-                    results.href
-                  } with offset ${offset} and limit ${limit}`,
-                  e
-                );
-                resolve({ items: new Array(limit) });
-              }
-            );
-            resolve(result);
-          } catch (e) {
-            console.error(e);
-          }
-        });
-      };
-      promises.push(q);
-    })(results, offset, limit);
-    offset += limit;
-  }
+  const { limit, total, offset, href } = results;
+  const promises = new Array(Math.ceil((total - limit - offset) / limit))
+    .fill('')
+    .reduce(
+      (prev, current, currentIndex) => {
+        prev.push(() =>
+          fetchPageWithDefaults(
+            href,
+            limit + offset + currentIndex * limit,
+            limit
+          )
+        );
+        return prev;
+      },
+      [() => initialRequest]
+    );
 
   return promises.reduce(
     (promise, func) =>
