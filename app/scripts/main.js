@@ -160,7 +160,9 @@ const init = function() {
       try {
         ownedPlaylists = await fetchUserOwnedPlaylists(user);
       } catch (e) {
-        ga('send', 'event', 'spotify-dedup', 'error-fetching-user-playlists');
+        if (global.ga) {
+          ga('send', 'event', 'spotify-dedup', 'error-fetching-user-playlists');
+        }
         console.error("There was an error fetching user's playlists", e);
       }
 
