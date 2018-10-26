@@ -12,12 +12,12 @@ export default async function promisesForPages(initialRequest, api) {
   async function fetchPageWithDefaults(href, offset, limit) {
     let result;
     try {
-      result = fetchGeneric(href, offset, limit);
+      result = await fetchGeneric(href, offset, limit);
     } catch (e) {
       console.error(
         `Error making request to fetch tracks from ${href} with offset ${offset} and limit ${limit}`
       );
-      result = { items: new Array(limit) };
+      result = { items: new Array(limit).fill(null) };
     }
     return result;
   }

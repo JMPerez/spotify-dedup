@@ -4,7 +4,7 @@ import { PlaylistDeduplicator } from './deduplicator';
 import SpotifyWebApi from './spotify-api';
 
 describe('PlaylistDeduplicator', () => {
-  test('it returns the tracks correctly', async () => {
+  test('it returns the tracks correctly (single page)', async () => {
     const token = 'my token';
 
     const response = {
@@ -27,6 +27,7 @@ describe('PlaylistDeduplicator', () => {
           },
         },
       ],
+      offset: 0,
       limit: 100,
       total: 3,
     };
@@ -66,6 +67,235 @@ describe('PlaylistDeduplicator', () => {
     ]);
   });
 
+  test('it returns the tracks correctly (multiple pages)', async () => {
+    const token = 'my token';
+
+    const responses = [
+      {
+        href:
+          'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=0&limit=3',
+        items: [
+          {
+            track: {
+              id: '0',
+            },
+          },
+          {
+            track: {
+              id: '1',
+            },
+          },
+          {
+            track: {
+              id: '2',
+            },
+          },
+        ],
+        offset: 0,
+        limit: 3,
+        total: 7,
+      },
+      {
+        href:
+          'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=3&limit=3',
+        items: [
+          {
+            track: {
+              id: '3',
+            },
+          },
+          {
+            track: {
+              id: '4',
+            },
+          },
+          {
+            track: {
+              id: '5',
+            },
+          },
+        ],
+        offset: 3,
+        limit: 3,
+        total: 7,
+      },
+      {
+        href:
+          'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=6&limit=3',
+        items: [
+          {
+            track: {
+              id: '6',
+            },
+          },
+        ],
+        offset: 6,
+        limit: 3,
+        total: 7,
+      },
+    ];
+
+    let responseIndex = 0;
+    fetch.mockImplementation((url, options) => {
+      switch (responseIndex) {
+        case 0:
+          expect(url).toEqual(
+            'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks'
+          );
+          break;
+        case 1:
+          expect(url).toEqual(
+            'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=3&limit=3'
+          );
+          break;
+        case 2:
+          expect(url).toEqual(
+            'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=6&limit=3'
+          );
+          break;
+      }
+      expect(options).toEqual({
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const response = responses[responseIndex];
+      responseIndex++;
+      return Promise.resolve({
+        ok: true,
+        json: () => response,
+        text: () => JSON.stringify(response),
+      });
+    });
+
+    const api = new SpotifyWebApi();
+    api.setAccessToken(token);
+    const deduplicator = new PlaylistDeduplicator(api);
+    const playlist = {
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks',
+        total: 7,
+      },
+    };
+    const tracks = await deduplicator.getTracks(playlist);
+    expect(tracks).toEqual([
+      { id: '0' },
+      { id: '1' },
+      { id: '2' },
+      { id: '3' },
+      { id: '4' },
+      { id: '5' },
+      { id: '6' },
+    ]);
+  });
+
+  test('it handles failing request for page in between when fetching tracks', async () => {
+    const token = 'my token';
+
+    const responses = [
+      {
+        href:
+          'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=0&limit=3',
+        items: [
+          {
+            track: {
+              id: '0',
+            },
+          },
+          {
+            track: {
+              id: '1',
+            },
+          },
+          {
+            track: {
+              id: '2',
+            },
+          },
+        ],
+        offset: 0,
+        limit: 3,
+        total: 7,
+      },
+      null,
+      {
+        href:
+          'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=6&limit=3',
+        items: [
+          {
+            track: {
+              id: '6',
+            },
+          },
+        ],
+        offset: 6,
+        limit: 3,
+        total: 7,
+      },
+    ];
+
+    let responseIndex = 0;
+    fetch.mockImplementation((url, options) => {
+      switch (responseIndex) {
+        case 0:
+          expect(url).toEqual(
+            'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks'
+          );
+          break;
+        case 1:
+          expect(url).toEqual(
+            'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=3&limit=3'
+          );
+          break;
+        case 2:
+          expect(url).toEqual(
+            'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks?offset=6&limit=3'
+          );
+          break;
+      }
+      expect(options).toEqual({
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const response = responses[responseIndex];
+      responseIndex++;
+      if (response === null) {
+        return Promise.reject();
+      } else {
+        return Promise.resolve({
+          ok: true,
+          json: () => response,
+          text: () => JSON.stringify(response),
+        });
+      }
+    });
+
+    const api = new SpotifyWebApi();
+    api.setAccessToken(token);
+    const deduplicator = new PlaylistDeduplicator(api);
+    const playlist = {
+      tracks: {
+        href:
+          'https://api.spotify.com/v1/playlists/777kAfwZNWjBOc9qu1Kvv8/tracks',
+        total: 7,
+      },
+    };
+    const tracks = await deduplicator.getTracks(playlist);
+    expect(tracks).toEqual([
+      { id: '0' },
+      { id: '1' },
+      { id: '2' },
+      null,
+      null,
+      null,
+      { id: '6' },
+    ]);
+  });
+
   test('it finds duplicates with same id', async () => {
     const token = 'my token';
     const api = new SpotifyWebApi();
@@ -101,7 +331,7 @@ describe('PlaylistDeduplicator', () => {
     ]);
   });
 
-  test('it finds duplicates with same track name, artist and similarduration', async () => {
+  test('it finds duplicates with same track name, artist and similar duration', async () => {
     const token = 'my token';
     const api = new SpotifyWebApi();
     api.setAccessToken(token);
@@ -179,8 +409,3 @@ describe('PlaylistDeduplicator', () => {
     ]);
   });
 });
-
-/*
-   
-     
-    */
