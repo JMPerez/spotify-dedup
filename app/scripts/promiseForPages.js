@@ -1,27 +1,29 @@
-export default async function promisesForPages(initialRequest, api) {
-  function stripParameters(href) {
-    return href.indexOf('?') !== -1 ? href.substr(0, href.indexOf('?')) : href;
-  }
+function stripParameters(href) {
+  return href.indexOf('?') !== -1 ? href.substr(0, href.indexOf('?')) : href;
+}
 
-  async function fetchGeneric(href, offset, limit) {
-    return api.getGeneric(
-      `${stripParameters(href)}?offset=${offset}&limit=${limit}`
-    );
-  }
+async function fetchGeneric(api, href, offset, limit) {
+  return api.getGeneric(
+    `${stripParameters(href)}?offset=${offset}&limit=${limit}`
+  );
+}
 
-  async function fetchPageWithDefaults(href, offset, limit) {
-    let result;
-    try {
-      result = await fetchGeneric(href, offset, limit);
-    } catch (e) {
-      console.error(
-        `Error making request to fetch tracks from ${href} with offset ${offset} and limit ${limit}`
-      );
-      result = { items: new Array(limit).fill(null) };
-    }
-    return result;
+async function fetchPageWithDefaults(api, href, offset, limit) {
+  let result;
+  try {
+    result = await fetchGeneric(api, href, offset, limit);
+  } catch (e) {
+    // todo: report this in the UI somehow
+    /* console.error(
+      `Error making request to fetch tracks from ${href} with offset ${offset} and limit ${limit}`,
+      e
+    );*/
+    result = { items: new Array(limit).fill(null) };
   }
+  return result;
+}
 
+export default async function promisesForPages(api, initialRequest) {
   const results = await initialRequest;
   if (results === null) {
     return [];
@@ -31,9 +33,10 @@ export default async function promisesForPages(initialRequest, api) {
   const promises = new Array(Math.ceil((total - limit - offset) / limit))
     .fill('')
     .reduce(
-      (prev, current, currentIndex) => {
+      (prev, _, currentIndex) => {
         prev.push(() =>
           fetchPageWithDefaults(
+            api,
             href,
             limit + offset + currentIndex * limit,
             limit

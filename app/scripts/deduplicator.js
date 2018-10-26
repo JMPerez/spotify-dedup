@@ -1,13 +1,6 @@
 import promisesForPages from './promiseForPages';
 
-let token;
-let api;
-
 class BaseDeduplicator {
-  constructor(api) {
-    this.api = api;
-  }
-
   async removeDuplicates(model) {
     throw 'Not implemented';
   }
@@ -16,7 +9,7 @@ class BaseDeduplicator {
     throw 'Not implemented';
   }
 
-  findDuplicatedTracks(tracks) {
+  static findDuplicatedTracks(tracks) {
     const seenIds = {};
     const seenNameAndArtist = {};
     const result = tracks.reduce((duplicates, track, index) => {
@@ -56,15 +49,12 @@ class BaseDeduplicator {
 }
 
 export class PlaylistDeduplicator extends BaseDeduplicator {
-  constructor(api) {
-    super(api);
-  }
-  async getTracks(playlist) {
+  static async getTracks(api, playlist) {
     return new Promise((resolve, reject) => {
       const tracks = [];
       promisesForPages(
-        this.api.getGeneric(playlist.tracks.href), // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
-        this.api
+        api,
+        api.getGeneric(playlist.tracks.href) // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
       )
         .then((
           pagePromises // todo: I'd love to replace this with
@@ -85,7 +75,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
     });
   }
 
-  async removeDuplicates(playlistModel) {
+  static async removeDuplicates(api, playlistModel) {
     return new Promise((resolve, reject) => {
       if (playlistModel.playlist.id === 'starred') {
         reject(
@@ -114,7 +104,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
                 chunk
               )
             );
-          })(playlistModel, chunk, this.api);
+          })(playlistModel, chunk, api);
         } while (tracksToRemove.length > 0);
 
         promises
@@ -135,14 +125,10 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
 }
 
 export class SavedTracksDeduplicator extends BaseDeduplicator {
-  constructor(api) {
-    super(api);
-  }
-
-  async getTracks(initialRequest) {
+  static async getTracks(api, initialRequest) {
     return new Promise((resolve, reject) => {
       const tracks = [];
-      promisesForPages(initialRequest, this.api)
+      promisesForPages(api, initialRequest)
         .then((
           pagePromises // todo: I'd love to replace this with
         ) =>
@@ -170,7 +156,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
     });
   }
 
-  async removeDuplicates(model) {
+  static async removeDuplicates(api, model) {
     return new Promise((resolve, reject) => {
       const tracksToRemove = model.duplicates.map(
         d => (d.track.linked_from ? d.track.linked_from.id : d.track.id)
@@ -178,7 +164,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
       do {
         (async () => {
           const chunk = tracksToRemove.splice(0, 50);
-          await this.api.removeFromMySavedTracks(chunk);
+          await api.removeFromMySavedTracks(chunk);
         })();
       } while (tracksToRemove.length > 0);
       model.duplicates = [];
