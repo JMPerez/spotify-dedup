@@ -19,7 +19,7 @@
     "lint-staged": "^8.0.0",
     "mini-css-extract-plugin": "^0.4.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "prettier": "1.14.3",
+    "prettier": "1.15.0",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.16.0",
