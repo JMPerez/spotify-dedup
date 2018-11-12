@@ -8,22 +8,22 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = {
   entry: {
     main: './app/scripts/main.js',
-    callback: './app/scripts/oauth-send-back.js'
+    callback: './app/scripts/oauth-send-back.js',
   },
   devtool: 'source-map',
   devServer: {
     contentBase: './dist',
-    port: 8005
+    port: 8005,
   },
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true // set to true if you want JS source maps
+        sourceMap: true, // set to true if you want JS source maps
       }),
-      new OptimizeCSSAssetsPlugin({})
-    ]
+      new OptimizeCSSAssetsPlugin({}),
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
@@ -35,34 +35,45 @@ module.exports = {
         collapseWhitespace: true,
         preserveLineBreaks: true,
         preserveLineBreaks: false,
-        minifyCSS: true
-      }
+        minifyCSS: true,
+      },
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'es/index.html',
+      template: './app/es/index.html',
+      chunks: ['main'],
+      minify: {
+        collapseWhitespace: true,
+        preserveLineBreaks: true,
+        preserveLineBreaks: false,
+        minifyCSS: true,
+      },
     }),
     new HtmlWebpackPlugin({
       filename: 'callback.html',
       template: './app/callback.html',
-      chunks: ['callback']
+      chunks: ['callback'],
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
-      chunkFilename: '[id].css'
-    })
+      chunkFilename: '[id].css',
+    }),
   ],
   output: {
     filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader']
+        use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(png|svg|jpg|gif|ico)$/,
-        loader: 'file-loader?name=[name].[ext]'
-      }
-    ]
+        loader: 'file-loader?name=[name].[ext]',
+      },
+    ],
   },
-  mode: 'development'
+  mode: 'development',
 };

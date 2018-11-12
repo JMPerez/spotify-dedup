@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="es">
   <head>
     <meta charset="utf-8" />
     <title>
-      Spotify Dedup - Remove duplicated songs from your Spotify library
-      automatically
+      Spotify Dedup - Elimina canciones duplicadas de tu biblioteca de Spotify
+      automáticamente
     </title>
     <link
       rel="alternate"
@@ -18,23 +18,23 @@
     />
     <meta
       name="description"
-      content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy."
+      content="Elimina canciones repetidas de tus listas de reproducción de Spotify y canciones favoritas de una forma rápida y sencilla."
     />
     <meta
       name="og:description"
-      content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy."
+      content="Elimina canciones repetidas de tus listas de reproducción de Spotify y canciones favoritas de una forma rápida y sencilla."
     />
     <meta
       name="twitter:description"
-      content="Delete repeated songs from your Spotify playlists and saved tracks quickly and easy."
+      content="Elimina canciones repetidas de tus listas de reproducción de Spotify y canciones favoritas de una forma rápida y sencilla."
     />
     <meta
       name="og:title"
-      content="Spotify dedup - Remove duplicated songs from your Spotify library automatically"
+      content="Spotify dedup - Elimina canciones duplicadas de tu librería de Spotify rápido y fácil"
     />
     <meta
       name="twitter:title"
-      content="Spotify dedup - Remove duplicated songs from your Spotify library automatically"
+      content="Spotify dedup - Elimina canciones duplicadas de tu librería de Spotify rápido y fácil"
     />
     <meta name="viewport" content="width=device-width" />
     <link rel="canonical" href="https://jmperezperez.com/spotify-dedup/" />
@@ -102,53 +102,54 @@
     <div class="container" id="app">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li><a href="/spotify-dedup/">Home</a></li>
+          <li><a href="/spotify-dedup/es/">Principal</a></li>
         </ul>
         <h3 class="text-muted">Spotify dedup</h3>
       </div>
 
       <div class="default-content" v-if="!isLoggedIn">
         <div class="jumbotron">
-          <h1>Spotify Deduplicator</h1>
+          <h1>Deduplicador Spotify</h1>
           <p class="lead">
-            Remove duplicated songs from your playlists and saved songs.
+            Elimina canciones duplicadas de tus playlists y canciones guardadas.
           </p>
           <p>
             <button class="btn btn-lg btn-success" id="login">
-              Log in with Spotify
+              Iniciar sesión con Spotify
             </button>
           </p>
         </div>
 
         <div class="row marketing">
           <div class="col-sm-4 col-md-4 col-lg-4">
-            <h4>Find &amp; remove</h4>
+            <h4>Busca &amp; elimina</h4>
             <p>
-              Dedup checks your playlists and saved songs in
-              <strong>your Spotify library</strong>. Once Dedup finds duplicates
-              you can remove them per-playlist basis.
+              Dedup comprueba tus playlists y canciones guardadas en
+              <strong>tu biblioteca de Spotify</strong>. Una vez que Dedup
+              encuentra duplicados los puedes eliminar playlist a playlist.
             </p>
           </div>
           <div class="col-sm-4 col-md-4 col-lg-4">
-            <h4>Safe</h4>
+            <h4>Seguro</h4>
             <p>
-              Dedup will only remove <strong>duplicated songs</strong>, leaving
-              the rest of the playlist and saved songs untouched.
+              Dedup sólo elimina <strong>canciones duplicadas</strong>, dejando
+              el resto de la lista de reproducción y colección de canciones
+              guardadas intactos.
             </p>
           </div>
           <div class="col-sm-4 col-md-4 col-lg-4">
-            <h4>Open Source</h4>
+            <h4>Código abierto</h4>
             <p>
-              You might want to have a look at the
+              Puedes echar un ojo al
               <strong>
                 <a href="https://github.com/JMPerez/spotify-dedup/"
-                  >source code on GitHub</a
+                  >código abierto en GitHub</a
                 > </strong
-              >. This web app uses the
+              >. Esta aplicación web usa la
               <a href="https://developer.spotify.com/web-api/"
-                >Spotify Web API</a
+                >Web API de Spotify</a
               >
-              to manage user's playlists and saved tracks.
+              para gestionar las playlists y canciones guardadas del usuario.
             </p>
           </div>
         </div>
@@ -157,19 +158,25 @@
       <div class="dedup-result row" v-if="isLoggedIn">
         <div class="playlists col-lg-12">
           <span v-if="toProcess > 0">
-            <h3>Finding duplicated in your playlists and saved songs...</h3>
+            <h3>
+              Buscando duplicados en tus listas de reproducción y canciones
+              favoritas...
+            </h3>
           </span>
-          <span v-if="toProcess == 0"> <h3>Processing complete!</h3> </span>
+          <span v-if="toProcess == 0">
+            <h3>¡Procesamiento completado!</h3>
+          </span>
           <div class="panel panel-default">
             <div class="panel-body">
               <span v-if="toProcess > 0">
-                Searching for duplicated songs, wait a sec. Still to process
-                <span>{{ toProcess }}</span> playlists.
+                Buscando canciones duplicadas, espera un momento. Quedan
+                <span>{{ toProcess }}</span> playlists por procesar.
               </span>
               <span v-if="toProcess == 0 && duplicates > 0">
-                Your playlists and saved songs have been processed! Click on the
-                <strong>Remove duplicates</strong> button to get rid of
-                duplicates in that playlist or saved songs collection.
+                Tus playlists y canciones favoritas han sido procesadas. Haz
+                click en el botón <strong>Eliminar duplicados</strong> para
+                borrar las canciones duplicadas de esa lista de reproducción o
+                colección.
                 <div style="padding-top: 1em">
                   <a
                     class="bmc-button"
@@ -178,18 +185,16 @@
                   >
                     <img
                       src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg"
-                      alt="Would you buy me a coffee?"
+                      alt="¿Me compras un café?"
                     />
-                    <span style="margin-left:5px"
-                      >Would you buy me a coffee?</span
-                    >
+                    <span style="margin-left:5px">¿Me compras un café?</span>
                   </a>
                 </div>
               </span>
               <span v-if="toProcess == 0 && duplicates == 0">
-                Your playlists and saved songs have been processed!
-                <br />Congrats! You don't have duplicates in your playlists nor
-                saved songs.
+                Tus playlists y canciones favoritas han sido procesadas.
+                <br />¡Enhorabuena! No tienes duplicados en tus listas de
+                reproducción ni en tus canciones favoritas.
                 <div style="padding-top: 1em">
                   <a
                     class="bmc-button"
@@ -198,11 +203,9 @@
                   >
                     <img
                       src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg"
-                      alt="Would you buy me a coffee?"
+                      alt="¿Me compras un café?"
                     />
-                    <span style="margin-left:5px"
-                      >Would you buy me a coffee?</span
-                    >
+                    <span style="margin-left:5px">¿Me compras un café?</span>
                   </a>
                 </div>
               </span>
@@ -220,37 +223,38 @@
               </div>
               <div class="bd">
                 <span class="playlists-list-item__name"
-                  >Saved songs in your library</span
+                  >Canciones favoritas en tu biblioteca</span
                 >
                 <span v-if="savedTracks.status" class="label label-success">
                   {{ savedTracks.status }}</span
                 >
                 <span v-if="savedTracks.duplicates.length">
                   <span
-                    >This collection has
-                    {{ savedTracks.duplicates.length }} duplicated
+                    >Esta colección tiene {{ savedTracks.duplicates.length }}
                     {{
-                      savedTracks.duplicates.length > 1 ? 'songs' : 'song'
+                      savedTracks.duplicates.length > 1
+                        ? 'canciones duplicadas'
+                        : 'canción duplicada'
                     }}</span
                   >
                   <button
                     class="btn btn-primary btn-sm playlist-list-item__btn"
                     v-on:click="removeDuplicatesInSavedTracks()"
                   >
-                    Remove duplicates from your saved songs
+                    Eliminar duplicados de tus canciones favoritas
                   </button>
                   <ul class="duplicates">
                     <li v-for="duplicate in savedTracks.duplicates">
                       <span v-if="duplicate.reason === 'same-id'" class="badge"
-                        >Duplicate</span
+                        >Duplicado</span
                       >
                       <span
                         v-if="duplicate.reason === 'same-name-artist'"
                         class="badge"
-                        >Duplicate (same name, artist and duration)</span
+                        >Duplicado (mismo nombre, artista y duración)</span
                       >
                       <span>{{ duplicate.track.name }}</span>
-                      <span class="gray"> by </span>
+                      <span class="gray"> de </span>
                       <span> {{ duplicate.track.artists[0].name }}</span>
                     </li>
                   </ul>
@@ -278,30 +282,31 @@
                 >
                 <span v-if="playlist.duplicates.length">
                   <span
-                    >This playlist has
-                    {{ playlist.duplicates.length }} duplicated
+                    >Esta playlist tiene {{ playlist.duplicates.length }}
                     {{
-                      playlist.duplicates.length > 1 ? 'songs' : 'song'
+                      playlist.duplicates.length > 1
+                        ? 'canciones duplicadas'
+                        : 'canción duplicada'
                     }}</span
                   >
                   <button
                     class="btn btn-primary btn-sm playlist-list-item__btn"
                     v-on:click="removeDuplicates(playlist)"
                   >
-                    Remove duplicates from this playlist
+                    Eliminar duplicados de esta playlist
                   </button>
                   <ul class="duplicates">
                     <li v-for="duplicate in playlist.duplicates">
                       <span v-if="duplicate.reason === 'same-id'" class="badge"
-                        >Duplicate</span
+                        >Duplicado</span
                       >
                       <span
                         v-if="duplicate.reason === 'same-name-artist'"
                         class="badge"
-                        >Duplicate (same name, artist and duration)</span
+                        >Duplicado (mismo nombre, artista y duración)</span
                       >
                       <span>{{ duplicate.track.name }}</span>
-                      <span class="gray"> by </span>
+                      <span class="gray"> de </span>
                       <span>{{ duplicate.track.artists[0].name }}</span>
                     </li>
                   </ul>
@@ -316,7 +321,7 @@
         <p
           style="text-align:center;font-weight:bold;font-size:2rem;margin-top:2rem"
         >
-          This is what users are saying
+          Esto es lo que dicen los usuarios
         </p>
         <ul class="quotes">
           <li>
@@ -344,20 +349,15 @@
       </div>
       <div class="footer">
         <p>
-          Made with ♥ by
+          Hecho con ♥ por
           <a target="_blank" href="https://jmperezperez.com">JMPerez 👨‍💻</a> ·
-          Check out the
+          Mira el
           <a target="_blank" href="https://github.com/JMPerez/spotify-dedup/"
-            >code on GitHub 📃</a
+            >código en GitHub 📃</a
           >
-          · Support the project
+          · Apoya el proyecto
           <a target="_blank" href="https://www.buymeacoffee.com/jmp"
-            >buying a coffee ☕</a
-          >
-        </p>
-        <p>
-          <a href="https://jmperezperez.com/spotify-dedup/es/"
-            >Also in Spanish</a
+            >comprando un café ☕</a
           >
         </p>
       </div>

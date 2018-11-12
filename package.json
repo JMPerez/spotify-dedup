@@ -42,7 +42,6 @@
   },
   "scripts": {
     "precommit": "lint-staged",
-    "build": "rm -rf dist && parcel build app/*.html --public-url ./",
     "start": "webpack-dev-server --open",
     "test": "jest",
     "test-coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
