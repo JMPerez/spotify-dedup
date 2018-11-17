@@ -66,7 +66,7 @@ const init = function() {
         })(),
       removeDuplicatesInSavedTracks: () =>
         (async () => {
-          const duplicates = await savedTracksDeduplicator.removeDuplicates(
+          const duplicates = await SavedTracksDeduplicator.removeDuplicates(
             app.savedTracks
           );
           app.savedTracks.duplicates = [];
