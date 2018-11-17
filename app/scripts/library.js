@@ -9,7 +9,9 @@ export const fetchUserOwnedPlaylists = async (api, user) => {
   return pages.reduce(
     (array, currentPage) =>
       array.concat(
-        currentPage.items.filter(playlist => playlist.owner.id === user)
+        currentPage.items.filter(
+          playlist => playlist && playlist.owner.id === user
+        )
       ),
     []
   );

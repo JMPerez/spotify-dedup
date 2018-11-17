@@ -158,8 +158,8 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
 
   static async removeDuplicates(api, model) {
     return new Promise((resolve, reject) => {
-      const tracksToRemove = model.duplicates.map(
-        d => (d.track.linked_from ? d.track.linked_from.id : d.track.id)
+      const tracksToRemove = model.duplicates.map(d =>
+        d.track.linked_from ? d.track.linked_from.id : d.track.id
       );
       do {
         (async () => {

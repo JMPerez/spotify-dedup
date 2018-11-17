@@ -60,13 +60,18 @@ export default class SpotifyWebApi {
             .map(k => `${k}=${options[k]}`)
             .join('&')}`;
 
-    const res = await fetch(`${url}${optionsString}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-      },
-    });
-    return parseAPIResponse(res);
+    try {
+      const res = await fetch(`${url}${optionsString}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      });
+      return parseAPIResponse(res);
+    } catch (e) {
+      console.error('e', e);
+      return Promise.reject(e);
+    }
   }
 
   async getUserPlaylists(userId, options) {

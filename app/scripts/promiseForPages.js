@@ -30,6 +30,9 @@ export default async function promisesForPages(api, initialRequest) {
   }
 
   const { limit, total, offset, href } = results;
+  if (total === 0) {
+    return Promise.resolve([]);
+  }
   const promises = new Array(Math.ceil((total - limit - offset) / limit))
     .fill('')
     .reduce(

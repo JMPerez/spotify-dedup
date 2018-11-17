@@ -158,34 +158,35 @@ const init = function() {
         }
         app.toProcess--;
 
-        app.playlists.forEach(playlistModel =>
-          (async () => {
-            if (playlistCache.needsCheckForDuplicates(playlistModel.playlist)) {
-              let playlistTracks;
-              try {
-                playlistTracks = await PlaylistDeduplicator.getTracks(
-                  api,
+        for (const playlistModel of app.playlists) {
+          if (playlistCache.needsCheckForDuplicates(playlistModel.playlist)) {
+            let playlistTracks;
+            try {
+              playlistTracks = await PlaylistDeduplicator.getTracks(
+                api,
+                playlistModel.playlist
+              );
+              playlistModel.duplicates = PlaylistDeduplicator.findDuplicatedTracks(
+                playlistTracks
+              );
+              if (playlistModel.duplicates.length === 0) {
+                playlistCache.storePlaylistWithoutDuplicates(
                   playlistModel.playlist
                 );
-                playlistModel.duplicates = PlaylistDeduplicator.findDuplicatedTracks(
-                  playlistTracks
-                );
-                if (playlistModel.duplicates.length === 0) {
-                  playlistCache.storePlaylistWithoutDuplicates(
-                    playlistModel.playlist
-                  );
-                }
-                onPlaylistProcessed(playlistModel.playlist);
-              } catch (e) {
-                console.error(
-                  'There was an error fetching tracks for playlist',
-                  playlistModel.playlist
-                );
-                onPlaylistProcessed(playlistModel.playlist);
               }
+              onPlaylistProcessed(playlistModel.playlist);
+            } catch (e) {
+              console.error(
+                'There was an error fetching tracks for playlist',
+                playlistModel.playlist,
+                e
+              );
+              onPlaylistProcessed(playlistModel.playlist);
             }
-          })()
-        );
+          } else {
+            onPlaylistProcessed(playlistModel.playlist);
+          }
+        }
       }
     }
 
