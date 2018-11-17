@@ -13,7 +13,8 @@ const parseAPIResponse = response =>
     )
     .then(responseBody => {
       try {
-        const parsedJSON = JSON.parse(responseBody);
+        const parsedJSON =
+          responseBody === '' ? null : JSON.parse(responseBody);
         if (response.ok) return parsedJSON;
         if (response.status >= 500) {
           return Promise.reject({
