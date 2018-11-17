@@ -24,6 +24,10 @@ Run it:
 
 Then open http://localhost:8005/index.html in a browser
 
+## Testing
+
+In order to test saved tracks, create duplicated tracks by executing the Web API request on https://developer.spotify.com/console/put-current-user-saved-tracks/?ids=2JZfTvWWtpaE8NohqRXqFr,1poUtf2dDdVUtWL8tn03Wd,6ADSaE87h8Y3lccZlBJdXH,2x45xqISlmmDJqxOqr8BuS,1iQ1BpOGF1Umd3lpTV4OPO.
+
 ## About the tools used and implementation details
 
 ### Spotify Web API and Promises
