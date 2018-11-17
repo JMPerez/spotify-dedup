@@ -18,7 +18,9 @@ function obtainToken(options = {}) {
     function receiveMessage(event) {
       clearInterval(pollAuthWindowClosed);
       if (event.origin !== OAuthConfig.host) {
-        reject();
+        reject({
+          message: `Origin ${event.origin} does not match ${OAuthConfig.host}`,
+        });
         return;
       }
       if (authWindow !== null) {

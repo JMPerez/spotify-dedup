@@ -110,7 +110,7 @@ const init = function() {
         'user-library-modify',
       ],
     }).catch(function(error) {
-      console.error(error);
+      console.error('There was an error obtaining the token', error);
     });
 
     onTokenReceived(token);

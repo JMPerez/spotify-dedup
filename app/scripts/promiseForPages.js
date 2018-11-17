@@ -57,11 +57,14 @@ export default async function promisesForPages(api, initialRequest) {
           func()
             .then(Array.prototype.concat.bind(result))
             .catch(e => {
-              console.error(e);
+              console.error('There was an error reducing promises', e);
             })
         )
         .catch(e => {
-          console.error(e);
+          console.error(
+            'There was an error reducing promises - general catch',
+            e
+          );
         }),
     Promise.resolve([])
   );
