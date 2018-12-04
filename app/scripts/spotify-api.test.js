@@ -108,9 +108,9 @@ describe('spotify api', () => {
       ]);
     } catch (e) {
       expect(e).toEqual({
-        body: '',
+        body: null,
         status: 400,
-        type: 'InvalidJSON',
+        type: 'ApplicationError',
       });
     }
   });
