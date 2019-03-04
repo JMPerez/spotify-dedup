@@ -8,7 +8,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "babel-runtime": "^6.26.0",
-    "clean-webpack-plugin": "^1.0.0",
+    "clean-webpack-plugin": "^2.0.0",
     "coveralls": "^3.0.2",
     "css-loader": "^2.0.0",
     "file-loader": "^3.0.0",
