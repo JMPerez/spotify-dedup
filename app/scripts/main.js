@@ -81,6 +81,9 @@ const init = function() {
             );
           }
         })(),
+      bmcButtonClicked: () => {
+        fbq && fbq('track', 'InitiateCheckout');
+      },
     },
     computed: {
       duplicates: function() {
@@ -115,12 +118,21 @@ const init = function() {
 
     onTokenReceived(token);
 
+    if (global.fbq) {
+      fbq('track', 'dedup-user-logged-in');
+    }
+
     function onPlaylistProcessed(playlist) {
       playlist.processed = true;
       var remaining = app.toProcess - 1;
       app.toProcess -= 1;
-      if (remaining === 0 && global.ga) {
-        ga('send', 'event', 'spotify-dedup', 'library-processed');
+      if (remaining === 0) {
+        if (global.ga) {
+          ga('send', 'event', 'spotify-dedup', 'library-processed');
+        }
+        if (global.fbq) {
+          fbq('track', 'dedup-library-processed');
+        }
       }
     }
 
