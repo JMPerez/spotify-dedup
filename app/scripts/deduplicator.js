@@ -146,9 +146,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
         })
         .catch(e => {
           console.error(
-            `There was an error fetching the tracks from playlist ${
-              initialRequest.href
-            }`,
+            `There was an error fetching the tracks from playlist ${initialRequest.href}`,
             e
           );
           reject(e);

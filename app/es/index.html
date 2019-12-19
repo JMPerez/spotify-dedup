@@ -230,12 +230,9 @@
                 >
                 <span v-if="savedTracks.duplicates.length">
                   <span
-                    >Esta colección tiene {{ savedTracks.duplicates.length }}
-                    {{
-                      savedTracks.duplicates.length > 1
-                        ? 'canciones duplicadas'
-                        : 'canción duplicada'
-                    }}</span
+                    >Esta colección tiene {{ savedTracks.duplicates.length }} {{
+                    savedTracks.duplicates.length > 1 ? 'canciones duplicadas' :
+                    'canción duplicada' }}</span
                   >
                   <button
                     class="btn btn-primary btn-sm playlist-list-item__btn"
@@ -274,20 +271,17 @@
                 />
               </div>
               <div class="bd">
-                <span class="playlists-list-item__name">{{
-                  playlist.playlist.name
-                }}</span>
+                <span class="playlists-list-item__name"
+                  >{{ playlist.playlist.name }}</span
+                >
                 <span v-if="playlist.status" class="label label-success">
                   {{ playlist.status }}</span
                 >
                 <span v-if="playlist.duplicates.length">
                   <span
-                    >Esta playlist tiene {{ playlist.duplicates.length }}
-                    {{
-                      playlist.duplicates.length > 1
-                        ? 'canciones duplicadas'
-                        : 'canción duplicada'
-                    }}</span
+                    >Esta playlist tiene {{ playlist.duplicates.length }} {{
+                    playlist.duplicates.length > 1 ? 'canciones duplicadas' :
+                    'canción duplicada' }}</span
                   >
                   <button
                     class="btn btn-primary btn-sm playlist-list-item__btn"
@@ -386,14 +380,29 @@
     -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
+      !(function(f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function() {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        'script',
+        'https://connect.facebook.net/en_US/fbevents.js'
+      );
       fbq('init', '828495194151239');
       fbq('track', 'PageView');
     </script>
