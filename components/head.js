@@ -49,7 +49,7 @@ export default () => {
             padding-bottom: 19px;
           }
           .text-muted {
-            color: #999;
+            color: #949494;
           }
           ul {
             float: right;

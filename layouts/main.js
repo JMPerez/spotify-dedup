@@ -5,7 +5,7 @@ export default ({ children }) => (
     {children}
     <style jsx global>{`
       :root {
-        --link-color: #428bca;
+        --link-color: #3977ad;
         --surface-color: #fff;
         --text-color: #333;
         --secondary-text-color: #65676b;

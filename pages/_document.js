@@ -59,6 +59,12 @@ class MyDocument extends Document {
         'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '828495194151239');
         fbq('track', 'PageView');
+
+        window.Raven &&
+        Raven.config(
+          'https://22cbac299caf4962b74de18bc87a8d74@sentry.io/1239123'
+        ).install();
+        
       }`,
             }}
           />

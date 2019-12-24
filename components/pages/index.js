@@ -38,7 +38,11 @@ const MetaHead = () => {
             key={language}
             rel="alternate"
             hrefLang={language}
-            href={`https://jmperezperez.com/spotify-dedup/${language}/`}
+            href={
+              language === 'en'
+                ? 'https://jmperezperez.com/spotify-dedup/'
+                : `https://jmperezperez.com/spotify-dedup/${language}/`
+            }
           ></link>
         )
       )}
