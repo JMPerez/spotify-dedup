@@ -5,8 +5,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.BUNDLE_ANALYZE !== undefined,
 });
 
-console.log('HOLA', process.env.BUNDLE_ANALYZE);
-
 module.exports = withBundleAnalyzer({
   assetPrefix: repoNameURIPrefix,
   env: {
