@@ -1,7 +1,13 @@
 const repoNameURIPrefix =
   process.env.NODE_ENV === 'production' ? '/spotify-dedup' : '';
 
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.BUNDLE_ANALYZE !== undefined,
+});
+
+console.log('HOLA', process.env.BUNDLE_ANALYZE);
+
+module.exports = withBundleAnalyzer({
   assetPrefix: repoNameURIPrefix,
   env: {
     linkPrefix: repoNameURIPrefix,
@@ -13,4 +19,4 @@ module.exports = {
     '/pt/index.html': { page: '/pt' },
     '/callback/index.html': { page: '/callback' },
   }),
-};
+});
