@@ -16,13 +16,13 @@ You can check it out on [https://jmperezperez.com/spotify-dedup/](https://jmpere
 
 Install the dependencies:
 
-    npm install
+    yarn install
 
 Run it:
 
-    npm start
+    yarn dev
 
-Then open http://localhost:8005/index.html in a browser
+Then open http://localhost:3000 in a browser
 
 ## Testing
 
