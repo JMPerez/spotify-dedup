@@ -12,6 +12,8 @@ class MyDocument extends Document {
   }
 
   render() {
+    const include3rdPartyScripts =
+      this.props.__NEXT_DATA__.page !== '/callback';
     return (
       <Html lang={i18n.language}>
         <Head />
@@ -29,9 +31,10 @@ class MyDocument extends Document {
       }`,
             }}
           />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          {include3rdPartyScripts && (
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
       if (location.host === 'jmperezperez.com') {
         (function(b, o, i, l, e, r) {
           b.GoogleAnalyticsObject = l;
@@ -66,13 +69,16 @@ class MyDocument extends Document {
         ).install();
         
       }`,
-            }}
-          />
-          <script
-            src="https://cdn.ravenjs.com/3.26.2/raven.min.js"
-            crossOrigin="anonymous"
-            defer
-          ></script>
+              }}
+            />
+          )}
+          {include3rdPartyScripts && (
+            <script
+              src="https://cdn.ravenjs.com/3.26.2/raven.min.js"
+              crossOrigin="anonymous"
+              defer
+            ></script>
+          )}
         </body>
       </Html>
     );
