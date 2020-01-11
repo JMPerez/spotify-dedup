@@ -1,4 +1,5 @@
 import { SpotifyTrackType, SpotifyPlaylistType } from './spotify-api';
+import { ReactElement } from 'react';
 
 export type PlaylistModel = {
   playlist: SpotifyPlaylistType;
@@ -7,6 +8,6 @@ export type PlaylistModel = {
     reason: string;
     track: SpotifyTrackType;
   }>;
-  status: string;
+  status: string | ReactElement;
   processed: boolean;
 };
