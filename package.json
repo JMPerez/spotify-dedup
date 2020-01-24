@@ -18,13 +18,13 @@
     "gh-pages": "^2.1.1",
     "i18next": "^19.0.1",
     "next": "9.1.7",
-    "next-i18next": "^3.0.1",
+    "next-i18next": "^4.0.0",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-i18next": "^11.2.5"
   },
   "devDependencies": {
-    "@types/node": "^12.12.17",
+    "@types/node": "^13.1.7",
     "@types/react": "^16.9.16",
     "husky": "^4.0.5",
     "typescript": "^3.7.3"
