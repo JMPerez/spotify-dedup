@@ -78,6 +78,13 @@ export default class Index extends React.Component {
       console.error('There was an error obtaining the token', error);
     });
 
+    if (global['ga']) {
+      global['ga']('send', 'event', 'spotify-dedup', 'user-logged-in');
+    }
+    if (global['fbq']) {
+      global['fbq']('track', 'dedup-user-logged-in');
+    }
+
     Index.api = new SpotifyWebApi();
     Index.api.setAccessToken(accessToken);
 
