@@ -18,6 +18,10 @@ export default () => {
           <a>Spanish</a>
         </PrefixedLink>
         ,{' '}
+        <PrefixedLink prefetch={false} href="/fr/">
+          <a>French</a>
+        </PrefixedLink>
+        ,{' '}
         <PrefixedLink prefetch={false} href="/pt/">
           <a>Portuguese</a>
         </PrefixedLink>

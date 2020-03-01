@@ -10,6 +10,7 @@ module.exports = {
     '/': { page: '/' },
     '/de/index.html': { page: '/de' },
     '/es/index.html': { page: '/es' },
+    '/fr/index.html': { page: '/fr' },
     '/pt/index.html': { page: '/pt' },
     '/callback/index.html': { page: '/callback' },
   }),
