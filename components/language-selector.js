@@ -25,6 +25,10 @@ export default () => {
         <PrefixedLink prefetch={false} href="/pt/">
           <a>Portuguese</a>
         </PrefixedLink>
+        ,{' '}
+        <PrefixedLink prefetch={false} href="/sv/">
+          <a>Swedish</a>
+        </PrefixedLink>
       </p>
       <style jsx>
         {`
