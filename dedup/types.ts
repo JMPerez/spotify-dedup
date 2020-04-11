@@ -8,6 +8,6 @@ export type PlaylistModel = {
     reason: string;
     track: SpotifyTrackType;
   }>;
-  status: string | ReactElement;
+  status: string;
   processed: boolean;
 };
