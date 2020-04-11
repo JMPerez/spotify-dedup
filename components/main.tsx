@@ -131,9 +131,7 @@ export default class Main extends React.Component<{
           );
           const playlistsCopy = [...this.state.playlists];
           playlistsCopy[index].duplicates = [];
-          playlistsCopy[index].status = Trans({
-            i18nKey: 'process.items.removed',
-          });
+          playlistsCopy[index].status = 'process.items.removed';
           this.setState({ ...this.state, playlists: [...playlistsCopy] });
           if (global['ga']) {
             global['ga'](
@@ -168,9 +166,7 @@ export default class Main extends React.Component<{
         ...this.state,
         savedTracks: {
           duplicates: [],
-          status: Trans({
-            i18nKey: 'process.items.removed',
-          }),
+          status: 'process.items.removed',
         },
       });
       if (global['ga']) {
@@ -255,7 +251,9 @@ export default class Main extends React.Component<{
                   <Translation>{t => t('process.saved.title')}</Translation>
                 </span>
                 {this.state.savedTracks.status && (
-                  <Badge>{this.state.savedTracks.status}</Badge>
+                  <Badge><Translation>
+                    {t => t(this.state.savedTracks.status)}
+                  </Translation></Badge>
                 )}
                 {this.state.savedTracks.duplicates.length != 0 && (
                   <span>
@@ -313,7 +311,10 @@ export default class Main extends React.Component<{
                   <span className="playlists-list-item__name">
                     {playlist.playlist.name}
                   </span>
-                  {playlist.status && <Badge>{playlist.status}</Badge>}
+                  {playlist.status && <Badge>
+                    <Translation>
+                      {t => t(playlist.status)}
+                    </Translation></Badge>}
                   {playlist.duplicates.length != 0 && (
                     <span>
                       <span>
