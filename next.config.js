@@ -12,6 +12,7 @@ module.exports = {
     '/es/index.html': { page: '/es' },
     '/fr/index.html': { page: '/fr' },
     '/pt/index.html': { page: '/pt' },
+    '/sv/index.html': { page: '/sv' },
     '/callback/index.html': { page: '/callback' },
   }),
 };
