@@ -13,6 +13,7 @@ module.exports = {
     '/fr/index.html': { page: '/fr' },
     '/pt/index.html': { page: '/pt' },
     '/sv/index.html': { page: '/sv' },
+    '/sv/index.html': { page: '/it' },
     '/callback/index.html': { page: '/callback' },
   }),
 };
