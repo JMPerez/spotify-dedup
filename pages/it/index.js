@@ -23,10 +23,11 @@ export default () => {
       'Dedup elimina solamente le {{- strongOpen}}tracce duplicate{{- strongClose}}, senza toccare il resto della playlist e delle canzoni salvate.',
     'features.open-source.header': 'Open source',
     'features.open-source.body':
-      'Puoi dare uno sguardo al {{- linkGithubOpen}}codice sorgente su GitHub{{- linkGithubClose}}. Questa applicazione utilizza le {{- linkWebApiOpen}}API Web di Spotify{{- linkWebApiClose}} per gestire le playlist e le canzoni salvate dell\'utente.',
+      "Puoi dare uno sguardo al {{- linkGithubOpen}}codice sorgente su GitHub{{- linkGithubClose}}. Questa applicazione utilizza le {{- linkWebApiOpen}}API Web di Spotify{{- linkWebApiClose}} per gestire le playlist e le canzoni salvate dell'utente.",
     'reviews.title': 'Questo è quello che ne pensano gli utenti',
     'footer.author': 'Fatto con ♥ da {{- linkOpen}}JMPerez 👨‍💻{{- linkClose}}',
-    'footer.github': 'Controlla il {{- linkOpen}}codice su GitHub 📃{{- linkClose}}',
+    'footer.github':
+      'Controlla il {{- linkOpen}}codice su GitHub 📃{{- linkClose}}',
     'footer.bmc':
       'Sostieni il progetto {{- linkOpen}}al costo di un caffè ☕{{- linkClose}}',
     'bmc.button': 'Mi offri un caffè?',
@@ -55,12 +56,14 @@ export default () => {
       'Questa collezione contiene {{count}} traccia doppia',
     'process.saved.duplicates_plural':
       'Questa collezione contiene {{count}} tracce doppie',
-    'process.saved.remove-button': 'Elimino le tracce doppie fra le canzoni preferite',
+    'process.saved.remove-button':
+      'Elimino le tracce doppie fra le canzoni preferite',
     'process.playlist.duplicates':
       'Questa playlist contiene {{count}} traccia doppia',
     'process.playlist.duplicates_plural':
       'Questa playlist contiene {{count}} tracce doppie',
-    'process.playlist.remove-button': 'Elimino le tracce doppie eda questa playlist',
+    'process.playlist.remove-button':
+      'Elimino le tracce doppie eda questa playlist',
     'process.items.removed': 'Tracce doppie eliminate',
   });
   i18n.changeLanguage('it');
@@ -69,3 +72,4 @@ export default () => {
       <Index />
     </Page>
   );
+};

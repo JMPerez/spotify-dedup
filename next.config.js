@@ -11,9 +11,9 @@ module.exports = {
     '/de/index.html': { page: '/de' },
     '/es/index.html': { page: '/es' },
     '/fr/index.html': { page: '/fr' },
+    '/it/index.html': { page: '/it' },
     '/pt/index.html': { page: '/pt' },
     '/sv/index.html': { page: '/sv' },
-    '/sv/index.html': { page: '/it' },
     '/callback/index.html': { page: '/callback' },
   }),
 };
