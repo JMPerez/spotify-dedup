@@ -14,17 +14,17 @@
     "analyze": "BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^9.1.6",
+    "@next/bundle-analyzer": "^9.3.6",
     "gh-pages": "^2.1.1",
-    "i18next": "^19.0.1",
+    "i18next": "^19.4.4",
     "next": "9.3.6",
-    "next-i18next": "^4.0.0",
+    "next-i18next": "^4.4.1",
     "react": "16.13.0",
     "react-dom": "16.13.0",
-    "react-i18next": "^11.2.5"
+    "react-i18next": "^11.4.0"
   },
   "devDependencies": {
-    "@types/node": "^13.1.7",
+    "@types/node": "^13.13.4",
     "@types/react": "^16.9.16",
     "husky": "^4.0.5",
     "typescript": "^3.7.3"
