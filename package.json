@@ -24,7 +24,7 @@
     "react-i18next": "^11.4.0"
   },
   "devDependencies": {
-    "@types/node": "^13.13.4",
+    "@types/node": "^14.0.0",
     "@types/react": "^16.9.16",
     "husky": "^4.0.5",
     "typescript": "^3.7.3"
