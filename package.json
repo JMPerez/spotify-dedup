@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^9.3.6",
-    "gh-pages": "^2.1.1",
+    "gh-pages": "^3.0.0",
     "i18next": "^19.4.4",
     "next": "9.4.1",
     "next-i18next": "^4.4.1",
