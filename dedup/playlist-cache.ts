@@ -1,9 +1,10 @@
 import { SpotifyPlaylistType } from './spotify-api';
+const SNAPSHOT_VERSION = 'v1';
 export default class PlaylistCache {
   needsCheckForDuplicates(playlist: SpotifyPlaylistType) {
     if ('snapshot_id' in playlist) {
       try {
-        if (localStorage.getItem(playlist.snapshot_id) === '0') {
+        if (localStorage.getItem(playlist.snapshot_id) === SNAPSHOT_VERSION) {
           return false;
         }
       } catch (e) {
@@ -16,7 +17,7 @@ export default class PlaylistCache {
   storePlaylistWithoutDuplicates(playlist: SpotifyPlaylistType) {
     if ('snapshot_id' in playlist) {
       try {
-        localStorage.setItem(playlist.snapshot_id, '0');
+        localStorage.setItem(playlist.snapshot_id, SNAPSHOT_VERSION);
       } catch (e) {}
     }
   }
