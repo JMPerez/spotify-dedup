@@ -13,25 +13,27 @@ class BaseDeduplicator {
 
   static findDuplicatedTracks(tracks: Array<SpotifyTrackType>) {
     const seenIds: { [key: string]: boolean } = {};
-    const seenNameAndArtist = {};
+    const seenNameAndArtist: { [key: string]: Array<number> } = {};
     const result = tracks.reduce((duplicates, track, index) => {
       if (track === null) return duplicates;
       if (track.id === null) return duplicates;
       let isDuplicate = false;
-      const seenNameAndArtistKey = `${track.name}:${track.artists[0].name}`;
+      const seenNameAndArtistKey = `${track.name}:${track.artists[0].name}`.toLowerCase();
       if (track.id in seenIds) {
         // if the two tracks have the same Spotify ID, they are duplicates
         isDuplicate = true;
       } else {
         // if they have the same name, main artist, and roughly same duration
         // we consider tem duplicates too
-        if (
-          seenNameAndArtistKey in seenNameAndArtist &&
-          Math.abs(
-            seenNameAndArtist[seenNameAndArtistKey] - track.duration_ms
-          ) < 2000
-        ) {
-          isDuplicate = true;
+        if (seenNameAndArtistKey in seenNameAndArtist) {
+          // we check if _any_ of the previous durations is similar to the one we are checking
+          if (
+            seenNameAndArtist[seenNameAndArtistKey].filter(
+              (duration) => Math.abs(duration - track.duration_ms) < 2000
+            ).length !== 0
+          ) {
+            isDuplicate = true;
+          }
         }
       }
       if (isDuplicate) {
@@ -42,7 +44,9 @@ class BaseDeduplicator {
         });
       } else {
         seenIds[track.id] = true;
-        seenNameAndArtist[seenNameAndArtistKey] = track.duration_ms;
+        seenNameAndArtist[seenNameAndArtistKey] =
+          seenNameAndArtist[seenNameAndArtistKey] || [];
+        seenNameAndArtist[seenNameAndArtistKey].push(track.duration_ms);
       }
       return duplicates;
     }, []);
@@ -68,9 +72,9 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
           // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
           Promise.all(pagePromises)
         )
-        .then(pages => {
-          pages.forEach(page => {
-            page.items.forEach(item => {
+        .then((pages) => {
+          pages.forEach((page) => {
+            page.items.forEach((item) => {
               tracks.push(item && item.track);
             });
           });
@@ -93,7 +97,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         );
       } else {
         const tracksToRemove = playlistModel.duplicates
-          .map(d => ({
+          .map((d) => ({
             uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
             positions: [d.index],
           }))
@@ -101,7 +105,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         const promises = [];
         do {
           const chunk = tracksToRemove.splice(0, 100);
-          (function(playlistModel, chunk, api) {
+          (function (playlistModel, chunk, api) {
             promises.push(() =>
               api.removeTracksFromPlaylist(
                 playlistModel.playlist.owner.id,
@@ -121,7 +125,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
             playlistModel.duplicates = [];
             resolve();
           })
-          .catch(e => {
+          .catch((e) => {
             reject(e);
           });
       }
@@ -144,15 +148,15 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
           // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
           Promise.all(pagePromises)
         )
-        .then(pages => {
-          pages.forEach(page => {
-            page.items.forEach(item => {
+        .then((pages) => {
+          pages.forEach((page) => {
+            page.items.forEach((item) => {
               tracks.push(item.track);
             });
           });
           resolve(tracks);
         })
-        .catch(e => {
+        .catch((e) => {
           console.error(
             `There was an error fetching the tracks from playlist ${initialRequest.href}`,
             e
@@ -173,7 +177,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
     }
   ) {
     return new Promise((resolve, reject) => {
-      const tracksToRemove: Array<string> = model.duplicates.map(d =>
+      const tracksToRemove: Array<string> = model.duplicates.map((d) =>
         d.track.linked_from ? d.track.linked_from.id : d.track.id
       );
       do {
