@@ -1,5 +1,5 @@
 import promisesForPages from './promiseForPages';
-import { SpotifyTrackType, SpotifyPlaylistType } from './spotify-api';
+import SpotifyWebApi, { SpotifyTrackType, SpotifyPlaylistType, SpotifyPlaylistTrackType, SpotifySavedTrackType } from './spotify-api';
 import { PlaylistModel } from './types';
 
 class BaseDeduplicator {
@@ -56,7 +56,7 @@ class BaseDeduplicator {
 
 export class PlaylistDeduplicator extends BaseDeduplicator {
   static async getTracks(
-    api,
+    api: SpotifyWebApi,
     playlist: SpotifyPlaylistType
   ): Promise<Array<SpotifyTrackType>> {
     return new Promise((resolve, reject) => {
@@ -74,7 +74,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         )
         .then((pages) => {
           pages.forEach((page) => {
-            page.items.forEach((item) => {
+            page.items.forEach((item: SpotifyPlaylistTrackType) => {
               tracks.push(item && item.track);
             });
           });
@@ -84,7 +84,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
     });
   }
 
-  static async removeDuplicates(api, playlistModel: PlaylistModel) {
+  static async removeDuplicates(api: SpotifyWebApi, playlistModel: PlaylistModel) {
     return new Promise((resolve, reject) => {
       if (playlistModel.playlist.id === 'starred') {
         reject(
@@ -135,7 +135,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
 
 export class SavedTracksDeduplicator extends BaseDeduplicator {
   static async getTracks(
-    api,
+    api: SpotifyWebApi,
     initialRequest
   ): Promise<Array<SpotifyTrackType>> {
     return new Promise((resolve, reject) => {
@@ -150,7 +150,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
         )
         .then((pages) => {
           pages.forEach((page) => {
-            page.items.forEach((item) => {
+            page.items.forEach((item: SpotifySavedTrackType) => {
               tracks.push(item.track);
             });
           });
@@ -167,7 +167,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
   }
 
   static async removeDuplicates(
-    api,
+    api: SpotifyWebApi,
     model: {
       duplicates: Array<{
         index: number;
