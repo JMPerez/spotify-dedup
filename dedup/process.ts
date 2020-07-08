@@ -2,7 +2,7 @@ import { fetchUserOwnedPlaylists } from './library';
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
 import PlaylistCache from './playlist-cache';
 import { PlaylistModel } from './types';
-import { SpotifyUserType, SpotifyPlaylistType } from './spotify-api';
+import SpotifyWebApi, { SpotifyUserType, SpotifyPlaylistType, SpotifyTrackType } from './spotify-api';
 
 const playlistCache = new PlaylistCache();
 
@@ -31,7 +31,7 @@ export default class {
     callbacks.forEach(callback => callback(params));
   }
 
-  process = async (api, user: SpotifyUserType) => {
+  process = async (api: SpotifyWebApi, user: SpotifyUserType) => {
     const currentState: {
       playlists?: Array<PlaylistModel>;
       savedTracks?: {
@@ -101,9 +101,8 @@ export default class {
 
       for (const playlistModel of currentState.playlists) {
         if (playlistCache.needsCheckForDuplicates(playlistModel.playlist)) {
-          let playlistTracks;
           try {
-            playlistTracks = await PlaylistDeduplicator.getTracks(
+            const playlistTracks = await PlaylistDeduplicator.getTracks(
               api,
               playlistModel.playlist
             );

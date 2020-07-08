@@ -1,3 +1,5 @@
+import SpotifyWebApi from "./spotify-api";
+
 function stripParameters(href: string) {
   return href.indexOf('?') !== -1 ? href.substr(0, href.indexOf('?')) : href;
 }
@@ -9,12 +11,12 @@ async function fetchGeneric(api, href: string, offset: number, limit: number) {
 }
 
 async function fetchPageWithDefaults(
-  api,
+  api: SpotifyWebApi,
   href: string,
   offset: number,
   limit: number
 ) {
-  let result;
+  let result: { items: Array<any> };
   try {
     result = await fetchGeneric(api, href, offset, limit);
   } catch (e) {
@@ -29,7 +31,7 @@ async function fetchPageWithDefaults(
 }
 
 export default async function promisesForPages(
-  api,
+  api: SpotifyWebApi,
   initialRequest
 ): Promise<Array<any>> {
   const results = await initialRequest;
