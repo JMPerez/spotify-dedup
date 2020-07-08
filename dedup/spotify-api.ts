@@ -25,8 +25,24 @@ export type SpotifyPlaylistType = {
   };
 };
 
+export type SpotifyPlaylistTrackType = {
+  added_at: string;
+  added_by: SpotifyUserType;
+  is_local: boolean;
+  track: SpotifyTrackType | null;
+}
+
+export type SpotifySavedTrackType = {
+  added_at: string;
+  track: SpotifyTrackType | null;
+}
+
 export type SpotifyUserType = {
+  display_name?: string;
+  href: string;
   id: string;
+  type: 'user';
+  uri: string;
 };
 
 const apiPrefix = 'https://api.spotify.com/v1';
@@ -89,8 +105,8 @@ export default class SpotifyWebApi {
       Object.keys(options).length === 0
         ? ''
         : `?${Object.keys(options)
-            .map(k => `${k}=${options[k]}`)
-            .join('&')}`;
+          .map(k => `${k}=${options[k]}`)
+          .join('&')}`;
 
     try {
       const res = await fetch({
@@ -109,7 +125,7 @@ export default class SpotifyWebApi {
     }
   }
 
-  async getUserPlaylists(userId: string, options?: { lmit?: number }) {
+  async getUserPlaylists(userId: string, options?: { limit?: number }) {
     const url =
       typeof userId === 'string'
         ? `${apiPrefix}/users/${encodeURIComponent(userId)}/playlists`
@@ -120,7 +136,7 @@ export default class SpotifyWebApi {
   async removeTracksFromPlaylist(
     userId: string,
     playlistId: string,
-    uris: Array<string>
+    uris: Array<string | { uri: string; positions: number[] }>
   ) {
     const dataToBeSent = {
       tracks: uris.map(uri => (typeof uri === 'string' ? { uri: uri } : uri)),
