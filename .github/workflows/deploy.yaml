@@ -17,10 +17,17 @@ jobs:
           node-version: '12.x'
       - name: Install dependencies
         run: yarn --frozen-lockfile
-      - name: Deploy
-        run: SPOTIFY_USERNAME=${SPOTIFY_USERNAME} SPOTIFY_PASSWORD=${SPOTIFY_PASSWORD} SPOTIFY_APP_ID=${SPOTIFY_APP_ID} yarn deploy
+      - name: Generate output
+        run: SPOTIFY_USERNAME=${SPOTIFY_USERNAME} SPOTIFY_PASSWORD=${SPOTIFY_PASSWORD} SPOTIFY_APP_ID=${SPOTIFY_APP_ID} yarn run build && yarn run export
         env:
-          CI: true
           SPOTIFY_USERNAME: ${{ secrets.SPOTIFY_USERNAME }}
           SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
           SPOTIFY_APP_ID: ${{ secrets.SPOTIFY_APP_ID }}
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: out
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
