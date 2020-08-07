@@ -61,61 +61,68 @@ export default function Stats({ data }) {
       </Head>
       <div className="container">
         <Header />
-        <div>
-          <h1>Stats about Spotify Dedup</h1>
-          <p>
-            Data reported by Spotify. Fetched using{' '}
-            <a href="https://github.com/JMPerez/spotify-app-stats">
-              spotify-app-stats
-            </a>
-            .
-          </p>
-          <h2>Monthly Active Users (MAU)</h2>
-          <p>
-            The most recent value for MAU is{' '}
-            <strong>{Intl.NumberFormat('en-US').format(mau)}</strong> users
-          </p>
-          <MyChart
-            data={data.mau.map((a) => ({
-              name: a.date,
-              value: a.number_of_maus,
-            }))}
-          />
-          <h2>Daily Active Users (DAU)</h2>
-          <p>
-            The most recent value for DAU is{' '}
-            <strong>{Intl.NumberFormat('en-US').format(dau)}</strong> users
-          </p>
-          <MyChart
-            data={data.dau.map((a) => ({
-              name: a.date,
-              value: a.number_of_daus,
-            }))}
-          />
-          <h2>Number of Requests</h2>
-          <MyChart
-            data={data.total_requests.map((a) => ({
-              name: a.date,
-              value: a.number_of_requests,
-            }))}
-          />
-        </div>
+        {data === null ? null : (
+          <div>
+            <h1>Stats about Spotify Dedup</h1>
+            <p>
+              Data reported by Spotify. Fetched using{' '}
+              <a href="https://github.com/JMPerez/spotify-app-stats">
+                spotify-app-stats
+              </a>
+              .
+            </p>
+            <h2>Monthly Active Users (MAU)</h2>
+            <p>
+              The most recent value for MAU is{' '}
+              <strong>{Intl.NumberFormat('en-US').format(mau)}</strong> users
+            </p>
+            <MyChart
+              data={data.mau.map((a) => ({
+                name: a.date,
+                value: a.number_of_maus,
+              }))}
+            />
+            <h2>Daily Active Users (DAU)</h2>
+            <p>
+              The most recent value for DAU is{' '}
+              <strong>{Intl.NumberFormat('en-US').format(dau)}</strong> users
+            </p>
+            <MyChart
+              data={data.dau.map((a) => ({
+                name: a.date,
+                value: a.number_of_daus,
+              }))}
+            />
+            <h2>Number of Requests</h2>
+            <MyChart
+              data={data.total_requests.map((a) => ({
+                name: a.date,
+                value: a.number_of_requests,
+              }))}
+            />
+          </div>
+        )}
       </div>
     </Page>
   );
 }
 
 export async function getStaticProps() {
-  console.log(process.env.SPOTIFY_USERNAME);
-  const spotifyAppStats = new SpotifyAppStats();
-  await spotifyAppStats.init();
-  await spotifyAppStats.login(
-    process.env.SPOTIFY_USERNAME,
-    process.env.SPOTIFY_PASSWORD
-  );
-  const data = await spotifyAppStats.getStats(process.env.SPOTIFY_APP_ID);
-  spotifyAppStats.destroy();
-
+  let data = null;
+  if (
+    process.env.SPOTIFY_USERNAME &&
+    process.env.SPOTIFY_PASSWORD &&
+    process.env.SPOTIFY_APP_ID
+  ) {
+    const spotifyAppStats = new SpotifyAppStats();
+    await spotifyAppStats.init();
+    await spotifyAppStats.login(
+      process.env.SPOTIFY_USERNAME,
+      process.env.SPOTIFY_PASSWORD
+    );
+    data = await spotifyAppStats.getStats(process.env.SPOTIFY_APP_ID);
+    spotifyAppStats.destroy();
+  }
   return {
     props: {
       data,
