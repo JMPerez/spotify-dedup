@@ -33,12 +33,16 @@ function MyChart({ data }) {
 
 export default function Stats({ data }) {
   const mau =
-    data.mau[data.mau.length - 1].number_of_maus ??
-    data.mau[data.mau.length - 2].number_of_maus;
+    data === null
+      ? 0
+      : data.mau[data.mau.length - 1].number_of_maus ??
+        data.mau[data.mau.length - 2].number_of_maus;
 
   const dau =
-    data.dau[data.dau.length - 1].number_of_daus ??
-    data.dau[data.dau.length - 2].number_of_daus;
+    data === null
+      ? 0
+      : data.dau[data.dau.length - 1].number_of_daus ??
+        data.dau[data.dau.length - 2].number_of_daus;
   return (
     <Page>
       <Head>
