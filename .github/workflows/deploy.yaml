@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - name: Deploy
-        run: $SPOTIFY_USERNAME yarn deploy
+        run: SPOTIFY_USERNAME=${SPOTIFY_USERNAME} yarn deploy
         env:
           CI: true
           SPOTIFY_USERNAME: ${{ secrets.SPOTIFY_USERNAME }}
