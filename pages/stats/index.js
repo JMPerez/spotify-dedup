@@ -113,7 +113,6 @@ export default function Stats({ data }) {
 
 export async function getStaticProps() {
   let data = null;
-  console.log('SPOTIFY_USERNAME', process.env.SPOTIFY_USERNAME);
   if (
     process.env.SPOTIFY_USERNAME &&
     process.env.SPOTIFY_PASSWORD &&
