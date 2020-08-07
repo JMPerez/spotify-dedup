@@ -9,6 +9,9 @@ export default () => {
         <li>
           <a href="/spotify-dedup/">{t('menu.link-home')}</a>
         </li>
+        <li>
+          <a href="/spotify-dedup/stats">Stats</a>
+        </li>
       </ul>
       <h3 className="text-muted">Spotify dedup</h3>
       <style jsx>

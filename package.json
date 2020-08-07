@@ -21,7 +21,9 @@
     "next-i18next": "^4.4.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-i18next": "^11.4.0"
+    "react-i18next": "^11.4.0",
+    "spotify-app-stats": "^0.0.1",
+    "victory": "^35.0.8"
   },
   "devDependencies": {
     "@types/node": "^14.0.20",
