@@ -2,24 +2,26 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - name: Install dependencies
-      run: yarn --frozen-lockfile
-    - name: Build
-      run: yarn build
-      env:
-        CI: true
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: $SPOTIFY_USERNAME yarn build
+        env:
+          CI: true
+          SPOTIFY_USERNAME: ${{ secrets.SPOTIFY_USERNAME }}
+          SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
+          SPOTIFY_APP_ID: ${{ secrets.SPOTIFY_APP_ID }}
