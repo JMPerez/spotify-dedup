@@ -63,20 +63,17 @@ class MyDocument extends Document {
         fbq('init', '828495194151239');
         fbq('track', 'PageView');
 
-        window.Raven &&
-        Raven.config(
-          'https://22cbac299caf4962b74de18bc87a8d74@sentry.io/1239123'
-        ).install();
-        
+        window.Sentry &&
+        Sentry.init({ dsn: 'https://22cbac299caf4962b74de18bc87a8d74@o166353.ingest.sentry.io/1239123' });
       }`,
               }}
             />
           )}
           {include3rdPartyScripts && (
             <script
-              src="https://cdn.ravenjs.com/3.26.2/raven.min.js"
-              crossOrigin="anonymous"
-              defer
+              src="https://browser.sentry-cdn.com/5.20.1/bundle.min.js"
+              integrity="sha384-O8HdAJg1h8RARFowXd2J/r5fIWuinSBtjhwQoPesfVILeXzGpJxvyY/77OaPPXUo"
+              crossorigin="anonymous"
             ></script>
           )}
         </body>
