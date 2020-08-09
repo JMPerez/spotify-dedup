@@ -31,18 +31,29 @@ function MyChart({ data }) {
   );
 }
 
-export default function Stats({ data }) {
-  const mau =
-    data === null
-      ? 0
-      : data.mau[data.mau.length - 1].number_of_maus ??
-        data.mau[data.mau.length - 2].number_of_maus;
+const trimRightZeros = (array, fn) => {
+  if (array === null) return array;
+  let index = array.length - 1;
+  let skipped = 0;
+  while (index >= 0) {
+    if (fn(array[index]) !== 0) {
+      if (skipped === 0) return array;
+      return array.slice(0, -skipped);
+    }
+    skipped++;
+    index--;
+  }
+  return [];
+};
 
-  const dau =
-    data === null
-      ? 0
-      : data.dau[data.dau.length - 1].number_of_daus ??
-        data.dau[data.dau.length - 2].number_of_daus;
+export default function Stats({ data }) {
+  const maus = trimRightZeros(data.mau, (item) => item.number_of_maus);
+  const daus = trimRightZeros(data.dau, (item) => item.number_of_daus);
+  const total_requests = trimRightZeros(
+    data.total_requests,
+    (item) => item.number_of_requests
+  );
+
   return (
     <Page>
       <Head>
@@ -78,10 +89,15 @@ export default function Stats({ data }) {
             <h2>Monthly Active Users (MAU)</h2>
             <p>
               The most recent value for MAU is{' '}
-              <strong>{Intl.NumberFormat('en-US').format(mau)}</strong> users
+              <strong>
+                {Intl.NumberFormat('en-US').format(
+                  maus[maus.length - 1].number_of_maus
+                )}
+              </strong>{' '}
+              users
             </p>
             <MyChart
-              data={data.mau.map((a) => ({
+              data={maus.map((a) => ({
                 name: a.date,
                 value: a.number_of_maus,
               }))}
@@ -89,17 +105,22 @@ export default function Stats({ data }) {
             <h2>Daily Active Users (DAU)</h2>
             <p>
               The most recent value for DAU is{' '}
-              <strong>{Intl.NumberFormat('en-US').format(dau)}</strong> users
+              <strong>
+                {Intl.NumberFormat('en-US').format(
+                  daus[daus.length - 1].number_of_daus
+                )}
+              </strong>{' '}
+              users
             </p>
             <MyChart
-              data={data.dau.map((a) => ({
+              data={daus.map((a) => ({
                 name: a.date,
                 value: a.number_of_daus,
               }))}
             />
             <h2>Number of Requests</h2>
             <MyChart
-              data={data.total_requests.map((a) => ({
+              data={total_requests.map((a) => ({
                 name: a.date,
                 value: a.number_of_requests,
               }))}
