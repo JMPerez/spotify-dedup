@@ -32,8 +32,8 @@ const MetaHead = () => {
       <meta name="twitter:description" content={t('meta.description')} />
       <meta name="viewport" content="width=device-width" />
       <link rel="canonical" href="https://jmperezperez.com/spotify-dedup/" />
-      {AvailableLanguages.filter(language => language !== i18n.language).map(
-        language => (
+      {AvailableLanguages.filter((language) => language !== i18n.language).map(
+        (language) => (
           <link
             key={language}
             rel="alternate"
@@ -74,7 +74,7 @@ export default class Index extends React.Component {
         'user-library-read',
         'user-library-modify',
       ],
-    }).catch(function(error) {
+    }).catch(function (error) {
       console.error('There was an error obtaining the token', error);
     });
 
@@ -82,7 +82,7 @@ export default class Index extends React.Component {
       global['ga']('send', 'event', 'spotify-dedup', 'user-logged-in');
     }
     if (global['fbq']) {
-      global['fbq']('track', 'dedup-user-logged-in');
+      global['fbq']('trackCustom', 'dedup-user-logged-in');
     }
 
     Index.api = new SpotifyWebApi();

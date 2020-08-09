@@ -2,7 +2,11 @@ import { fetchUserOwnedPlaylists } from './library';
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
 import PlaylistCache from './playlist-cache';
 import { PlaylistModel } from './types';
-import SpotifyWebApi, { SpotifyUserType, SpotifyPlaylistType, SpotifyTrackType } from './spotify-api';
+import SpotifyWebApi, {
+  SpotifyUserType,
+  SpotifyPlaylistType,
+  SpotifyTrackType,
+} from './spotify-api';
 
 const playlistCache = new PlaylistCache();
 
@@ -28,7 +32,7 @@ export default class {
 
   dispatch(event: string, params) {
     const callbacks = this.listeners[event];
-    callbacks.forEach(callback => callback(params));
+    callbacks.forEach((callback) => callback(params));
   }
 
   process = async (api: SpotifyWebApi, user: SpotifyUserType) => {
@@ -50,7 +54,7 @@ export default class {
           global['ga']('send', 'event', 'spotify-dedup', 'library-processed');
         }
         if (global['fbq']) {
-          global['fbq']('track', 'dedup-library-processed');
+          global['fbq']('trackCustom', 'dedup-library-processed');
         }
       }
       dispatch('updateState', currentState);
@@ -60,7 +64,7 @@ export default class {
     const ownedPlaylists: Array<SpotifyPlaylistType> = await fetchUserOwnedPlaylists(
       api,
       user.id
-    ).catch(e => {
+    ).catch((e) => {
       if (global['ga']) {
         global['ga'](
           'send',
@@ -74,7 +78,7 @@ export default class {
 
     if (ownedPlaylists) {
       playlistsToCheck = ownedPlaylists;
-      currentState.playlists = playlistsToCheck.map(p =>
+      currentState.playlists = playlistsToCheck.map((p) =>
         playlistToPlaylistModel(p)
       );
       currentState.toProcess =
