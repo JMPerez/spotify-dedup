@@ -1,7 +1,9 @@
+const withSourceMaps = require('@zeit/next-source-maps');
+
 const repoNameURIPrefix =
   process.env.NODE_ENV === 'production' ? '/spotify-dedup' : '';
 
-module.exports = {
+const config = {
   assetPrefix: repoNameURIPrefix,
   env: {
     linkPrefix: repoNameURIPrefix,
@@ -17,4 +19,9 @@ module.exports = {
     '/sv/index.html': { page: '/sv' },
     '/callback/index.html': { page: '/callback' },
   }),
+  webpack(config, options) {
+    return config;
+  },
 };
+
+module.exports = withSourceMaps(config);
