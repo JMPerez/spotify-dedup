@@ -33,6 +33,13 @@ class MyDocument extends Document {
           />
           {include3rdPartyScripts && (
             <script
+              src="https://browser.sentry-cdn.com/5.20.1/bundle.min.js"
+              integrity="sha384-O8HdAJg1h8RARFowXd2J/r5fIWuinSBtjhwQoPesfVILeXzGpJxvyY/77OaPPXUo"
+              crossorigin="anonymous"
+            ></script>
+          )}
+          {include3rdPartyScripts && (
+            <script
               dangerouslySetInnerHTML={{
                 __html: `
       if (location.host === 'jmperezperez.com') {
@@ -68,13 +75,6 @@ class MyDocument extends Document {
       }`,
               }}
             />
-          )}
-          {include3rdPartyScripts && (
-            <script
-              src="https://browser.sentry-cdn.com/5.20.1/bundle.min.js"
-              integrity="sha384-O8HdAJg1h8RARFowXd2J/r5fIWuinSBtjhwQoPesfVILeXzGpJxvyY/77OaPPXUo"
-              crossorigin="anonymous"
-            ></script>
           )}
         </body>
       </Html>
