@@ -98,9 +98,19 @@ export default class Main extends React.Component<{
       duplicates: [],
     },
   };
+
+  componentWillUnmount() {
+    console.log('Main > componentWillUnmount');
+  }
+
+  componentDidCatch(error, info) {
+    console.log('Main > componentDidCatch', error, info);
+  }
+
   componentDidMount() {
     const process = new Process();
-    process.on('updateState', state => {
+    process.on('updateState', (state) => {
+      console.log('Main > componentDidMount > updating state', state);
       this.setState(state);
     });
     process.process(this.props.api, this.props.user);
@@ -109,7 +119,7 @@ export default class Main extends React.Component<{
   removeDuplicates = (playlist: PlaylistModel) => {
     (async () => {
       const index = this.state.playlists.findIndex(
-        p => p.playlist.id === playlist.playlist.id
+        (p) => p.playlist.id === playlist.playlist.id
       );
       const playlistModel = this.state.playlists[index];
       if (playlistModel.playlist.id === 'starred') {
@@ -132,6 +142,7 @@ export default class Main extends React.Component<{
           const playlistsCopy = [...this.state.playlists];
           playlistsCopy[index].duplicates = [];
           playlistsCopy[index].status = 'process.items.removed';
+          console.log('Main > removeDuplicates > updating state');
           this.setState({ ...this.state, playlists: [...playlistsCopy] });
           if (global['ga']) {
             global['ga'](
@@ -162,6 +173,7 @@ export default class Main extends React.Component<{
         this.props.api,
         this.state.savedTracks
       );
+      console.log('Main > removeDuplicatesInSavedTracks > updating state');
       this.setState({
         ...this.state,
         savedTracks: {
@@ -193,20 +205,20 @@ export default class Main extends React.Component<{
         <Status toProcess={this.state.toProcess} />
         <Panel>
           {this.state.toProcess === null && (
-            <Translation>{t => t('process.reading-library')}</Translation>
+            <Translation>{(t) => t('process.reading-library')}</Translation>
           )}
           {this.state.toProcess > 0 && (
             <Translation>
-              {t => t('process.processing', { count: this.state.toProcess })}
+              {(t) => t('process.processing', { count: this.state.toProcess })}
             </Translation>
           )}
           {this.state.toProcess === 0 && totalDuplicates > 0 && (
             <span>
               <Translation>
-                {t => t('process.status.complete.body')}
+                {(t) => t('process.status.complete.body')}
               </Translation>{' '}
               <Translation>
-                {t => (
+                {(t) => (
                   <span
                     dangerouslySetInnerHTML={{
                       __html: t('process.status.complete.dups.body', {
@@ -223,11 +235,11 @@ export default class Main extends React.Component<{
           {this.state.toProcess === 0 && totalDuplicates === 0 && (
             <span>
               <Translation>
-                {t => t('process.status.complete.body')}
+                {(t) => t('process.status.complete.body')}
               </Translation>
               <br />
               <Translation>
-                {t => t('process.status.complete.nodups.body')}
+                {(t) => t('process.status.complete.nodups.body')}
               </Translation>
               <BuyMeACoffee />
             </span>
@@ -248,18 +260,20 @@ export default class Main extends React.Component<{
               </div>
               <div className="bd">
                 <span className="playlists-list-item__name">
-                  <Translation>{t => t('process.saved.title')}</Translation>
+                  <Translation>{(t) => t('process.saved.title')}</Translation>
                 </span>
                 {this.state.savedTracks.status && (
-                  <Badge><Translation>
-                    {t => t(this.state.savedTracks.status)}
-                  </Translation></Badge>
+                  <Badge>
+                    <Translation>
+                      {(t) => t(this.state.savedTracks.status)}
+                    </Translation>
+                  </Badge>
                 )}
                 {this.state.savedTracks.duplicates.length != 0 && (
                   <span>
                     <span>
                       <Translation>
-                        {t =>
+                        {(t) =>
                           t('process.saved.duplicates', {
                             count: this.state.savedTracks.duplicates.length,
                           })
@@ -271,7 +285,7 @@ export default class Main extends React.Component<{
                       onClick={() => this.removeDuplicatesInSavedTracks()}
                     >
                       <Translation>
-                        {t => t('process.saved.remove-button')}
+                        {(t) => t('process.saved.remove-button')}
                       </Translation>
                     </button>
                     <DuplicateTrackList>
@@ -292,7 +306,7 @@ export default class Main extends React.Component<{
             </li>
           )}
           {this.state.playlists
-            .filter(p => p.duplicates.length || p.status != '')
+            .filter((p) => p.duplicates.length || p.status != '')
             .map((playlist: PlaylistModel, index) => (
               <li className="playlists-list-item media" key={index}>
                 <div className="img">
@@ -311,15 +325,16 @@ export default class Main extends React.Component<{
                   <span className="playlists-list-item__name">
                     {playlist.playlist.name}
                   </span>
-                  {playlist.status && <Badge>
-                    <Translation>
-                      {t => t(playlist.status)}
-                    </Translation></Badge>}
+                  {playlist.status && (
+                    <Badge>
+                      <Translation>{(t) => t(playlist.status)}</Translation>
+                    </Badge>
+                  )}
                   {playlist.duplicates.length != 0 && (
                     <span>
                       <span>
                         <Translation>
-                          {t =>
+                          {(t) =>
                             t('process.playlist.duplicates', {
                               count: playlist.duplicates.length,
                             })
@@ -331,7 +346,7 @@ export default class Main extends React.Component<{
                         onClick={() => this.removeDuplicates(playlist)}
                       >
                         <Translation>
-                          {t => t('process.playlist.remove-button')}
+                          {(t) => t('process.playlist.remove-button')}
                         </Translation>
                       </button>
                       <DuplicateTrackList>
