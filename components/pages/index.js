@@ -31,7 +31,12 @@ const MetaHead = () => {
       <meta name="og:description" content={t('meta.description')} />
       <meta name="twitter:description" content={t('meta.description')} />
       <meta name="viewport" content="width=device-width" />
-      <link rel="canonical" href="https://jmperezperez.com/spotify-dedup/" />
+      <link
+        rel="canonical"
+        href={`https://jmperezperez.com/spotify-dedup/${
+          i18n.language === 'en' ? '' : i18n.language + '/'
+        }`}
+      />
       {AvailableLanguages.filter((language) => language !== i18n.language).map(
         (language) => (
           <link
@@ -89,11 +94,15 @@ export default class Index extends React.Component {
     Index.api.setAccessToken(accessToken);
 
     const user = await Index.api.getMe();
-
+    console.log('Index > handleLoginClick > updating state');
     this.setState({ isLoggedIn: true, user });
   };
 
   render() {
+    console.log(
+      'index > render',
+      this.state.isLoggedIn ? 'loggedin' : 'not-loggedin'
+    );
     return (
       <div className="container">
         <MetaHead />

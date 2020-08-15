@@ -10,7 +10,7 @@ export default () => {
     'home.title': 'Déduplicateur Spotify',
     'home.description':
       'Supprimez les chansons en double de vos listes de lecture et chansons enregistrées.',
-    'home.login-button': 'Connectez-vous avec Spotify',
+    'home.login-button': 'Se connecter avec Spotify',
     'meta.title':
       'Spotify Dedup - Supprimer automatiquement les chansons en double de votre bibliothèque Spotify',
     'meta.description':
