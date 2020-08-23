@@ -1,4 +1,4 @@
-import { SpotifyPlaylistType } from './spotify-api';
+import { SpotifyPlaylistType } from './spotifyApi';
 const SNAPSHOT_VERSION = 'v1';
 export default class PlaylistCache {
   needsCheckForDuplicates(playlist: SpotifyPlaylistType) {

@@ -24,7 +24,7 @@ class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: `
       if (
-        window.location.host === 'jmperezperez.com' &&
+        window.location.host === 'spotify-dedup.com' &&
         window.location.protocol != 'https:'
       ) {
         window.location.protocol = 'https';
@@ -42,7 +42,7 @@ class MyDocument extends Document {
             <script
               dangerouslySetInnerHTML={{
                 __html: `
-      if (location.host === 'jmperezperez.com') {
+      if (location.host === 'spotify-dedup.com') {
         (function(b, o, i, l, e, r) {
           b.GoogleAnalyticsObject = l;
           b[l] ||
@@ -56,7 +56,7 @@ class MyDocument extends Document {
           e.defer = true;
           r.parentNode.insertBefore(e, r);
         })(window, document, 'script', 'ga');
-        ga('create', 'UA-39254352-1');
+        ga('create', 'UA-39254352-6');
         ga('send', 'pageview');
 
         !function(f,b,e,v,n,t,s)

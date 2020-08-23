@@ -6,9 +6,9 @@ export default (props: { children: React.ReactNode }) => (
     <style jsx>
       {`
         .panel {
-          margin-bottom: 20px;
           border: 1px solid var(--accent-color);
           border-radius: 4px;
+          margin-bottom: 20px;
         }
 
         .panel-body {

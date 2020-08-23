@@ -1,12 +1,12 @@
 import { fetchUserOwnedPlaylists } from './library';
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
-import PlaylistCache from './playlist-cache';
+import PlaylistCache from './playlistCache';
 import { PlaylistModel } from './types';
 import SpotifyWebApi, {
   SpotifyUserType,
   SpotifyPlaylistType,
   SpotifyTrackType,
-} from './spotify-api';
+} from './spotifyApi';
 
 const playlistCache = new PlaylistCache();
 

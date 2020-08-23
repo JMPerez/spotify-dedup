@@ -1,4 +1,4 @@
-import OAuthSendBack from '../../dedup/oauth-send-back';
+import OAuthSendBack from '../../dedup/oauthSendBack';
 
 export default function Callback() {
   OAuthSendBack();

@@ -1,10 +1,31 @@
-import SpotifyWebApi from "./spotify-api";
+/**
+ * Promise for pages is an util function to concat all the
+ * results for requests that require pagination from Spotify's Web API
+ *
+ */
+
+import SpotifyWebApi from './spotifyApi';
+
+type PaginableResultType = {
+  items: Array<any>;
+  href: string;
+  limit: number;
+  next: string;
+  offset: number;
+  previous: string;
+  total: number;
+};
 
 function stripParameters(href: string) {
   return href.indexOf('?') !== -1 ? href.substr(0, href.indexOf('?')) : href;
 }
 
-async function fetchGeneric(api, href: string, offset: number, limit: number) {
+async function fetchGeneric(
+  api: SpotifyWebApi,
+  href: string,
+  offset: number,
+  limit: number
+) {
   return api.getGeneric(
     `${stripParameters(href)}?offset=${offset}&limit=${limit}`
   );
@@ -16,16 +37,31 @@ async function fetchPageWithDefaults(
   offset: number,
   limit: number
 ) {
-  let result: { items: Array<any> };
+  let result: PaginableResultType = null;
+
   try {
-    result = await fetchGeneric(api, href, offset, limit);
+    result = (await fetchGeneric(
+      api,
+      href,
+      offset,
+      limit
+    )) as PaginableResultType;
   } catch (e) {
+    // Fetching this page of results failed. We fill the chunk with null elements as a fallback.
     // todo: report this in the UI somehow
-    /* console.error(
-        `Error making request to fetch tracks from ${href} with offset ${offset} and limit ${limit}`,
-        e
-      );*/
-    result = { items: new Array(limit).fill(null) };
+    console.error(
+      `Error making request to fetch tracks from ${href} with offset ${offset} and limit ${limit}`,
+      e
+    );
+    result = {
+      items: new Array(limit).fill(null),
+      href,
+      offset,
+      limit,
+      next: null,
+      previous: null,
+      total: null,
+    };
   }
   return result;
 }
@@ -38,7 +74,6 @@ export default async function promisesForPages(
   if (results === null) {
     return [];
   }
-
   const { limit, total, offset, href } = results;
   if (total === 0) {
     return Promise.resolve([]);
@@ -60,17 +95,18 @@ export default async function promisesForPages(
       [() => initialRequest]
     );
 
+  // resolve promises sequentially
   return promises.reduce(
-    (promise, func) =>
-      promise
-        .then(result =>
-          func()
+    (previousPromise, currentPromise) =>
+      previousPromise
+        .then((result: Array<Object>) =>
+          currentPromise()
             .then(Array.prototype.concat.bind(result))
-            .catch(e => {
+            .catch((e) => {
               console.error('There was an error reducing promises', e);
             })
         )
-        .catch(e => {
+        .catch((e) => {
           console.error(
             'There was an error reducing promises - general catch',
             e

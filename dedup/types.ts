@@ -1,4 +1,4 @@
-import { SpotifyTrackType, SpotifyPlaylistType } from './spotify-api';
+import { SpotifyTrackType, SpotifyPlaylistType } from './spotifyApi';
 import { ReactElement } from 'react';
 
 export type PlaylistModel = {

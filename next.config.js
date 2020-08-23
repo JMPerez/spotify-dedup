@@ -1,7 +1,6 @@
 const withSourceMaps = require('@zeit/next-source-maps');
 
-const repoNameURIPrefix =
-  process.env.NODE_ENV === 'production' ? '/spotify-dedup' : '';
+const repoNameURIPrefix = process.env.NODE_ENV === 'production' ? '' : '';
 
 const config = {
   assetPrefix: repoNameURIPrefix,
