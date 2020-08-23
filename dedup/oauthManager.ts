@@ -1,4 +1,4 @@
-import OAuthConfig from './oauth-config';
+import OAuthConfig from './oauthConfig';
 
 function toQueryString(obj: { [key: string]: string }) {
   const parts = [];

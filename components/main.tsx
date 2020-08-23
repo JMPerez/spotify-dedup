@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation, Trans, Translation } from 'react-i18next';
+import { useTranslation, Translation } from 'react-i18next';
 import { PlaylistModel } from '../dedup/types';
-import { SpotifyUserType, SpotifyTrackType } from '../dedup/spotify-api';
+import { SpotifyUserType, SpotifyTrackType } from '../dedup/spotifyApi';
 
 import Process from '../dedup/process';
 import {
@@ -12,46 +12,8 @@ import {
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import Panel from './panel';
-
-//todo: enforce that items are DuplicateTrackListItem
-export const DuplicateTrackList = ({ children }) => (
-  <ul>
-    {children}
-    <style jsx>{`
-      ul {
-        padding: 0;
-      }
-    `}</style>
-  </ul>
-);
-export const DuplicateTrackListItem = ({
-  reason,
-  trackName,
-  trackArtistName,
-}) => {
-  const { t, i18n } = useTranslation();
-  return (
-    <li>
-      {reason === 'same-id' && (
-        <Badge>{t('result.duplicate.reason-same-id')}</Badge>
-      )}
-      {reason === 'same-name-artist' && (
-        <Badge>{t('result.duplicate.reason-same-data')}</Badge>
-      )}
-      <Trans i18nKey="result.duplicate.track">
-        <span>{{ trackName }}</span> <span className="gray">by</span>{' '}
-        <span>{{ trackArtistName }}</span>
-      </Trans>
-      <style jsx>
-        {`
-          .gray {
-            color: #999;
-          }
-        `}
-      </style>
-    </li>
-  );
-};
+import { DuplicateTrackList } from './duplicateTrackList';
+import { DuplicateTrackListItem } from './duplicateTrackListItem';
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
@@ -99,18 +61,9 @@ export default class Main extends React.Component<{
     },
   };
 
-  componentWillUnmount() {
-    console.log('Main > componentWillUnmount');
-  }
-
-  componentDidCatch(error, info) {
-    console.log('Main > componentDidCatch', error, info);
-  }
-
   componentDidMount() {
     const process = new Process();
     process.on('updateState', (state) => {
-      console.log('Main > componentDidMount > updating state', state);
       this.setState(state);
     });
     process.process(this.props.api, this.props.user);
@@ -142,7 +95,6 @@ export default class Main extends React.Component<{
           const playlistsCopy = [...this.state.playlists];
           playlistsCopy[index].duplicates = [];
           playlistsCopy[index].status = 'process.items.removed';
-          console.log('Main > removeDuplicates > updating state');
           this.setState({ ...this.state, playlists: [...playlistsCopy] });
           if (global['ga']) {
             global['ga'](
@@ -173,7 +125,6 @@ export default class Main extends React.Component<{
         this.props.api,
         this.state.savedTracks
       );
-      console.log('Main > removeDuplicatesInSavedTracks > updating state');
       this.setState({
         ...this.state,
         savedTracks: {
@@ -396,25 +347,25 @@ export default class Main extends React.Component<{
             }
 
             .btn {
-              display: inline-block;
-              padding: 6px 12px;
-              margin-bottom: 0;
-              font-size: 14px;
-              font-weight: 400;
-              line-height: 1.428571429;
-              text-align: center;
-              white-space: nowrap;
-              vertical-align: middle;
               background-image: none;
               border: 1px solid transparent;
               border-radius: 4px;
               cursor: pointer;
+              display: inline-block;
+              font-size: 14px;
+              font-weight: 400;
+              line-height: 1.428571429;
+              margin-bottom: 0;
+              padding: 6px 12px;
+              text-align: center;
+              vertical-align: middle;
+              white-space: nowrap;
             }
 
             .btn-primary {
-              color: #fff;
               background-color: #428bca;
               border-color: #357ebd;
+              color: #fff;
             }
 
             .btn-primary:hover {
@@ -430,8 +381,8 @@ export default class Main extends React.Component<{
 
             @media (max-width: 700px) {
               .playlist-list-item__btn {
-                position: relative;
                 max-width: 100%;
+                position: relative;
               }
             }
 

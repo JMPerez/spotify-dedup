@@ -1,4 +1,4 @@
-import OAuthConfig from './oauth-config';
+import OAuthConfig from './oauthConfig';
 
 export default () => {
   if (typeof window !== 'undefined') {

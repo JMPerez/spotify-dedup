@@ -2,10 +2,8 @@ import React from 'react';
 import Page from './../layouts/main';
 import Badge from './../components/badge';
 import Panel from './../components/panel';
-import {
-  DuplicateTrackList,
-  DuplicateTrackListItem,
-} from './../components/main';
+import { DuplicateTrackListItem } from '../components/duplicateTrackListItem';
+import { DuplicateTrackList } from '../components/duplicateTrackList';
 export default (props: { children: React.ReactNode }) => (
   <Page>
     <h2>Panel</h2>

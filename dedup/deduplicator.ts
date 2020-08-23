@@ -1,5 +1,10 @@
 import promisesForPages from './promiseForPages';
-import SpotifyWebApi, { SpotifyTrackType, SpotifyPlaylistType, SpotifyPlaylistTrackType, SpotifySavedTrackType } from './spotify-api';
+import SpotifyWebApi, {
+  SpotifyTrackType,
+  SpotifyPlaylistType,
+  SpotifyPlaylistTrackType,
+  SpotifySavedTrackType,
+} from './spotifyApi';
 import { PlaylistModel } from './types';
 
 class BaseDeduplicator {
@@ -84,7 +89,10 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
     });
   }
 
-  static async removeDuplicates(api: SpotifyWebApi, playlistModel: PlaylistModel) {
+  static async removeDuplicates(
+    api: SpotifyWebApi,
+    playlistModel: PlaylistModel
+  ) {
     return new Promise((resolve, reject) => {
       if (playlistModel.playlist.id === 'starred') {
         reject(

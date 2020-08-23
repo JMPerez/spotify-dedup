@@ -1,9 +1,3 @@
-/*
-https://github.com/sprjr/react-localize
-https://stackoverflow.com/questions/45911868/using-react-context-for-internationalization
-https://github.com/leefreemanxyz/react-context-multilingual
-https://itnext.io/using-reacts-context-api-to-provide-a-localization-toolbox-for-your-components-48915f04bb54
-*/
 import React from 'react';
 import Head from 'next/head';
 import Header from '../head';
@@ -12,10 +6,10 @@ import Intro from '../intro';
 import Main from '../main';
 import Features from '../features';
 import Reviews from '../reviews';
-import LanguageSelector from '../language-selector';
+import LanguageSelector from '../languageSelector';
 
-import OAuthManager from '../../dedup/oauth-manager';
-import SpotifyWebApi from '../../dedup/spotify-api';
+import OAuthManager from '../../dedup/oauthManager';
+import SpotifyWebApi from '../../dedup/spotifyApi';
 import { useTranslation } from 'react-i18next';
 
 import i18n, { AvailableLanguages } from '../../i18n';
@@ -33,7 +27,7 @@ const MetaHead = () => {
       <meta name="viewport" content="width=device-width" />
       <link
         rel="canonical"
-        href={`https://jmperezperez.com/spotify-dedup/${
+        href={`https://spotify-dedup.com/${
           i18n.language === 'en' ? '' : i18n.language + '/'
         }`}
       />
@@ -45,8 +39,8 @@ const MetaHead = () => {
             hrefLang={language}
             href={
               language === 'en'
-                ? 'https://jmperezperez.com/spotify-dedup/'
-                : `https://jmperezperez.com/spotify-dedup/${language}/`
+                ? 'https://spotify-dedup.com/'
+                : `https://spotify-dedup.com/${language}/`
             }
           ></link>
         )
@@ -94,15 +88,10 @@ export default class Index extends React.Component {
     Index.api.setAccessToken(accessToken);
 
     const user = await Index.api.getMe();
-    console.log('Index > handleLoginClick > updating state');
     this.setState({ isLoggedIn: true, user });
   };
 
   render() {
-    console.log(
-      'index > render',
-      this.state.isLoggedIn ? 'loggedin' : 'not-loggedin'
-    );
     return (
       <div className="container">
         <MetaHead />

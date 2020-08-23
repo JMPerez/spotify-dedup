@@ -1,4 +1,4 @@
-import fetch, { ResponseType } from './custom-fetch';
+import fetch from './customFetch';
 export type SpotifyArtistType = {
   id: string;
   name: string;
@@ -30,12 +30,12 @@ export type SpotifyPlaylistTrackType = {
   added_by: SpotifyUserType;
   is_local: boolean;
   track: SpotifyTrackType | null;
-}
+};
 
 export type SpotifySavedTrackType = {
   added_at: string;
   track: SpotifyTrackType | null;
-}
+};
 
 export type SpotifyUserType = {
   display_name?: string;
@@ -47,41 +47,52 @@ export type SpotifyUserType = {
 
 const apiPrefix = 'https://api.spotify.com/v1';
 
-const parseAPIResponse = (response: Response): Promise<string> =>
-  new Promise(resolve => resolve(response.text()))
-    .catch(err =>
-      Promise.reject({
-        type: 'NetworkError',
-        status: response.status,
-        message: err,
-      })
-    )
+function NetworkException(message: string, status: number) {
+  this.message = message;
+  this.status = status;
+  this.name = 'NetworkException';
+}
+
+function ServerException(json: Object, status: number) {
+  this.message = 'There was a Server Exception';
+  this.json = json;
+  this.status = status;
+  this.name = 'ServerException';
+}
+
+function ApplicationException(json: Object, status: number) {
+  this.message = 'There was an Application Exception';
+  this.json = json;
+  this.status = status;
+  this.name = 'ApplicationException';
+}
+
+function InvalidJSONException(body: string, status: number) {
+  this.message = 'There was an Invalid JSON Exception';
+  this.body = body;
+  this.status = status;
+  this.name = 'InvalidJSONException';
+}
+
+const parseAPIResponse = (response: Response): Object =>
+  new Promise((resolve) => resolve(response.text()))
+    .catch((err) => {
+      throw new NetworkException(err.message, response.status);
+    })
     .then((responseBody: string) => {
+      let parsedJSON: Object = null;
       try {
-        const parsedJSON =
-          responseBody === '' ? null : JSON.parse(responseBody);
-        if (response.ok) return parsedJSON;
-        if (response.status >= 500) {
-          return Promise.reject({
-            type: 'ServerError',
-            status: response.status,
-            body: parsedJSON,
-          });
-        } else {
-          return Promise.reject({
-            type: 'ApplicationError',
-            status: response.status,
-            body: parsedJSON,
-          });
-        }
+        parsedJSON = responseBody === '' ? null : JSON.parse(responseBody);
       } catch (e) {
         // We should never get these unless response is mangled
         // Or API is not properly implemented
-        return Promise.reject({
-          type: 'InvalidJSON',
-          status: response.status,
-          body: responseBody,
-        });
+        throw new InvalidJSONException(responseBody, response.status);
+      }
+      if (response.ok) return parsedJSON;
+      if (response.status >= 500) {
+        throw new ServerException(parsedJSON, response.status);
+      } else {
+        throw new ApplicationException(parsedJSON, response.status);
       }
     });
 
@@ -105,8 +116,8 @@ export default class SpotifyWebApi {
       Object.keys(options).length === 0
         ? ''
         : `?${Object.keys(options)
-          .map(k => `${k}=${options[k]}`)
-          .join('&')}`;
+            .map((k) => `${k}=${options[k]}`)
+            .join('&')}`;
 
     try {
       const res = await fetch({
@@ -139,7 +150,7 @@ export default class SpotifyWebApi {
     uris: Array<string | { uri: string; positions: number[] }>
   ) {
     const dataToBeSent = {
-      tracks: uris.map(uri => (typeof uri === 'string' ? { uri: uri } : uri)),
+      tracks: uris.map((uri) => (typeof uri === 'string' ? { uri: uri } : uri)),
     };
 
     const res = await fetch({
