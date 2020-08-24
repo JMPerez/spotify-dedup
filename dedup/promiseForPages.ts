@@ -96,6 +96,7 @@ export default async function promisesForPages(
     );
 
   // resolve promises sequentially
+  // https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence
   return promises.reduce(
     (previousPromise, currentPromise) =>
       previousPromise
