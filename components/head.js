@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default () => {
+const Head = () => {
   const { t } = useTranslation();
   return (
     <div className="header">
@@ -86,3 +86,5 @@ export default () => {
     </div>
   );
 };
+
+export default Head;

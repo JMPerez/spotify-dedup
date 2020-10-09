@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default () => {
+const LanguageSelector = () => {
   return (
     <div className="footer">
       <p>
@@ -52,3 +52,5 @@ export default () => {
     </div>
   );
 };
+
+export default LanguageSelector;

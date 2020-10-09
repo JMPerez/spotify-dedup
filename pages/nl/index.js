@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
 
-export default () => {
+const IndexComponent = () => {
   const { t, i18n } = useTranslation();
   i18n.addResourceBundle('nl', 'translation', {
     'menu.link-home': 'Home',
@@ -73,3 +73,5 @@ export default () => {
     </Page>
   );
 };
+
+export default IndexComponent;

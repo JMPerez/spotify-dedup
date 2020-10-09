@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default () => {
+const Reviews = () => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -61,3 +61,5 @@ export default () => {
     </div>
   );
 };
+
+export default Reviews;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default () => {
+const Features = () => {
   const { t, i18n } = useTranslation();
   return (
     <div className="row marketing cols-3">
@@ -83,3 +83,5 @@ export default () => {
     </div>
   );
 };
+
+export default Features;
