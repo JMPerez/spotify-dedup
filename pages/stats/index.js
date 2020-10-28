@@ -3,31 +3,18 @@ import Page from '../../layouts/main';
 import Header from '../../components/head';
 import Head from 'next/head';
 
-import { VictoryChart, VictoryLine, VictoryAxis } from 'victory';
+import { LineChart } from 'react-chartkick';
+import 'chart.js'
 
 import '../../i18n';
 
 function MyChart({ data }) {
+  const d = {};
+  data.forEach(dat => {
+    d[dat.name] = dat.value;
+  });
   return (
-    <VictoryChart>
-      <VictoryAxis
-        fixLabelOverlap
-        style={{ tickLabels: { padding: 10, fontSize: 12 } }}
-      />
-      <VictoryAxis
-        dependentAxis
-        style={{ tickLabels: { padding: 10, fontSize: 12 } }}
-      />
-      <VictoryLine
-        style={{
-          data: { stroke: '#c43a31' },
-          parent: { border: '1px solid #ccc' },
-        }}
-        data={data}
-        x="name"
-        y="value"
-      />
-    </VictoryChart>
+    <LineChart data={d} />
   );
 }
 
@@ -77,14 +64,12 @@ export default function Stats({ data }) {
       <div className="container">
         <Header />
         {data === null ? null : (
-          <div>
+          <div className="row">
             <h1>Stats about Spotify Dedup</h1>
-            <p>
-              Data reported by Spotify. Fetched using{' '}
+            <p>This page lists shows open data about Spotify Dedup. The metrics are gathered using {' '}
               <a href="https://github.com/JMPerez/spotify-app-stats">
                 spotify-app-stats
-              </a>
-              .
+              </a>, a npm package to read data from a Spotify app in Spotify's developer site dashboard.
             </p>
             <h2>Monthly Active Users (MAU)</h2>
             <p>
@@ -103,14 +88,12 @@ export default function Stats({ data }) {
               }))}
             />
             <h2>Daily Active Users (DAU)</h2>
-            <p>
-              The most recent value for DAU is{' '}
+            <p>This chart shows how many users are logging in on Spotify Dedup with their Spotify accounts every day. The most recent value for DAU is{' '}
               <strong>
                 {Intl.NumberFormat('en-US').format(
                   daus[daus.length - 1].number_of_daus
                 )}
-              </strong>{' '}
-              users
+              </strong>.
             </p>
             <MyChart
               data={daus.map((a) => ({
@@ -119,6 +102,13 @@ export default function Stats({ data }) {
               }))}
             />
             <h2>Number of Requests</h2>
+            <p>This chart shows how many requests to the Spotify Web API are made to read the list of playlists ans saved songs, get the list of songs in a playlist, and remove duplicates. The most recent value is{' '}
+            <strong>
+                {Intl.NumberFormat('en-US').format(
+                  total_requests[total_requests.length - 1].number_of_requests
+                )}
+              </strong>.
+            </p>
             <MyChart
               data={total_requests.map((a) => ({
                 name: a.date,
@@ -128,6 +118,17 @@ export default function Stats({ data }) {
           </div>
         )}
       </div>
+      <style jsx>
+        {`
+          h2 {
+            padding-top: 1em;
+          }
+          .row {
+            padding-right: 15px;
+            padding-left: 15px;
+          }
+      `}
+      </style>
     </Page>
   );
 }

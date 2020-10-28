@@ -14,22 +14,24 @@
     "analyze": "BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^9.5.4",
+    "@next/bundle-analyzer": "^10.0.0",
     "@zeit/next-source-maps": "^0.0.3",
+    "chart.js": "^2.9.4",
     "gh-pages": "^3.1.0",
-    "i18next": "^19.8.2",
-    "next": "9.5.4",
+    "i18next": "^19.8.3",
+    "next": "10.0.0",
     "next-i18next": "^6.0.3",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "17.0.1",
+    "react-chartkick": "^0.4.1",
+    "react-dom": "17.0.1",
     "react-i18next": "^11.7.3",
     "spotify-app-stats": "^0.0.1",
-    "victory": "^35.2.0"
+    "victory": "^35.3.1"
   },
   "devDependencies": {
-    "@types/node": "^14.11.8",
-    "@types/react": "^16.9.51",
+    "@types/node": "^14.14.5",
+    "@types/react": "^16.9.54",
     "husky": "^4.3.0",
-    "typescript": "^4.0.3"
+    "typescript": "^4.0.5"
   }
 }

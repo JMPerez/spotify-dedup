@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ children }) => (
+const Main = ({ children }) => (
   <>
     {children}
     <style jsx global>{`
@@ -53,3 +53,5 @@ export default ({ children }) => (
     `}</style>
   </>
 );
+
+export default Main;

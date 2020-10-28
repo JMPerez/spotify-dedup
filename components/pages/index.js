@@ -45,6 +45,7 @@ const MetaHead = () => {
           ></link>
         )
       )}
+      <link rel="icon" href="https://spotify-dedup.com/logo.svg" />
     </Head>
   );
 };
