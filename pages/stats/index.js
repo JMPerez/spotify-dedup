@@ -2,7 +2,7 @@ import SpotifyAppStats from 'spotify-app-stats';
 import Page from '../../layouts/main';
 import Header from '../../components/head';
 import Head from 'next/head';
-
+import { useState } from 'react';
 import { LineChart, BarChart } from 'react-chartkick';
 import 'chart.js';
 
@@ -31,8 +31,27 @@ const trimRightZeros = (array, fn) => {
   return [];
 };
 
+const LocationChart = ({ data }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  if (expanded && data.length > 20) {
+    return (
+      <>
+        <h2>Users by Location</h2>
+        <BarChart data={data} height={`${data.length * 16}px`} />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <h2>Users by Location (Top 20 countries/territories)</h2>
+        <BarChart data={data.slice(0, 20)} height={`${20 * 16}px`} />
+        <button onClick={() => setExpanded(true)}>See all locations</button>
+      </>
+    );
+  }
+};
 export default function Stats({ data }) {
-  console.log(data.map_data.locations);
   const maus = trimRightZeros(data.mau, (item) => item.number_of_maus);
   const daus = trimRightZeros(data.dau, (item) => item.number_of_daus);
   const total_requests = trimRightZeros(
@@ -112,8 +131,7 @@ export default function Stats({ data }) {
                 value: a.number_of_daus,
               }))}
             />
-            <h2>Users by Location (Top 20 countries/territories)</h2>
-            <BarChart data={locationData.slice(0, 20)} />
+            <LocationChart data={locationData} />
             <h2>Number of Requests</h2>
             <p>
               This chart shows how many requests to the Spotify Web API are made
