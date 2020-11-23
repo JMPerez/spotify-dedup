@@ -35,6 +35,15 @@ const Footer = () => {
             }),
           }}
         />
+        · Check{' '}
+        <a
+          target="_blank"
+          rel="noopener"
+          href="https://spotify-top.com"
+          style={{ whiteSpace: 'nowrap' }}
+        >
+          Spotify Top
+        </a>
       </p>
       <style jsx>
         {`

@@ -3,19 +3,17 @@ import Page from '../../layouts/main';
 import Header from '../../components/head';
 import Head from 'next/head';
 
-import { LineChart } from 'react-chartkick';
-import 'chart.js'
+import { LineChart, BarChart } from 'react-chartkick';
+import 'chart.js';
 
 import '../../i18n';
 
 function MyChart({ data }) {
   const d = {};
-  data.forEach(dat => {
+  data.forEach((dat) => {
     d[dat.name] = dat.value;
   });
-  return (
-    <LineChart data={d} />
-  );
+  return <LineChart data={d} thousands="," />;
 }
 
 const trimRightZeros = (array, fn) => {
@@ -34,12 +32,17 @@ const trimRightZeros = (array, fn) => {
 };
 
 export default function Stats({ data }) {
+  console.log(data.map_data.locations);
   const maus = trimRightZeros(data.mau, (item) => item.number_of_maus);
   const daus = trimRightZeros(data.dau, (item) => item.number_of_daus);
   const total_requests = trimRightZeros(
     data.total_requests,
     (item) => item.number_of_requests
   );
+  const locationData = data.map_data.locations.map((location) => [
+    location.country_code,
+    location.number_of_users,
+  ]);
 
   return (
     <Page>
@@ -66,10 +69,14 @@ export default function Stats({ data }) {
         {data === null ? null : (
           <div className="row">
             <h1>Stats about Spotify Dedup</h1>
-            <p>This page lists shows open data about Spotify Dedup. The metrics are gathered using {' '}
+            <p>
+              This page lists shows open data about Spotify Dedup. The metrics
+              are gathered using{' '}
               <a href="https://github.com/JMPerez/spotify-app-stats">
                 spotify-app-stats
-              </a>, a npm package to read data from a Spotify app in Spotify's developer site dashboard.
+              </a>
+              , a npm package to read data from a Spotify app in Spotify's
+              developer site dashboard.
             </p>
             <h2>Monthly Active Users (MAU)</h2>
             <p>
@@ -88,12 +95,16 @@ export default function Stats({ data }) {
               }))}
             />
             <h2>Daily Active Users (DAU)</h2>
-            <p>This chart shows how many users are logging in on Spotify Dedup with their Spotify accounts every day. The most recent value for DAU is{' '}
+            <p>
+              This chart shows how many users are logging in on Spotify Dedup
+              with their Spotify accounts every day. The most recent value for
+              DAU is{' '}
               <strong>
                 {Intl.NumberFormat('en-US').format(
                   daus[daus.length - 1].number_of_daus
                 )}
-              </strong>.
+              </strong>
+              .
             </p>
             <MyChart
               data={daus.map((a) => ({
@@ -101,13 +112,20 @@ export default function Stats({ data }) {
                 value: a.number_of_daus,
               }))}
             />
+            <h2>Users by Location (Top 20 countries/territories)</h2>
+            <BarChart data={locationData.slice(0, 20)} />
             <h2>Number of Requests</h2>
-            <p>This chart shows how many requests to the Spotify Web API are made to read the list of playlists ans saved songs, get the list of songs in a playlist, and remove duplicates. The most recent value is{' '}
-            <strong>
+            <p>
+              This chart shows how many requests to the Spotify Web API are made
+              to read the list of playlists ans saved songs, get the list of
+              songs in a playlist, and remove duplicates. The most recent value
+              is{' '}
+              <strong>
                 {Intl.NumberFormat('en-US').format(
                   total_requests[total_requests.length - 1].number_of_requests
                 )}
-              </strong>.
+              </strong>
+              .
             </p>
             <MyChart
               data={total_requests.map((a) => ({
@@ -127,7 +145,7 @@ export default function Stats({ data }) {
             padding-right: 15px;
             padding-left: 15px;
           }
-      `}
+        `}
       </style>
     </Page>
   );
