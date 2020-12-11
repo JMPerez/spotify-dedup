@@ -7,6 +7,7 @@ const IndexComponent = () => {
   const { t, i18n } = useTranslation();
   i18n.addResourceBundle('sv', 'translation', {
     'menu.link-home': 'Hem',
+    'menu.link-stats': 'Statistik',
     'home.title': 'Spotify Deduplicerare',
     'home.description':
       'Ta bort dubbletter från dina spellistor och sparade låtar.',
@@ -23,11 +24,10 @@ const IndexComponent = () => {
       'Dedup kommer bara ta bort {{- strongOpen}}dubbletter{{- strongClose}}, och lämna resten av spellistan och de sparade låtarna orörda.',
     'features.open-source.header': 'Öppen källkod',
     'features.open-source.body':
-      "Du kanske skulle vilja ta en titt på {{- linkGithubOpen}}källkoden på GitHub{{- linkGithubClose}}. Den här webbappen använder {{- linkWebApiOpen}}Spotify Web API{{- linkWebApiClose}} för att hantera användarens spellistor och sparade låtar.",
+      'Du kanske skulle vilja ta en titt på {{- linkGithubOpen}}källkoden på GitHub{{- linkGithubClose}}. Den här webbappen använder {{- linkWebApiOpen}}Spotify Web API{{- linkWebApiClose}} för att hantera användarens spellistor och sparade låtar.',
     'reviews.title': 'Så här säger användare',
     'footer.author': 'Gjord med ♥ av {{- linkOpen}}JMPerez 👨‍💻{{- linkClose}}',
-    'footer.github':
-      'Kolla in {{- linkOpen}}koden på GitHub 📃{{- linkClose}}',
+    'footer.github': 'Kolla in {{- linkOpen}}koden på GitHub 📃{{- linkClose}}',
     'footer.bmc':
       'Stöd projektet genom att {{- linkOpen}}bjuda på en kaffe ☕{{- linkClose}}',
     'bmc.button': 'Skulle du vilja bjuda mig på en kaffe?',
@@ -44,7 +44,7 @@ const IndexComponent = () => {
     'process.status.complete.dups.body':
       'Tryck på knappen {{- strongOpen}}Ta bort dubbletter{{- strongClose}} för att bli av med dubbletter i den spellistan eller sparade låtsamlingen.',
     'process.status.complete.nodups.body':
-      "Grattis! Du har inga dubbletter i varken dina spellistor eller sparade låtar.",
+      'Grattis! Du har inga dubbletter i varken dina spellistor eller sparade låtar.',
     'process.reading-library':
       'Går igenom ditt bibliotek, letar efter spellistor som du äger och dina sparade låtar…',
     'process.processing':
@@ -52,18 +52,15 @@ const IndexComponent = () => {
     'process.processing_plural':
       'Söker efter dubbletter, vänta ett ögonblick. Bearbetar fortfarande {{count}} spellistor…',
     'process.saved.title': 'Sparade låtar i ditt bibliotek',
-    'process.saved.duplicates':
-      'Denna samling har {{count}} dubblett',
-    'process.saved.duplicates_plural':
-      'Denna samling har {{count}} dubbletter',
+    'process.saved.duplicates': 'Denna samling har {{count}} dubblett',
+    'process.saved.duplicates_plural': 'Denna samling har {{count}} dubbletter',
     'process.saved.remove-button': 'Ta bort dubbletter från dina sparade låtar',
-    'process.playlist.duplicates':
-      'Denna spellista har {{count}} dubblett',
+    'process.playlist.duplicates': 'Denna spellista har {{count}} dubblett',
     'process.playlist.duplicates_plural':
       'Denna spellista har {{count}} dubbletter',
     'process.playlist.remove-button': 'Ta bort dubbletter från denna spellista',
     'process.items.removed': 'Dubbletter har tagits bort',
-    });
+  });
   i18n.changeLanguage('sv');
   return (
     <Page>

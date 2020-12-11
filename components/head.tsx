@@ -10,7 +10,7 @@ const Head = () => {
           <a href="/">{t('menu.link-home')}</a>
         </li>
         <li>
-          <a href="/stats">Stats</a>
+          <a href="/stats">{t('menu.link-stats')}</a>
         </li>
       </ul>
       <h3>

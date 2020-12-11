@@ -18,6 +18,7 @@ const resources = {
   en: {
     translation: {
       'menu.link-home': 'Home',
+      'menu.link-stats': 'Stats',
       'home.title': 'Spotify Deduplicator',
       'home.description':
         'Remove duplicate songs from your playlists and saved songs.',

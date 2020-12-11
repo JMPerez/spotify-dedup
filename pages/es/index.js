@@ -7,6 +7,7 @@ const IndexComponent = () => {
   const { t, i18n } = useTranslation();
   i18n.addResourceBundle('es', 'translation', {
     'menu.link-home': 'Principal',
+    'menu.link-stats': 'Estadísticas',
     'home.title': 'Deduplicador Spotify',
     'home.description':
       'Elimina canciones duplicadas de tus playlists y canciones guardadas.',
