@@ -8,7 +8,7 @@ const IndexComponent = () => {
   i18n.addResourceBundle('sv', 'translation', {
     'menu.link-home': 'Hem',
     'menu.link-stats': 'Statistik',
-    'home.title': 'Spotify Deduplicerare',
+    'home.title': 'Spotify Deduplicering',
     'home.description':
       'Ta bort dubbletter från dina spellistor och sparade låtar.',
     'home.login-button': 'Logga in med Spotify',
