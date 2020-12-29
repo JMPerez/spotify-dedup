@@ -53,9 +53,6 @@ export default class {
         if (global['ga']) {
           global['ga']('send', 'event', 'spotify-dedup', 'library-processed');
         }
-        if (global['fbq']) {
-          global['fbq']('trackCustom', 'dedup-library-processed');
-        }
       }
       dispatch('updateState', currentState);
     }

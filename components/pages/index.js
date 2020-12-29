@@ -81,9 +81,6 @@ export default class Index extends React.Component {
     if (global['ga']) {
       global['ga']('send', 'event', 'spotify-dedup', 'user-logged-in');
     }
-    if (global['fbq']) {
-      global['fbq']('trackCustom', 'dedup-user-logged-in');
-    }
 
     Index.api = new SpotifyWebApi();
     Index.api.setAccessToken(accessToken);

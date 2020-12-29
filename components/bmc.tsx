@@ -11,7 +11,6 @@ const Bmc = () => {
         target="_blank"
         href="https://www.buymeacoffee.com/jmp"
         onClick={() => {
-          global['fbq'] && global['fbq']('track', 'InitiateCheckout');
           global['ga'] &&
             global['ga']('send', 'event', 'spotify-dedup', 'bmc-clicked');
         }}
