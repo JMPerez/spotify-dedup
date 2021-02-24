@@ -87,6 +87,12 @@ i18n
     lng: 'en',
     keySeparator: false, // we do not use keys in form messages.welcome
     debug: false,
+    react: {
+      transSupportBasicHtmlNodes: false,
+    },
+    interpolation: {
+      escapeValue: false,
+    },
     missingKeyHandler: (
       lng,
       ns,
