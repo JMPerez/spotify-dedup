@@ -120,13 +120,10 @@ export default class SpotifyWebApi {
             .join('&')}`;
 
     try {
-      const res = await fetch({
-        url: `${url}${optionsString}`,
-        options: {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
+      const res = await fetch(`${url}${optionsString}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
         },
       });
       return parseAPIResponse(res);
@@ -153,18 +150,18 @@ export default class SpotifyWebApi {
       tracks: uris.map((uri) => (typeof uri === 'string' ? { uri: uri } : uri)),
     };
 
-    const res = await fetch({
-      url: `${apiPrefix}/users/${encodeURIComponent(
+    const res = await fetch(
+      `${apiPrefix}/users/${encodeURIComponent(
         userId
       )}/playlists/${playlistId}/tracks`,
-      options: {
+      {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
         body: JSON.stringify(dataToBeSent),
-      },
-    });
+      }
+    );
     return parseAPIResponse(res);
   }
 
@@ -173,15 +170,12 @@ export default class SpotifyWebApi {
   }
 
   async removeFromMySavedTracks(trackIds: Array<string>) {
-    const res = await fetch({
-      url: `${apiPrefix}/me/tracks`,
-      options: {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-        body: JSON.stringify(trackIds),
+    const res = await fetch(`${apiPrefix}/me/tracks`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${this.token}`,
       },
+      body: JSON.stringify(trackIds),
     });
     return parseAPIResponse(res);
   }
