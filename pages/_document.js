@@ -33,8 +33,8 @@ class MyDocument extends Document {
           />
           {include3rdPartyScripts && (
             <script
-              src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js"
-              integrity="sha384-O8HdAJg1h8RARFowXd2J/r5fIWuinSBtjhwQoPesfVILeXzGpJxvyY/77OaPPXUo"
+              src="https://browser.sentry-cdn.com/5.29.2/bundle.min.js"
+              integrity="sha384-ir4+BihBClNpjZk3UKgHTr0cwRhujAjy/M5VEGvcOzjhM1Db79GAg9xLxYn4uVK4"
               crossOrigin="anonymous"
             ></script>
           )}

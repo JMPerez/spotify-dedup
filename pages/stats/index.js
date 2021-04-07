@@ -52,6 +52,9 @@ const LocationChart = ({ data }) => {
   }
 };
 export default function Stats({ data }) {
+  if (!data) {
+    return <div>Stats not available</div>;
+  }
   const maus = trimRightZeros(data.mau, (item) => item.number_of_maus);
   const daus = trimRightZeros(data.dau, (item) => item.number_of_daus);
   const total_requests = trimRightZeros(

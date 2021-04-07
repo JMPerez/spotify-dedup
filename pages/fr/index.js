@@ -7,6 +7,7 @@ const IndexComponent = () => {
   const { t, i18n } = useTranslation();
   i18n.addResourceBundle('fr', 'translation', {
     'menu.link-home': "Page d'accueil",
+    'menu.link-stats': 'Statistiques',
     'home.title': 'Déduplicateur Spotify',
     'home.description':
       'Supprimez les chansons en double de vos listes de lecture et chansons enregistrées.',
@@ -63,6 +64,12 @@ const IndexComponent = () => {
       'Cette playlist contient {{count}} chansons en double',
     'process.playlist.remove-button': 'Supprimer les doublons',
     'process.items.removed': 'Doublons supprimés',
+    'spotifytop.heading': '🚀 Nouveau projet, Spotify Top!',
+    'spotifytop.description':
+      'Vous vous demandez quels artistes, chansons ou genres vous avez le plus écoutés sur Spotify ces derniers temps?',
+    'spotifytop.check1': 'Jetez un œil à mon nouvel outil',
+    'spotifytop.check2':
+      'pour voir un rapport de ce que vous avez joué récemment sur Spotify.',
   });
   i18n.changeLanguage('fr');
   return (

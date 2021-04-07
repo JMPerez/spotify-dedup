@@ -63,6 +63,12 @@ const IndexComponent = () => {
       'Esta playlist tiene {{count}} canciones duplicadas',
     'process.playlist.remove-button': 'Eliminar duplicados de esta playlist',
     'process.items.removed': 'Duplicados eliminados',
+    'spotifytop.heading': '¡🚀 Nuevo proyecto, Spotify Top!',
+    'spotifytop.description':
+      '¿Te has preguntado alguna vez qué artistas, canciones o géneros has estado escuchando más a menudo en Spotify últimamente?',
+    'spotifytop.check1': 'Echa un vistazo a mi nueva herramienta',
+    'spotifytop.check2':
+      'para ver un informe de qué has reproducido en Spotify recientemente.',
   });
   i18n.changeLanguage('es');
   return (

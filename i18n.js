@@ -75,6 +75,12 @@ const resources = {
         'This playlist has {{count}} duplicate songs',
       'process.playlist.remove-button': 'Remove duplicates from this playlist',
       'process.items.removed': 'Duplicates removed',
+      'spotifytop.heading': '🚀 Introducing Spotify Top!',
+      'spotifytop.description':
+        'Ever wondered what artists, songs, or genres you have been listening the most lately?',
+      'spotifytop.check1': 'Check my latest project',
+      'spotifytop.check2':
+        'to get personalized insights about what you have been playing on Spotify',
     },
   },
   fallbackLng: 'en',
@@ -87,6 +93,9 @@ i18n
     lng: 'en',
     keySeparator: false, // we do not use keys in form messages.welcome
     debug: false,
+    react: {
+      transSupportBasicHtmlNodes: false,
+    },
     missingKeyHandler: (
       lng,
       ns,

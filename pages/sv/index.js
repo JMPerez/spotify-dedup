@@ -60,6 +60,12 @@ const IndexComponent = () => {
       'Denna spellista har {{count}} dubbletter',
     'process.playlist.remove-button': 'Ta bort dubbletter från denna spellista',
     'process.items.removed': 'Dubbletter har tagits bort',
+    'spotifytop.heading': '🚀 Nytt projekt, Spotify Top!',
+    'spotifytop.description':
+      'Har du någonsin undrat vilka artister, låtar eller genrer du har lyssnat mest på på Spotify nyligen?',
+    'spotifytop.check1': 'Ta en titt på mitt nya verktyg',
+    'spotifytop.check2':
+      'för att se en rapport om vad du nyligen har spelat på Spotify.',
   });
   i18n.changeLanguage('sv');
   return (

@@ -7,6 +7,7 @@ const IndexComponent = () => {
   const { t, i18n } = useTranslation();
   i18n.addResourceBundle('pt', 'translation', {
     'menu.link-home': 'Pagina inicial',
+    'menu.link-stats': 'Estatísticas',
     'home.title': 'Desduplicador Spotify',
     'home.description':
       'Remova músicas duplicadas de suas listas de reprodução e músicas salvas.',
@@ -62,6 +63,12 @@ const IndexComponent = () => {
     'process.playlist.remove-button':
       'Remova duplicatas desta lista de reprodução',
     'process.items.removed': 'Duplicatas removidas',
+    'spotifytop.heading': '🚀 Novo projeto, Spotify Top!',
+    'spotifytop.description':
+      'Você já se perguntou quais artistas, músicas ou gêneros você tem ouvido com mais frequência no Spotify ultimamente?',
+    'spotifytop.check1': 'Dê uma olhada em minha nova ferramenta',
+    'spotifytop.check2':
+      'para ver um relatório do que você jogou no Spotify recentemente.',
   });
   i18n.changeLanguage('pt');
   return (

@@ -86,7 +86,7 @@ export default class Index extends React.Component {
     Index.api.setAccessToken(accessToken);
 
     const user = await Index.api.getMe();
-    this.setState({ isLoggedIn: true, user });
+    this.setState({ isLoggedIn: true, user, accessToken });
   };
 
   render() {
@@ -96,7 +96,11 @@ export default class Index extends React.Component {
         <Header />
 
         {this.state.isLoggedIn ? (
-          <Main api={Index.api} user={this.state.user} />
+          <Main
+            api={Index.api}
+            user={this.state.user}
+            accessToken={this.state.accessToken}
+          />
         ) : (
           <Intro onLoginClick={this.handleLoginClick} />
         )}

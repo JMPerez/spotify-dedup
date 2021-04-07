@@ -7,6 +7,7 @@ const IndexComponent = () => {
   const { t, i18n } = useTranslation();
   i18n.addResourceBundle('it', 'translation', {
     'menu.link-home': 'Home',
+    'menu.link-stats': 'Statistiche',
     'home.title': 'Spotify Deduplicatore',
     'home.description':
       'Elimina le tracce duplicate dalle tue playlist e dalle canzoni salvate.',
@@ -65,6 +66,12 @@ const IndexComponent = () => {
     'process.playlist.remove-button':
       'Elimino le tracce doppie eda questa playlist',
     'process.items.removed': 'Tracce doppie eliminate',
+    'spotifytop.heading': '🚀 Nuovo progetto, Spotify Top!',
+    'spotifytop.description':
+      'Ti sei mai chiesto quali artisti, canzoni o generi hai ascoltato più spesso su Spotify ultimamente?',
+    'spotifytop.check1': "Dai un'occhiata al mio nuovo strumento",
+    'spotifytop.check2':
+      'per vedere un report di ciò che hai riprodotto su Spotify di recente.',
   });
   i18n.changeLanguage('it');
   return (

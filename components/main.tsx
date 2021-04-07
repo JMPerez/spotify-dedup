@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation, Translation } from 'react-i18next';
+import { useTranslation, Translation, getI18n } from 'react-i18next';
 import { PlaylistModel } from '../dedup/types';
 import { SpotifyUserType, SpotifyTrackType } from '../dedup/spotifyApi';
 
@@ -46,11 +46,13 @@ type StateType = {
       track: SpotifyTrackType;
     }>;
   };
+  hasUsedSpotifyTop?: boolean;
 };
 
 export default class Main extends React.Component<{
   api: any;
   user: SpotifyUserType;
+  accessToken: string;
 }> {
   state: StateType = {
     toProcess: null,
@@ -67,6 +69,23 @@ export default class Main extends React.Component<{
       this.setState(state);
     });
     process.process(this.props.api, this.props.user);
+
+    const hasUsedSpotifyTop = async () => {
+      const res = await fetch(`https://spotify-top.com/api/profile`, {
+        method: 'GET',
+        headers: { 'Spotify-Auth': this.props.accessToken },
+      });
+      const data = await res.json();
+      return data.hasUsedSpotifyTop;
+    };
+
+    try {
+      hasUsedSpotifyTop()
+        .then((result) => {
+          this.setState({ hasUsedSpotifyTop: result === true });
+        })
+        .catch((e) => {});
+    } catch (e) {}
   }
 
   removeDuplicates = (playlist: PlaylistModel) => {
@@ -151,6 +170,7 @@ export default class Main extends React.Component<{
             (prev, current) => prev + current.duplicates.length,
             0
           ) + this.state.savedTracks.duplicates.length;
+
     return (
       <div>
         <Status toProcess={this.state.toProcess} />
@@ -193,6 +213,32 @@ export default class Main extends React.Component<{
                 {(t) => t('process.status.complete.nodups.body')}
               </Translation>
               <BuyMeACoffee />
+              {this.state.hasUsedSpotifyTop === false ? (
+                <div>
+                  <p>
+                    <strong>
+                      <Translation>
+                        {(t) => t('spotifytop.heading')}
+                      </Translation>
+                    </strong>{' '}
+                    <Translation>
+                      {(t) => t('spotifytop.description')}
+                    </Translation>{' '}
+                    <strong>
+                      <Translation>{(t) => t('spotifytop.check1')}</Translation>
+                      ,{' '}
+                      <a
+                        href="https://spotify-top.com/?ref=spotifydedup"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        Spotify Top
+                      </a>
+                    </strong>{' '}
+                    <Translation>{(t) => t('spotifytop.check2')}</Translation>
+                  </p>
+                </div>
+              ) : null}
             </span>
           )}
         </Panel>

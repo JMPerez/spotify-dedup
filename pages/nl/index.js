@@ -7,6 +7,7 @@ const IndexComponent = () => {
   const { t, i18n } = useTranslation();
   i18n.addResourceBundle('nl', 'translation', {
     'menu.link-home': 'Home',
+    'menu.link-stats': 'Statistieken',
     'home.title': 'Spotify Deduplicator',
     'home.description':
       'Verwijder dubbele nummers uit je afspeellijsten en opgeslagen nummers.',
@@ -65,6 +66,12 @@ const IndexComponent = () => {
     'process.playlist.remove-button':
       'Verwijder duplicaten uit deze afspeellijst',
     'process.items.removed': 'Duplicaten verwijderd',
+    'spotifytop.heading': '🚀 Nieuw project, Spotify Top!',
+    'spotifytop.description':
+      'Heb je je ooit afgevraagd naar welke artiesten, liedjes of genres je de laatste tijd het vaakst op Spotify luistert?',
+    'spotifytop.check1': 'Bekijk mijn nieuwe tool',
+    'spotifytop.check2':
+      'om een ​​verslag te zien van wat je onlangs op Spotify hebt afgespeeld.',
   });
   i18n.changeLanguage('nl');
   return (
