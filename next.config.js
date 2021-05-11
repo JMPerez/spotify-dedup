@@ -22,9 +22,6 @@ const config = {
   webpack(config, options) {
     return config;
   },
-  future: {
-    webpack5: true,
-  },
 };
 
 module.exports = withSourceMaps(config);

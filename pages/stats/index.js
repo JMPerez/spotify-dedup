@@ -38,14 +38,14 @@ const LocationChart = ({ data }) => {
     return (
       <>
         <h2>Users by Location</h2>
-        <BarChart data={data} height={`${data.length * 16}px`} />
+        <BarChart data={data} height={`${data.length * 20}px`} />
       </>
     );
   } else {
     return (
       <>
         <h2>Users by Location (Top 20 countries/territories)</h2>
-        <BarChart data={data.slice(0, 20)} height={`${20 * 16}px`} />
+        <BarChart data={data.slice(0, 20)} height={`${20 * 20}px`} />
         <button onClick={() => setExpanded(true)}>See all locations</button>
       </>
     );
