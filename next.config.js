@@ -15,11 +15,15 @@ const config = {
     '/it/index.html': { page: '/it' },
     '/nl/index.html': { page: '/nl' },
     '/pt/index.html': { page: '/pt' },
+    '/pl/index.html': { page: '/pl' },
     '/sv/index.html': { page: '/sv' },
     '/callback/index.html': { page: '/callback' },
   }),
   webpack(config, options) {
     return config;
+  },
+  future: {
+    webpack5: true,
   },
 };
 

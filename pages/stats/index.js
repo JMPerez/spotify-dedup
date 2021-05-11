@@ -4,7 +4,7 @@ import Header from '../../components/head';
 import Head from 'next/head';
 import { useState } from 'react';
 import { LineChart, BarChart } from 'react-chartkick';
-import 'chart.js';
+import 'chartkick/chart.js';
 
 import '../../i18n';
 

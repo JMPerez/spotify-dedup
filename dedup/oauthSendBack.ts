@@ -1,6 +1,6 @@
 import OAuthConfig from './oauthConfig';
 
-export default () => {
+const OAuthSendBack = () => {
   if (typeof window !== 'undefined') {
     const target = window.self === window.top ? window.opener : window.parent;
 
@@ -11,3 +11,5 @@ export default () => {
     }
   }
 };
+
+export default OAuthSendBack;

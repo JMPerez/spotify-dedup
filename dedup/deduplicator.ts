@@ -23,7 +23,8 @@ class BaseDeduplicator {
       if (track === null) return duplicates;
       if (track.id === null) return duplicates;
       let isDuplicate = false;
-      const seenNameAndArtistKey = `${track.name}:${track.artists[0].name}`.toLowerCase();
+      const seenNameAndArtistKey =
+        `${track.name}:${track.artists[0].name}`.toLowerCase();
       if (track.id in seenIds) {
         // if the two tracks have the same Spotify ID, they are duplicates
         isDuplicate = true;
@@ -70,12 +71,13 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         api,
         api.getGeneric(playlist.tracks.href) // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
       )
-        .then((
-          pagePromises // todo: I'd love to replace this with
-        ) =>
-          // .then(Promise.all)
-          // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
-          Promise.all(pagePromises)
+        .then(
+          (
+            pagePromises // todo: I'd love to replace this with
+          ) =>
+            // .then(Promise.all)
+            // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
+            Promise.all(pagePromises)
         )
         .then((pages) => {
           pages.forEach((page) => {
@@ -93,7 +95,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
     api: SpotifyWebApi,
     playlistModel: PlaylistModel
   ) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (playlistModel.playlist.id === 'starred') {
         reject(
           'It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
@@ -149,12 +151,13 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
     return new Promise((resolve, reject) => {
       const tracks = [];
       promisesForPages(api, initialRequest)
-        .then((
-          pagePromises // todo: I'd love to replace this with
-        ) =>
-          // .then(Promise.all)
-          // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
-          Promise.all(pagePromises)
+        .then(
+          (
+            pagePromises // todo: I'd love to replace this with
+          ) =>
+            // .then(Promise.all)
+            // à la http://www.html5rocks.com/en/tutorials/es6/promises/#toc-transforming-values
+            Promise.all(pagePromises)
         )
         .then((pages) => {
           pages.forEach((page) => {
@@ -184,7 +187,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
       }>;
     }
   ) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const tracksToRemove: Array<string> = model.duplicates.map((d) =>
         d.track.linked_from ? d.track.linked_from.id : d.track.id
       );

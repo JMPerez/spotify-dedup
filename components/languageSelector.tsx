@@ -30,6 +30,10 @@ const LanguageSelector = () => {
           <a>Dutch</a>
         </Link>
         ,{' '}
+        <Link prefetch={false} href="/pl/">
+          <a>Polish</a>
+        </Link>
+        ,{' '}
         <Link prefetch={false} href="/pt/">
           <a>Portuguese</a>
         </Link>
