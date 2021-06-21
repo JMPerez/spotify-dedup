@@ -92,8 +92,8 @@ export default function Stats({ data }) {
           <div className="row">
             <h1>Stats about Spotify Dedup</h1>
             <p>
-              This page lists shows open data about Spotify Dedup. The metrics
-              are gathered using{' '}
+              This page shows open data about Spotify Dedup. The metrics are
+              gathered using{' '}
               <a href="https://github.com/JMPerez/spotify-app-stats">
                 spotify-app-stats
               </a>
