@@ -30,6 +30,7 @@ export type SpotifyPlaylistTrackType = {
   added_by: SpotifyUserType;
   is_local: boolean;
   track: SpotifyTrackType | null;
+  playlist: SpotifyPlaylistType
 };
 
 export type SpotifySavedTrackType = {
@@ -116,8 +117,8 @@ export default class SpotifyWebApi {
       Object.keys(options).length === 0
         ? ''
         : `?${Object.keys(options)
-            .map((k) => `${k}=${options[k]}`)
-            .join('&')}`;
+          .map((k) => `${k}=${options[k]}`)
+          .join('&')}`;
 
     try {
       const res = await fetch(`${url}${optionsString}`, {
