@@ -112,11 +112,13 @@ export class MultiPlaylistDeduplicator {
           seenNameAndArtistDate[seenNameAndArtistKey] = insertDate;
           // we have to fix the parent playlist in all existing playlists with the same duplicate. maybe there is a more 
           // efficient structures for storing duplicates e.g. a tree
-          duplicates.forEach(dup => {
-            if (`${dup.track.name}:${dup.track.artists[0].name}`.toLowerCase() == seenNameAndArtistKey && dup.firstPlaylist === newerPlaylist) {
-              dup.firstPlaylist = firstPlaylist;
-            }
-          });
+          if (seenNameAndArtistKey in seenNameAndArtist) {
+            duplicates.forEach(dup => {
+              if (`${dup.track.name}:${dup.track.artists[0].name}`.toLowerCase() == seenNameAndArtistKey && dup.firstPlaylist === newerPlaylist) {
+                dup.firstPlaylist = firstPlaylist;
+              }
+            });
+          }
         }
         duplicates.push({
           index: index,
