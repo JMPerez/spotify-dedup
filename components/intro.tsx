@@ -34,6 +34,8 @@ const Intro = props => {
             {t('home.login-button')}
           </button>
         </p>
+        <label>de-duplicate across playlists?</label>
+        <input type="checkbox" onChange={props.onMultiPlaylistToggle}></input>
       </div>
       <style jsx>
         {`

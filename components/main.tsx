@@ -53,6 +53,7 @@ export default class Main extends React.Component<{
   api: any;
   user: SpotifyUserType;
   accessToken: string;
+  multiPlaylistDedup: boolean;
 }> {
   state: StateType = {
     toProcess: null,
@@ -68,7 +69,7 @@ export default class Main extends React.Component<{
     process.on('updateState', (state) => {
       this.setState(state);
     });
-    process.process(this.props.api, this.props.user);
+    process.process(this.props.api, this.props.user, this.props.multiPlaylistDedup);
 
     const hasUsedSpotifyTop = async () => {
       const res = await fetch(`https://spotify-top.com/api/profile`, {
@@ -84,8 +85,8 @@ export default class Main extends React.Component<{
         .then((result) => {
           this.setState({ hasUsedSpotifyTop: result === true });
         })
-        .catch((e) => {});
-    } catch (e) {}
+        .catch((e) => { });
+    } catch (e) { }
   }
 
   removeDuplicates = (playlist: PlaylistModel) => {
@@ -167,9 +168,9 @@ export default class Main extends React.Component<{
       this.state.playlists.length === 0
         ? 0
         : this.state.playlists.reduce(
-            (prev, current) => prev + current.duplicates.length,
-            0
-          ) + this.state.savedTracks.duplicates.length;
+          (prev, current) => prev + current.duplicates.length,
+          0
+        ) + this.state.savedTracks.duplicates.length;
 
     return (
       <div>
@@ -246,62 +247,63 @@ export default class Main extends React.Component<{
         <ul className="playlists-list">
           {(this.state.savedTracks.duplicates.length ||
             this.state.savedTracks.status) && (
-            <li className="playlists-list-item media">
-              <div className="img">
-                <img
-                  width="100"
-                  height="100"
-                  className="playlists-list-item__img"
-                  src={'./placeholder.png'}
-                />
-              </div>
-              <div className="bd">
-                <span className="playlists-list-item__name">
-                  <Translation>{(t) => t('process.saved.title')}</Translation>
-                </span>
-                {this.state.savedTracks.status && (
-                  <Badge>
-                    <Translation>
-                      {(t) => t(this.state.savedTracks.status)}
-                    </Translation>
-                  </Badge>
-                )}
-                {this.state.savedTracks.duplicates.length != 0 && (
-                  <span>
-                    <span>
-                      <Translation>
-                        {(t) =>
-                          t('process.saved.duplicates', {
-                            count: this.state.savedTracks.duplicates.length,
-                          })
-                        }
-                      </Translation>
-                    </span>
-                    <button
-                      className="btn btn-primary btn-sm playlist-list-item__btn"
-                      onClick={() => this.removeDuplicatesInSavedTracks()}
-                    >
-                      <Translation>
-                        {(t) => t('process.saved.remove-button')}
-                      </Translation>
-                    </button>
-                    <DuplicateTrackList>
-                      {this.state.savedTracks.duplicates.map(
-                        (duplicate, index) => (
-                          <DuplicateTrackListItem
-                            key={index}
-                            reason={duplicate.reason}
-                            trackName={duplicate.track.name}
-                            trackArtistName={duplicate.track.artists[0].name}
-                          />
-                        )
-                      )}
-                    </DuplicateTrackList>
+              <li className="playlists-list-item media">
+                <div className="img">
+                  <img
+                    width="100"
+                    height="100"
+                    className="playlists-list-item__img"
+                    src={'./placeholder.png'}
+                  />
+                </div>
+                <div className="bd">
+                  <span className="playlists-list-item__name">
+                    <Translation>{(t) => t('process.saved.title')}</Translation>
                   </span>
-                )}
-              </div>
-            </li>
-          )}
+                  {this.state.savedTracks.status && (
+                    <Badge>
+                      <Translation>
+                        {(t) => t(this.state.savedTracks.status)}
+                      </Translation>
+                    </Badge>
+                  )}
+                  {this.state.savedTracks.duplicates.length != 0 && (
+                    <span>
+                      <span>
+                        <Translation>
+                          {(t) =>
+                            t('process.saved.duplicates', {
+                              count: this.state.savedTracks.duplicates.length,
+                            })
+                          }
+                        </Translation>
+                      </span>
+                      <button
+                        className="btn btn-primary btn-sm playlist-list-item__btn"
+                        onClick={() => this.removeDuplicatesInSavedTracks()}
+                      >
+                        <Translation>
+                          {(t) => t('process.saved.remove-button')}
+                        </Translation>
+                      </button>
+                      <DuplicateTrackList>
+                        {this.state.savedTracks.duplicates.map(
+                          (duplicate, index) => (
+                            <DuplicateTrackListItem
+                              key={index}
+                              reason={duplicate.reason}
+                              trackName={duplicate.track.name}
+                              trackArtistName={duplicate.track.artists[0].name}
+                              firstPlaylistName={null}
+                            />
+                          )
+                        )}
+                      </DuplicateTrackList>
+                    </span>
+                  )}
+                </div>
+              </li>
+            )}
           {this.state.playlists
             .filter((p) => p.duplicates.length || p.status != '')
             .map((playlist: PlaylistModel, index) => (
@@ -353,6 +355,7 @@ export default class Main extends React.Component<{
                             reason={duplicate.reason}
                             trackName={duplicate.track.name}
                             trackArtistName={duplicate.track.artists[0].name}
+                            firstPlaylistName={duplicate.firstPlaylist ? duplicate.firstPlaylist.name : null}
                           />
                         ))}
                       </DuplicateTrackList>

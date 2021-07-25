@@ -4,6 +4,7 @@ import Badge from './badge';
 
 export const DuplicateTrackListItem = ({
   reason,
+  firstPlaylistName,
   trackName,
   trackArtistName,
 }) => {
@@ -11,10 +12,10 @@ export const DuplicateTrackListItem = ({
   return (
     <li>
       {reason === 'same-id' && (
-        <Badge>{t('result.duplicate.reason-same-id')}</Badge>
+        <Badge>{t('result.duplicate.reason-same-id')} {firstPlaylistName ? " from " + firstPlaylistName : ""} </Badge>
       )}
       {reason === 'same-name-artist' && (
-        <Badge>{t('result.duplicate.reason-same-data')}</Badge>
+        <Badge>{t('result.duplicate.reason-same-data')} {firstPlaylistName ? " from " + firstPlaylistName : ""}</Badge>
       )}
       <Trans i18nKey="result.duplicate.track">
         <span>{{ trackName }}</span> <span className="gray">by</span>{' '}

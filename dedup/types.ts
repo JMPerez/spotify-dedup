@@ -7,6 +7,8 @@ export type PlaylistModel = {
     index: number;
     reason: string;
     track: SpotifyTrackType;
+    firstPlaylist?: SpotifyPlaylistType,
+    newerPlaylist?: SpotifyPlaylistType
   }>;
   status: string;
   processed: boolean;
