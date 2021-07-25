@@ -16,7 +16,7 @@ class BaseDeduplicator {
     throw 'Not implemented';
   }
 
-  static findDuplicatedTracks(tracks: Array<SpotifyTrackType>, multiPlaylist: boolean = false) {
+  static findDuplicatedTracks(tracks: Array<SpotifyTrackType>) {
     const seenIds: { [key: string]: boolean } = {};
     const seenNameAndArtist: { [key: string]: Array<number> } = {};
     const result = tracks.reduce((duplicates, track, index) => {
@@ -48,8 +48,7 @@ class BaseDeduplicator {
           track: track,
           reason: track.id in seenIds ? 'same-id' : 'same-name-artist',
         });
-      }
-      else {
+      } else {
         seenIds[track.id] = true;
         seenNameAndArtist[seenNameAndArtistKey] =
           seenNameAndArtist[seenNameAndArtistKey] || [];
