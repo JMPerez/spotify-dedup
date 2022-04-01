@@ -175,7 +175,7 @@ export default function Stats({ data }) {
 
 export async function getStaticProps() {
   let data = null;
-  if (
+  /*if (
     process.env.SPOTIFY_USERNAME &&
     process.env.SPOTIFY_PASSWORD &&
     process.env.SPOTIFY_APP_ID
@@ -188,7 +188,7 @@ export async function getStaticProps() {
     );
     data = await spotifyAppStats.getStats(process.env.SPOTIFY_APP_ID);
     spotifyAppStats.destroy();
-  }
+  }*/
   return {
     props: {
       data,
