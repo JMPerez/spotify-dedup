@@ -1,12 +1,13 @@
-import SpotifyAppStats from 'spotify-app-stats';
-import Page from '../../layouts/main';
-import Header from '../../components/head';
-import Head from 'next/head';
-import { useState } from 'react';
-import { LineChart, BarChart } from 'react-chartkick';
 import 'chartkick/chart.js';
-
 import '../../i18n';
+
+import { BarChart, LineChart } from 'react-chartkick';
+
+import Head from 'next/head';
+import Header from '../../components/head';
+import Page from '../../layouts/main';
+import SpotifyAppStats from '../../lib/SpotifyAppStats';
+import { useState } from 'react';
 
 function MyChart({ data }) {
   const d = {};
