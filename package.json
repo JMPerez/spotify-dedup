@@ -23,7 +23,6 @@
     "i18next": "^21.6.14",
     "next": "^12.1.4",
     "next-i18next": "^10.5.0",
-    "puppeteer-core": "^13.5.2",
     "react": "18.0.0",
     "react-chartkick": "^0.5.2",
     "react-dom": "18.0.0",

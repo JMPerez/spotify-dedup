@@ -17,7 +17,7 @@ export default async function screenshot(url: string) {
                         ? '/usr/bin/google-chrome'
                         : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
         };
-    const browser = await puppeteer.launch(options);
+    const browser = await chrome.puppeteer.launch(options);
     const page = await browser.newPage();
     await page.setViewport({ width: 2000, height: 1000 });
     await page.goto(url, { waitUntil: 'networkidle0' });
