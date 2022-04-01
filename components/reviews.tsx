@@ -74,7 +74,7 @@ const Reviews = () => {
       </p>
       {i18n.language === 'en' ? (
         <p style={{ textAlign: 'center' }}>
-          Read what <strong>700+ supporters</strong> think about Spotify Dedup
+          Read what <strong>1,100+ supporters</strong> think about Spotify Dedup
           on <a href="https://www.buymeacoffee.com/jmp">Buy Me a Coffee</a>.
         </p>
       ) : null}
