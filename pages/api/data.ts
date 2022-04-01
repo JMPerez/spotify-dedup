@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import SpotifyAppStats from '../../lib/SpotifyAppStats';
+//import SpotifyAppStats from '../../lib/SpotifyAppStats';
 
 export default async function Screenshot(req: NextApiRequest, res: NextApiResponse) {
     let data = null;
-    if (
+    /*if (
         process.env.SPOTIFY_USERNAME &&
         process.env.SPOTIFY_PASSWORD &&
         process.env.SPOTIFY_APP_ID
@@ -17,7 +17,7 @@ export default async function Screenshot(req: NextApiRequest, res: NextApiRespon
         );
         data = await spotifyAppStats.getStats(process.env.SPOTIFY_APP_ID);
         spotifyAppStats.destroy();
-    }
+    }*/
 
     res.status(200).json(data);
 }

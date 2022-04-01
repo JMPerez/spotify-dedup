@@ -6,7 +6,7 @@ import { BarChart, LineChart } from 'react-chartkick';
 import Head from 'next/head';
 import Header from '../../components/head';
 import Page from '../../layouts/main';
-import SpotifyAppStats from '../../lib/SpotifyAppStats';
+// import SpotifyAppStats from '../../lib/SpotifyAppStats';
 import { useState } from 'react';
 
 function MyChart({ data }) {
