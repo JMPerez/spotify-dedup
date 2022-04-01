@@ -6,7 +6,7 @@ const username = process.env.SPOTIFY_USERNAME;
 const password = process.env.SPOTIFY_PASSWORD;
 const applicationId = process.env.SPOTIFY_APP_ID;
 
-export default async function data(url: string) {
+export default async function data() {
     const options = process.env.AWS_REGION
         ? {
             args: chrome.args,
@@ -28,7 +28,9 @@ export default async function data(url: string) {
     const accessToken = await new Promise(async (resolve, reject) => {
         console.log('Go to applications');
 
-        await page.goto("https://developer.spotify.com/dashboard/applications", { waitUntil: 'networkidle0' });
+        await page.goto("https://developer.spotify.com/dashboard/applications");
+
+        console.log('Click!');
         let array = await Promise.all([
             new Promise((resolve) => page.once("popup", resolve)),
             page.click('button[class="btn btn-sm btn-primary"]'),
@@ -47,6 +49,7 @@ export default async function data(url: string) {
         await popup.click('button[id="login-button"]');
 
         popup.on("close", async (popup) => {
+            console.log('popup closed')
             if (
                 page.url() === "https://developer.spotify.com/dashboard/tos-accept"
             ) {
@@ -57,6 +60,7 @@ export default async function data(url: string) {
                 return localStorage.getItem("_sp_self_prov_accessToken");
             });
             if (accessToken) {
+                console.log(accessToken);
                 resolve(accessToken);
             } else {
                 reject();
@@ -70,7 +74,7 @@ export default async function data(url: string) {
                 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0) Gecko/20100101 Firefox/78.0",
             Accept: "application/json, text/plain, */*",
             "Accept-Language": "en-US,en;q=0.5",
-            Authorization: `Bearer ${this.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
         },
         method: "GET",
     }).then((res) => res.json());
