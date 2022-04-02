@@ -42,9 +42,6 @@ export default async function data() {
     await popup.waitForSelector("#login-password");
     await popup.focus("#login-password");
     await popup.keyboard.type(password);
-    console.log('Click on login');
-
-    await popup.click('button[id="login-button"]');
 
     popup.on("close", async () => {
       console.log('popup closed')
@@ -64,6 +61,10 @@ export default async function data() {
         reject();
       }
     });
+    console.log('Click on login');
+
+    await popup.click('button[id="login-button"]');
+
   });
 
   const result = fetch(`https://api.spotify.com/v1/appstats/${applicationId}`, {

@@ -9,6 +9,7 @@ const Bmc = () => {
       <a
         className="bmc-button"
         target="_blank"
+        rel="noreferrer"
         href="https://www.buymeacoffee.com/jmp"
         onClick={() => {
           global['ga'] &&

@@ -6,7 +6,9 @@ import { BarChart, LineChart } from 'react-chartkick';
 import Head from 'next/head';
 import Header from '../../components/head';
 import Page from '../../layouts/main';
-// import SpotifyAppStats from '../../lib/SpotifyAppStats';
+import { SpotifyAppData } from '../../lib/types';
+import fetcher from '../../lib/fetcher';
+import useSWR from 'swr';
 import { useState } from 'react';
 
 function MyChart({ data }) {
@@ -52,7 +54,10 @@ const LocationChart = ({ data }) => {
     );
   }
 };
-export default function Stats({ data }) {
+
+export default function Stats() {
+  const { data } = useSWR<SpotifyAppData>('/api/data', fetcher);
+  console.log({ data });
   if (!data) {
     return <div>Stats not available</div>;
   }
@@ -98,7 +103,7 @@ export default function Stats({ data }) {
               <a href="https://github.com/JMPerez/spotify-app-stats">
                 spotify-app-stats
               </a>
-              , a npm package to read data from a Spotify app in Spotify's
+              , a npm package to read data from a Spotify app in Spotify&apos;s
               developer site dashboard.
             </p>
             <h2>Monthly Active Users (MAU)</h2>
@@ -171,27 +176,4 @@ export default function Stats({ data }) {
       </style>
     </Page>
   );
-}
-
-export async function getStaticProps() {
-  let data = null;
-  /*if (
-    process.env.SPOTIFY_USERNAME &&
-    process.env.SPOTIFY_PASSWORD &&
-    process.env.SPOTIFY_APP_ID
-  ) {
-    const spotifyAppStats = new SpotifyAppStats();
-    await spotifyAppStats.init();
-    await spotifyAppStats.login(
-      process.env.SPOTIFY_USERNAME,
-      process.env.SPOTIFY_PASSWORD
-    );
-    data = await spotifyAppStats.getStats(process.env.SPOTIFY_APP_ID);
-    spotifyAppStats.destroy();
-  }*/
-  return {
-    props: {
-      data,
-    },
-  };
 }
