@@ -17,30 +17,6 @@ export default function App({ Component, pageProps }: AppProps) {
         ></Script>
       )}
       {include3rdPartyScripts &&
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-              if (location.host === 'spotify-dedup.com') {
-                (function (b, o, i, l, e, r) {
-                  b.GoogleAnalyticsObject = l;
-                  b[l] ||
-                    (b[l] = function () {
-                      (b[l].q = b[l].q || []).push(arguments);
-                    });
-                  b[l].l = +new Date();
-                  e = o.createElement(i);
-                  r = o.getElementsByTagName(i)[0];
-                  e.src = '//www.google-analytics.com/analytics.js';
-                  e.defer = true;
-                  r.parentNode.insertBefore(e, r);
-                })(window, document, 'script', 'ga');
-              ga('create', 'UA-39254352-6');
-              ga('send', 'pageview');
-              }
-              `}
-        </Script>
-      }
-
-      {include3rdPartyScripts &&
         <Script id="sentry" strategy="afterInteractive">
           {`
             window.Sentry &&
