@@ -26,8 +26,11 @@ const MetaHead = () => {
       <meta name="viewport" content="width=device-width" />
       <link
         rel="canonical"
-        href={`https://spotify-dedup.com/${i18n.language === 'en' ? '' : i18n.language + '/'
-          }`}
+        href={
+          i18n.language === 'en'
+            ? 'https://spotify-dedup.com/'
+            : `https://spotify-dedup.com/${i18n.language}`
+        }
       />
       {AvailableLanguages.map(
         (language) => (
@@ -38,7 +41,7 @@ const MetaHead = () => {
             href={
               language === 'en'
                 ? 'https://spotify-dedup.com/'
-                : `https://spotify-dedup.com/${language}/`
+                : `https://spotify-dedup.com/${language}`
             }
           ></link>
         )
