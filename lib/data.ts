@@ -43,6 +43,7 @@ export default async function data() {
     await popup.focus("#login-password");
     await popup.keyboard.type(password);
 
+    await popup.waitForSelector('button[id="login-button"]');
     popup.on("close", async () => {
       console.log('popup closed')
       if (
@@ -61,9 +62,10 @@ export default async function data() {
         reject();
       }
     });
-    console.log('Click on login');
 
     await popup.click('button[id="login-button"]');
+    await popup.click('button[id="login-button"]');
+
 
   });
 

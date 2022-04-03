@@ -28,8 +28,7 @@
     "react-dom": "18.0.0",
     "react-i18next": "^11.16.2",
     "spotify-app-stats": "^0.0.1",
-    "swr": "^1.2.2",
-    "victory": "^36.3.1"
+    "swr": "^1.2.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
