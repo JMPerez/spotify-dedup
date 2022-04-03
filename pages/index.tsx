@@ -1,17 +1,18 @@
-import React from 'react';
+import '../i18n';
 
 import Index from '../components/pages/index';
 import Page from '../layouts/main';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import '../i18n';
-
-class App extends React.Component {
-  render() {
-    return (
-      <Page>
-        <Index />
-      </Page>
-    );
-  }
+const IndexComponent = () => {
+  const { t, i18n } = useTranslation();
+  i18n.changeLanguage('en');
+  return (
+    <Page>
+      <Index />
+    </Page>
+  );
 }
-export default App;
+
+export default IndexComponent;
