@@ -1,11 +1,11 @@
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 import { useAnalytics } from '../lib/analytics';
-
+import { useRouter } from 'next/router';
 export default function App({ Component, pageProps }: AppProps) {
   useAnalytics();
-  console.log({ pageProps })
-
+  const router = useRouter();
+  console.log({ router })
   const include3rdPartyScripts = true;
   return (
     <>
