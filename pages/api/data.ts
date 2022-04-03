@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import data from '../../lib/data';
 
-export default async function Screenshot(req: NextApiRequest, res: NextApiResponse) {
+export default async function SpotifyAppData(req: NextApiRequest, res: NextApiResponse) {
   let d = await data();
   res.setHeader(
     'Cache-Control',
