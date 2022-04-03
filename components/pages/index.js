@@ -18,10 +18,10 @@ const MetaHead = () => {
   return (
     <Head>
       <title>{t('meta.title')}</title>
-      <meta name="og:title" content={t('meta.title')} />
+      <meta property="og:title" content={t('meta.title')} />
       <meta name="twitter:title" content={t('meta.title')} />
       <meta name="description" content={t('meta.description')} />
-      <meta name="og:description" content={t('meta.description')} />
+      <meta property="og:description" content={t('meta.description')} />
       <meta name="twitter:description" content={t('meta.description')} />
       <meta name="viewport" content="width=device-width" />
       <link
@@ -32,6 +32,15 @@ const MetaHead = () => {
             : `https://spotify-dedup.com/${i18n.language}`
         }
       />
+      <meta
+        property="og:url"
+        content={
+          i18n.language === 'en'
+            ? 'https://spotify-dedup.com/'
+            : `https://spotify-dedup.com/${i18n.language}`
+        }
+      />
+      <meta property="og:type" content="website" />
       {AvailableLanguages.map(
         (language) => (
           <link
