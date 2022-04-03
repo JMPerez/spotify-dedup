@@ -2,14 +2,13 @@ import 'chartkick/chart.js';
 import '../i18n';
 
 import { BarChart, LineChart } from 'react-chartkick';
-import useSWR, { SWRConfig } from 'swr'
 
 import Head from 'next/head';
 import Header from '../components/head';
 import Page from '../layouts/main';
 import { SpotifyAppData } from '../lib/types';
-import SpotifyAppDataFetcher from '../lib/data';
 import fetcher from '../lib/fetcher';
+import useSWR from 'swr';
 import { useState } from 'react';
 
 function MyChart({ data }) {
@@ -19,6 +18,7 @@ function MyChart({ data }) {
   });
   return <LineChart data={d} thousands="," />;
 }
+
 
 const LocationChart = ({ data }) => {
   const [expanded, setExpanded] = useState(false);
@@ -46,7 +46,7 @@ const getLocationData = (data: SpotifyAppData) => data.map_data.locations.map((l
   location.number_of_users,
 ]);
 
-export default function Stats({ fallback }) {
+export default function Stats() {
   const { data } = useSWR<SpotifyAppData>('/api/data', fetcher);
   if (data?.error) {
     return <div>Stats not available</div>;
@@ -74,78 +74,76 @@ export default function Stats({ fallback }) {
       </Head>
       <div className="container">
         <Header />
-        <SWRConfig value={{ fallback }}>
-          <div className="row">
-            <h1>Stats about Spotify Dedup</h1>
-            <p>
-              This page shows open data about Spotify Dedup. The metrics are
-              gathered using{' '}
-              <a href="https://github.com/JMPerez/spotify-app-stats">
-                spotify-app-stats
-              </a>
-              , a npm package to read data from a Spotify app in Spotify&apos;s
-              developer site dashboard.
+        <div className="row">
+          <h1>Stats about Spotify Dedup</h1>
+          <p>
+            This page shows open data about Spotify Dedup. The metrics are
+            gathered using{' '}
+            <a href="https://github.com/JMPerez/spotify-app-stats">
+              spotify-app-stats
+            </a>
+            , a npm package to read data from a Spotify app in Spotify&apos;s
+            developer site dashboard.
+          </p>
+          <h2>Monthly Active Users (MAU)</h2>
+          {data ?
+            <><p>
+              The most recent value for MAU is{' '}
+              <strong>
+                {Intl.NumberFormat('en-US').format(
+                  data.mau[data.mau.length - 1].number_of_maus
+                )}
+              </strong>{' '}
+              users
             </p>
-            <h2>Monthly Active Users (MAU)</h2>
-            {data ?
-              <><p>
-                The most recent value for MAU is{' '}
-                <strong>
-                  {Intl.NumberFormat('en-US').format(
-                    data.mau[data.mau.length - 1].number_of_maus
-                  )}
-                </strong>{' '}
-                users
-              </p>
-                <MyChart
-                  data={data.mau.map((a) => ({
-                    name: a.date,
-                    value: a.number_of_maus,
-                  }))}
-                /> </> : <p>Loading...</p>}
-            <h2>Daily Active Users (DAU)</h2>
-            {data ?
-              <><p>
-                This chart shows how many users are logging in on Spotify Dedup
-                with their Spotify accounts every day. The most recent value for
-                DAU is{' '}
-                <strong>
-                  {Intl.NumberFormat('en-US').format(
-                    data.dau[data.dau.length - 1].number_of_daus
-                  )}
-                </strong>
-                .
-              </p>
-                <MyChart
-                  data={data.dau.map((a) => ({
-                    name: a.date,
-                    value: a.number_of_daus,
-                  }))}
-                /> </> : <p>Loading...</p>}
-            {data &&
-              <LocationChart data={getLocationData(data)} />}
-            <h2>Number of Requests</h2>
-            {data ?
-              <><p>
-                This chart shows how many requests to the Spotify Web API are made
-                to read the list of playlists ans saved songs, get the list of
-                songs in a playlist, and remove duplicates. The most recent value
-                is{' '}
-                <strong>
-                  {Intl.NumberFormat('en-US').format(
-                    data.total_requests[data.total_requests.length - 1].number_of_requests
-                  )}
-                </strong>
-                .
-              </p>
-                <MyChart
-                  data={data.total_requests.map((a) => ({
-                    name: a.date,
-                    value: a.number_of_requests,
-                  }))}
-                /> </> : <p>Loading...</p>}
-          </div>
-        </SWRConfig>
+              <MyChart
+                data={data.mau.map((a) => ({
+                  name: a.date,
+                  value: a.number_of_maus,
+                }))}
+              /> </> : <p>Loading...</p>}
+          <h2>Daily Active Users (DAU)</h2>
+          {data ?
+            <><p>
+              This chart shows how many users are logging in on Spotify Dedup
+              with their Spotify accounts every day. The most recent value for
+              DAU is{' '}
+              <strong>
+                {Intl.NumberFormat('en-US').format(
+                  data.dau[data.dau.length - 1].number_of_daus
+                )}
+              </strong>
+              .
+            </p>
+              <MyChart
+                data={data.dau.map((a) => ({
+                  name: a.date,
+                  value: a.number_of_daus,
+                }))}
+              /> </> : <p>Loading...</p>}
+          {data &&
+            <LocationChart data={getLocationData(data)} />}
+          <h2>Number of Requests</h2>
+          {data ?
+            <><p>
+              This chart shows how many requests to the Spotify Web API are made
+              to read the list of playlists ans saved songs, get the list of
+              songs in a playlist, and remove duplicates. The most recent value
+              is{' '}
+              <strong>
+                {Intl.NumberFormat('en-US').format(
+                  data.total_requests[data.total_requests.length - 1].number_of_requests
+                )}
+              </strong>
+              .
+            </p>
+              <MyChart
+                data={data.total_requests.map((a) => ({
+                  name: a.date,
+                  value: a.number_of_requests,
+                }))}
+              /> </> : <p>Loading...</p>}
+        </div>
       </div>
       <style jsx>
         {`
@@ -162,14 +160,6 @@ export default function Stats({ fallback }) {
   );
 }
 
-export async function getStaticProps() {
-  const data = await SpotifyAppDataFetcher()
-  return {
-    props: {
-      fallback: {
-        '/api/data': data
-      }
-    },
-    revalidate: 86400,
-  }
-}
+// SSG can't be used here. Trying to use it will
+// trigger an error on Vercel
+// Error: Failed to launch the browser process! spawn /usr/bin/google-chrome ENOENT
