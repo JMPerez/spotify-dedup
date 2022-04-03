@@ -1,4 +1,5 @@
 import type { Page } from 'puppeteer-core';
+import { SpotifyAppData } from '../lib/types';
 import chrome from 'chrome-aws-lambda';
 const username = process.env.SPOTIFY_USERNAME;
 const password = process.env.SPOTIFY_PASSWORD;
@@ -65,11 +66,9 @@ export default async function data() {
 
     await popup.click('button[id="login-button"]');
     await popup.click('button[id="login-button"]');
-
-
   });
 
-  const result = fetch(`https://api.spotify.com/v1/appstats/${applicationId}`, {
+  const result: SpotifyAppData = await (await fetch(`https://api.spotify.com/v1/appstats/${applicationId}`, {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0) Gecko/20100101 Firefox/78.0",
@@ -78,7 +77,31 @@ export default async function data() {
       Authorization: `Bearer ${accessToken}`,
     },
     method: "GET",
-  }).then((res) => res.json());
+  })).json();
 
+  // clean up result
+
+
+  const trimRightZeros = (array, fn) => {
+    if (array === null) return array;
+    let index = array.length - 1;
+    let skipped = 0;
+    while (index >= 0) {
+      if (fn(array[index]) !== 0) {
+        if (skipped === 0) return array;
+        return array.slice(0, -skipped);
+      }
+      skipped++;
+      index--;
+    }
+    return [];
+  };
+
+  result.mau = trimRightZeros(result.mau, (item) => item.number_of_maus);
+  result.dau = trimRightZeros(result.dau, (item) => item.number_of_daus);
+  result.total_requests = trimRightZeros(
+    result.total_requests,
+    (item) => item.number_of_requests
+  );
   return result;
 }

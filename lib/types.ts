@@ -29,10 +29,14 @@ type MapData = {
   locations: Array<SpotifyAppCountryUsers>;
 }
 
+interface ErrorHandling {
+  error?: { message: string };
+}
+
 export type SpotifyAppData = {
   dau: Array<SpotifyAppDataDau>;
   mau: Array<SpotifyAppDataMau>;
   endpoints: Array<SpotifyAppDataEndpoint>;
   total_requests: Array<SpotifyAppDataRequests>;
   map_data: MapData
-};
+} & ErrorHandling;

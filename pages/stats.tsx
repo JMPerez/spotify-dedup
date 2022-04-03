@@ -1,13 +1,13 @@
 import 'chartkick/chart.js';
-import '../../i18n';
+import '../i18n';
 
 import { BarChart, LineChart } from 'react-chartkick';
 
 import Head from 'next/head';
-import Header from '../../components/head';
-import Page from '../../layouts/main';
-import { SpotifyAppData } from '../../lib/types';
-import fetcher from '../../lib/fetcher';
+import Header from '../components/head';
+import Page from '../layouts/main';
+import { SpotifyAppData } from '../lib/types';
+import fetcher from '../lib/fetcher';
 import useSWR from 'swr';
 import { useState } from 'react';
 
@@ -19,20 +19,6 @@ function MyChart({ data }) {
   return <LineChart data={d} thousands="," />;
 }
 
-const trimRightZeros = (array, fn) => {
-  if (array === null) return array;
-  let index = array.length - 1;
-  let skipped = 0;
-  while (index >= 0) {
-    if (fn(array[index]) !== 0) {
-      if (skipped === 0) return array;
-      return array.slice(0, -skipped);
-    }
-    skipped++;
-    index--;
-  }
-  return [];
-};
 
 const LocationChart = ({ data }) => {
   const [expanded, setExpanded] = useState(false);
@@ -55,22 +41,16 @@ const LocationChart = ({ data }) => {
   }
 };
 
+const getLocationData = (data: SpotifyAppData) => data.map_data.locations.map((location) => [
+  location.country_code,
+  location.number_of_users,
+]);
+
 export default function Stats() {
   const { data } = useSWR<SpotifyAppData>('/api/data', fetcher);
-  console.log({ data });
-  if (!data) {
+  if (data?.error) {
     return <div>Stats not available</div>;
   }
-  const maus = trimRightZeros(data.mau, (item) => item.number_of_maus);
-  const daus = trimRightZeros(data.dau, (item) => item.number_of_daus);
-  const total_requests = trimRightZeros(
-    data.total_requests,
-    (item) => item.number_of_requests
-  );
-  const locationData = data.map_data.locations.map((location) => [
-    location.country_code,
-    location.number_of_users,
-  ]);
 
   return (
     <Page>
@@ -94,74 +74,76 @@ export default function Stats() {
       </Head>
       <div className="container">
         <Header />
-        {data === null ? null : (
-          <div className="row">
-            <h1>Stats about Spotify Dedup</h1>
-            <p>
-              This page shows open data about Spotify Dedup. The metrics are
-              gathered using{' '}
-              <a href="https://github.com/JMPerez/spotify-app-stats">
-                spotify-app-stats
-              </a>
-              , a npm package to read data from a Spotify app in Spotify&apos;s
-              developer site dashboard.
-            </p>
-            <h2>Monthly Active Users (MAU)</h2>
-            <p>
+        <div className="row">
+          <h1>Stats about Spotify Dedup</h1>
+          <p>
+            This page shows open data about Spotify Dedup. The metrics are
+            gathered using{' '}
+            <a href="https://github.com/JMPerez/spotify-app-stats">
+              spotify-app-stats
+            </a>
+            , a npm package to read data from a Spotify app in Spotify&apos;s
+            developer site dashboard.
+          </p>
+          <h2>Monthly Active Users (MAU)</h2>
+          {data ?
+            <><p>
               The most recent value for MAU is{' '}
               <strong>
                 {Intl.NumberFormat('en-US').format(
-                  maus[maus.length - 1].number_of_maus
+                  data.mau[data.mau.length - 1].number_of_maus
                 )}
               </strong>{' '}
               users
             </p>
-            <MyChart
-              data={maus.map((a) => ({
-                name: a.date,
-                value: a.number_of_maus,
-              }))}
-            />
-            <h2>Daily Active Users (DAU)</h2>
-            <p>
+              <MyChart
+                data={data.mau.map((a) => ({
+                  name: a.date,
+                  value: a.number_of_maus,
+                }))}
+              /> </> : <p>Loading...</p>}
+          <h2>Daily Active Users (DAU)</h2>
+          {data ?
+            <><p>
               This chart shows how many users are logging in on Spotify Dedup
               with their Spotify accounts every day. The most recent value for
               DAU is{' '}
               <strong>
                 {Intl.NumberFormat('en-US').format(
-                  daus[daus.length - 1].number_of_daus
+                  data.dau[data.dau.length - 1].number_of_daus
                 )}
               </strong>
               .
             </p>
-            <MyChart
-              data={daus.map((a) => ({
-                name: a.date,
-                value: a.number_of_daus,
-              }))}
-            />
-            <LocationChart data={locationData} />
-            <h2>Number of Requests</h2>
-            <p>
+              <MyChart
+                data={data.dau.map((a) => ({
+                  name: a.date,
+                  value: a.number_of_daus,
+                }))}
+              /> </> : <p>Loading...</p>}
+          {data &&
+            <LocationChart data={getLocationData(data)} />}
+          <h2>Number of Requests</h2>
+          {data ?
+            <><p>
               This chart shows how many requests to the Spotify Web API are made
               to read the list of playlists ans saved songs, get the list of
               songs in a playlist, and remove duplicates. The most recent value
               is{' '}
               <strong>
                 {Intl.NumberFormat('en-US').format(
-                  total_requests[total_requests.length - 1].number_of_requests
+                  data.total_requests[data.total_requests.length - 1].number_of_requests
                 )}
               </strong>
               .
             </p>
-            <MyChart
-              data={total_requests.map((a) => ({
-                name: a.date,
-                value: a.number_of_requests,
-              }))}
-            />
-          </div>
-        )}
+              <MyChart
+                data={data.total_requests.map((a) => ({
+                  name: a.date,
+                  value: a.number_of_requests,
+                }))}
+              /> </> : <p>Loading...</p>}
+        </div>
       </div>
       <style jsx>
         {`
