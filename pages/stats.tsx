@@ -60,15 +60,15 @@ export default function Stats() {
         <meta name="twitter:title" content="Stats for Spotify Dedup" />
         <meta
           name="description"
-          content="Monthly Active Users, Daily Active Users, Number of Requests for Spotify Dedup"
+          content="Open stats about Spotify Dedup. Monthly Active Users, Daily Active Users, and Number of Requests."
         />
         <meta
           name="og:description"
-          content="Monthly Active Users, Daily Active Users, Number of Requests for Spotify Dedup"
+          content="Open stats about Spotify Dedup. Monthly Active Users, Daily Active Users, and Number of Requests."
         />
         <meta
           name="twitter:description"
-          content="Monthly Active Users, Daily Active Users, Number of Requests for Spotify Dedup"
+          content="Open stats about Spotify Dedup. Monthly Active Users, Daily Active Users, and Number of Requests."
         />
         <meta name="viewport" content="width=device-width" />
       </Head>

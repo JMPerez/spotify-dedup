@@ -1,7 +1,6 @@
-import { useTranslation } from 'react-i18next';
-
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -13,7 +12,7 @@ const IndexComponent = () => {
       'Ta bort dubbletter från dina spellistor och sparade låtar.',
     'home.login-button': 'Logga in med Spotify',
     'meta.title':
-      'Spotify Dedup - Ta bort dubbletter från ditt Spotify bibliotek automatiskt',
+      'Spotify Dedup - Ta bort dubbletter från ditt Spotify bibliotek',
     'meta.description':
       'Ta bort upprepade låtar från dina Spotify-spellistor och sparade spår snabbt och enkelt.',
     'features.find-remove.header': 'Hitta & ta bort',

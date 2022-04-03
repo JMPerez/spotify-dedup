@@ -22,8 +22,10 @@ const MetaHead = () => {
       <meta name="twitter:title" content={t('meta.title')} />
       <meta name="description" content={t('meta.description')} />
       <meta property="og:description" content={t('meta.description')} />
-      <meta name="twitter:description" content={t('meta.description')} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@jmperezperez" />
       <meta name="viewport" content="width=device-width" />
+      <meta property="og:image" content="https://spotify-dedup.com/spotify-dedup-meta.png" />
       <link
         rel="canonical"
         href={

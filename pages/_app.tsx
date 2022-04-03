@@ -5,8 +5,7 @@ import { useRouter } from 'next/router';
 export default function App({ Component, pageProps }: AppProps) {
   useAnalytics();
   const router = useRouter();
-  console.log({ router })
-  const include3rdPartyScripts = true;
+  const include3rdPartyScripts = router.asPath != '/callback';
   return (
     <>
       {include3rdPartyScripts && (

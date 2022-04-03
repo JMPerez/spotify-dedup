@@ -1,7 +1,6 @@
-import { useTranslation } from 'react-i18next';
-
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -13,7 +12,7 @@ const IndexComponent = () => {
       'Elimina canciones duplicadas de tus playlists y canciones guardadas.',
     'home.login-button': 'Iniciar sesión con Spotify',
     'meta.title':
-      'Spotify Dedup - Elimina canciones duplicadas de tu biblioteca de Spotify automáticamente',
+      'Spotify Dedup - Elimina canciones duplicadas de tu biblioteca de Spotify',
     'meta.description':
       'Elimina canciones repetidas de tus listas de reproducción de Spotify y canciones favoritas de una forma rápida y sencilla.',
     'features.find-remove.header': 'Busca y elimina',
