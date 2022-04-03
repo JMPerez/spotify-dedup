@@ -1,18 +1,17 @@
-import React from 'react';
+import i18n, { AvailableLanguages } from '../../i18n';
+
+import Features from '../features';
+import Footer from '../footer';
 import Head from 'next/head';
 import Header from '../head';
-import Footer from '../footer';
 import Intro from '../intro';
-import Main from '../main';
-import Features from '../features';
-import Reviews from '../reviews';
 import LanguageSelector from '../languageSelector';
-
+import Main from '../main';
 import OAuthManager from '../../dedup/oauthManager';
+import React from 'react';
+import Reviews from '../reviews';
 import SpotifyWebApi from '../../dedup/spotifyApi';
 import { useTranslation } from 'react-i18next';
-
-import i18n, { AvailableLanguages } from '../../i18n';
 
 const MetaHead = () => {
   const { t, i18n } = useTranslation();
@@ -27,11 +26,10 @@ const MetaHead = () => {
       <meta name="viewport" content="width=device-width" />
       <link
         rel="canonical"
-        href={`https://spotify-dedup.com/${
-          i18n.language === 'en' ? '' : i18n.language + '/'
-        }`}
+        href={`https://spotify-dedup.com/${i18n.language === 'en' ? '' : i18n.language + '/'
+          }`}
       />
-      {AvailableLanguages.filter((language) => language !== i18n.language).map(
+      {AvailableLanguages.map(
         (language) => (
           <link
             key={language}
