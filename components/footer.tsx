@@ -10,7 +10,7 @@ const Footer = () => {
           dangerouslySetInnerHTML={{
             __html: t('footer.author', {
               linkOpen:
-                '<a target="_blank" rel="noopener" href="https://jmperezperez.com">',
+                '<a target="_blank" rel="noreferrer" href="https://jmperezperez.com">',
               linkClose: '</a>',
             }),
           }}
@@ -20,7 +20,7 @@ const Footer = () => {
           dangerouslySetInnerHTML={{
             __html: t('footer.github', {
               linkOpen:
-                '<a target="_blank" rel="noopener" href="https://github.com/JMPerez/spotify-dedup/">',
+                '<a target="_blank" rel="noreferrer" href="https://github.com/JMPerez/spotify-dedup/">',
               linkClose: '</a>',
             }),
           }}
@@ -30,7 +30,7 @@ const Footer = () => {
           dangerouslySetInnerHTML={{
             __html: t('footer.bmc', {
               linkOpen:
-                '<a target="_blank" rel="noopener" href="https://www.buymeacoffee.com/jmp">',
+                '<a target="_blank" rel="noreferrer" href="https://www.buymeacoffee.com/jmp">',
               linkClose: '</a>',
             }),
           }}
@@ -38,7 +38,7 @@ const Footer = () => {
         · Check{' '}
         <a
           target="_blank"
-          rel="noopener"
+          rel="noreferrer"
           href="https://spotify-top.com"
           style={{ whiteSpace: 'nowrap' }}
         >

@@ -88,9 +88,9 @@ const Reviews = () => {
         </li>
         <li>
           <blockquote>
-            @jmperezperez I've been using your spotify dedup code for years.
+            @jmperezperez I&apos;ve been using your spotify dedup code for years.
             Today, I finally decided to check out your other stuff. Amazing! I
-            can't believe it took me this long to discover it –
+            can&apos;t believe it took me this long to discover it –
             <a href="https://twitter.com/wormx">@wormx</a>
           </blockquote>
         </li>

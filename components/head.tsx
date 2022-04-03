@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 const Head = () => {
@@ -7,14 +9,14 @@ const Head = () => {
     <div className="header">
       <ul className="nav nav-pills">
         <li>
-          <a href="/">{t('menu.link-home')}</a>
+          <Link href="/" prefetch={false}><a>{t('menu.link-home')}</a></Link>
         </li>
         <li>
-          <a href="/stats">{t('menu.link-stats')}</a>
+          <Link href="/stats" prefetch={false}><a>{t('menu.link-stats')}</a></Link>
         </li>
       </ul>
       <h3>
-        <img src="data:image/svg+xml,%3Csvg viewBox='0 0 211 169' width='211' height='169' fill='none' preserveAspectRatio='xMidYMin slice' xmlns='http://www.w3.org/2000/svg'%0A%3E%3Cpath d='M207.475 79.414c3.756 2.35 3.756 7.821 0 10.172L82.284 167.952c-3.997 2.501-9.184-.371-9.184-5.086V6.134c0-4.715 5.188-7.587 9.184-5.086l125.191 78.366z' fill='%2393B2C6' /%3E%3Cpath d='M134.475 79.414c3.756 2.35 3.756 7.821 0 10.172L9.284 167.952C5.287 170.453.1 167.581.1 162.866V6.134c0-4.715 5.187-7.587 9.184-5.086l125.191 78.366z' fill='%23325972' /%3E%3C/svg%3E" />
+        <img src="data:image/svg+xml,%3Csvg viewBox='0 0 211 169' width='211' height='169' fill='none' preserveAspectRatio='xMidYMin slice' xmlns='http://www.w3.org/2000/svg'%0A%3E%3Cpath d='M207.475 79.414c3.756 2.35 3.756 7.821 0 10.172L82.284 167.952c-3.997 2.501-9.184-.371-9.184-5.086V6.134c0-4.715 5.188-7.587 9.184-5.086l125.191 78.366z' fill='%2393B2C6' /%3E%3Cpath d='M134.475 79.414c3.756 2.35 3.756 7.821 0 10.172L9.284 167.952C5.287 170.453.1 167.581.1 162.866V6.134c0-4.715 5.187-7.587 9.184-5.086l125.191 78.366z' fill='%23325972' /%3E%3C/svg%3E" alt="" />
         <span className="text">Spotify Dedup</span>
       </h3>
       <style jsx>
