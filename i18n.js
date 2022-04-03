@@ -8,6 +8,7 @@ export const AvailableLanguages = [
   'fr',
   'it',
   'nl',
+  'pl',
   'pt',
   'sv',
 ];

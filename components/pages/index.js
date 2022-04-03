@@ -46,6 +46,7 @@ const MetaHead = () => {
           ></link>
         )
       )}
+      <link rel="alternate" hrefLang="x-default" href="https://spotify-dedup.com/" />
       <link rel="icon" href="https://spotify-dedup.com/logo.svg" />
     </Head>
   );
