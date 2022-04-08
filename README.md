@@ -10,7 +10,7 @@ If it finds duplicates, they can be removed just pushing a button. And since it 
 
 ## Try it
 
-You can check it out on [https://jmperezperez.com/spotify-dedup/](https://jmperezperez.com/spotify-dedup/) or run it locally.
+You can check it out on [https://spotify-dedup.com](https://spotify-dedup.com) or run it locally.
 
 ## Install and run
 
