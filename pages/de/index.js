@@ -1,7 +1,6 @@
-import { useTranslation } from 'react-i18next';
-
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -29,6 +28,7 @@ const IndexComponent = () => {
     'footer.author':
       'Mit ♥ gemacht von {{- linkOpen}}JMPerez 👨‍💻{{- linkClose}}',
     'footer.github': '{{- linkOpen}}Code auf GitHub{{- linkClose}} ansehen 📃',
+    'footer.spotify-top': 'Schauen Sie sich {{- linkOpen}}Spotify Top 🎧{{- linkClose}} an',
     'footer.bmc':
       'Unterstütze das Projekt {{- linkOpen}}beim Kaffeekauf ☕{{- linkClose}}',
     'bmc.button': 'Würdest du mir einen Kaffee kaufen?',

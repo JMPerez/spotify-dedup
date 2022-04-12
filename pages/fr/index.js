@@ -1,7 +1,6 @@
-import { useTranslation } from 'react-i18next';
-
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -31,6 +30,7 @@ const IndexComponent = () => {
       'Regardez le {{- linkOpen}}code sur GitHub 📃{{- linkClose}}',
     'footer.bmc':
       'Soutenez le projet {{- linkOpen}}en achetant un café ☕{{- linkClose}}',
+    'footer.spotify-top': 'Découvrez {{- linkOpen}}Spotify Top 🎧{{- linkClose}}',
     'bmc.button': 'Achetez-moi un café',
     'result.duplicate.reason-same-id': 'Dupliqué',
     'result.duplicate.reason-same-data':

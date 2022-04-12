@@ -29,6 +29,7 @@ const IndexComponent = () => {
     'footer.github': 'Kolla in {{- linkOpen}}koden på GitHub 📃{{- linkClose}}',
     'footer.bmc':
       'Stöd projektet genom att {{- linkOpen}}bjuda på en kaffe ☕{{- linkClose}}',
+    'footer.spotify-top': 'Besök {{- linkOpen}}Spotify Top 🎧{{- linkClose}} för att få statistik om din nyligen spelade musik',
     'bmc.button': 'Skulle du vilja bjuda mig på en kaffe?',
     'result.duplicate.reason-same-id': 'Dubblett',
     'result.duplicate.reason-same-data':

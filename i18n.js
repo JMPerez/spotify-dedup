@@ -43,6 +43,8 @@ const resources = {
         'Check out the {{- linkOpen}}code on GitHub 📃{{- linkClose}}',
       'footer.bmc':
         'Support the project {{- linkOpen}}buying a coffee ☕{{- linkClose}}',
+      'footer.spotify-top':
+        'Visit {{- linkOpen}}Spotify Top 🎧{{- linkClose}} to see stats about your listening history',
       'bmc.button': 'Would you buy me a coffee?',
       'result.duplicate.reason-same-id': 'Duplicate',
       'result.duplicate.reason-same-data':

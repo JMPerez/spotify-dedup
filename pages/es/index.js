@@ -27,6 +27,7 @@ const IndexComponent = () => {
     'reviews.title': 'Esto es lo que dicen los usuarios',
     'footer.author': 'Hecho con ♥ por {{- linkOpen}}JMPerez 👨‍💻{{- linkClose}}',
     'footer.github': 'Mira el {{- linkOpen}}código en GitHub 📃{{- linkClose}}',
+    'footer.spotify-top': 'Echa un vistazo a {{- linkOpen}}Spotify Top 🎧{{- linkClose}}',
     'footer.bmc':
       'Apoya el proyecto {{- linkOpen}}comprando un café ☕{{- linkClose}}',
     'bmc.button': '¿Me compras un café?',

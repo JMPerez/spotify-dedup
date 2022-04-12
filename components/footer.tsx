@@ -35,15 +35,16 @@ const Footer = () => {
             }),
           }}
         />
-        · Check{' '}
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href="https://spotify-top.com"
-          style={{ whiteSpace: 'nowrap' }}
-        >
-          Spotify Top
-        </a>
+        ·{' '}
+        <span
+          dangerouslySetInnerHTML={{
+            __html: t('footer.spotify-top', {
+              linkOpen:
+                '<a target="_blank" rel="noreferrer" href="https://spotify-top.com">',
+              linkClose: '</a>',
+            }),
+          }} style={{ whiteSpace: 'nowrap' }}
+        />
       </p>
       <style jsx>
         {`
