@@ -6,7 +6,7 @@ export default async function SpotifyAppData(req: NextApiRequest, res: NextApiRe
   let d = await data();
   res.setHeader(
     'Cache-Control',
-    'public, s-maxage=86400, stale-while-revalidate=43200'
+    'public, s-maxage=864000, stale-while-revalidate=432000'
   );
 
   res.status(200).json(d);
