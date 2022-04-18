@@ -11,6 +11,7 @@ export const AvailableLanguages = [
   'pl',
   'pt',
   'sv',
+  'tr',
 ];
 
 // the translations

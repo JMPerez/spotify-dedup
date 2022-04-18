@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 const Head = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <div className="header">
       <ul className="nav nav-pills">
         <li>
-          <Link href="/" prefetch={false}><a>{t('menu.link-home')}</a></Link>
+          <Link href={`/${i18n.language === 'en' ? '' : i18n.language}`} prefetch={false}><a>{t('menu.link-home')}</a></Link>
         </li>
         <li>
           <Link href="/stats" prefetch={false}><a>{t('menu.link-stats')}</a></Link>
