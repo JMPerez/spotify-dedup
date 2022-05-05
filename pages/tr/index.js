@@ -13,7 +13,7 @@ const IndexComponent = () => {
         "meta.title": "Spotify Dedup - Çalma listelerinizden ve kayıtlı şarkılarınızdan birden fazla olanları silin",
         "meta.description": "Spotify'da yinelenen şarkılarınızı çalma listelerinizden ve beğenilen şarkılarınızdan kolayca ve hızlıca kaldırın.",
         "features.find-remove.header": "Bul ve sil",
-        "features.find-remove.body": "Dedup, {{- strongOpen}}Spotify kütüphanenize {{- strongClose} birden fazla kez eklenen aynı şarkıları kontrol eder. Birden fazla kez eklenen şarkı bulunduğunda, çalma listelerinizden hızlıca bu şarkıların kopyalarını silebilirsiniz.",
+        "features.find-remove.body": "Dedup, {{- strongOpen}}Spotify kütüphanenize {{- strongClose}} birden fazla kez eklenen aynı şarkıları kontrol eder. Birden fazla kez eklenen şarkı bulunduğunda, çalma listelerinizden hızlıca bu şarkıların kopyalarını silebilirsiniz.",
         "features.safer.header": "Daha güvenli",
         "features.safer.body": "Dedup sadece {{- strongOpen}}yinelenen şarkıları{{- strongClose}} siler, geri kalan çalma listelerine ve kayıtlı şarkılara dokunmaz.",
         "features.open-source.header": "Açık Kaynak Kodlu",
