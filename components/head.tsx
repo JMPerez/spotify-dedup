@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 const Head = () => {
   const { t, i18n } = useTranslation();
   return (
-    <div className="header">
+    <div className="flex items-center mb-6 mx-4 md:mx-0">
       <ul className="nav nav-pills">
         <li>
           <Link href={`/${i18n.language === 'en' ? '' : i18n.language}`} prefetch={false}><a>{t('menu.link-home')}</a></Link>
@@ -21,20 +21,6 @@ const Head = () => {
       </h3>
       <style jsx>
         {`
-          .header {
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-bottom: 20px;
-            display: flex;
-            align-items: center;
-          }
-          @media (min-width: 768px) {
-            .header {
-              padding-left: 0px;
-              padding-right: 0px;
-            }
-          }
-
           .nav {
             padding-left: 0;
             margin-bottom: 0;
