@@ -4,12 +4,11 @@ import { useTranslation } from 'react-i18next';
 const Reviews = () => {
   const { t, i18n } = useTranslation();
   return (
-    <div>
-      <p className="header">
+    <div className="mt-10">
+      <p className="font-bold text-2xl text-center">
         {t('reviews.title')}{' '}
         <svg
-          width="40"
-          height="40"
+          className="inline-block w-6 h-6"
           viewBox="0 0 884 1279"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -104,13 +103,6 @@ const Reviews = () => {
 
       <style jsx>
         {`
-          .header {
-            font-weight: bold;
-            font-size: 2rem;
-            margin-top: 2rem;
-            line-height: 1.1;
-            text-align: center;
-          }
           .quotes {
             list-style: none;
           }

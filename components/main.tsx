@@ -5,6 +5,7 @@ import {
 import { SpotifyTrackType, SpotifyUserType } from '../dedup/spotifyApi';
 import { Translation, getI18n, useTranslation } from 'react-i18next';
 
+import Anthems from '@/components/Anthems';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import { DuplicateTrackList } from './duplicateTrackList';
@@ -18,18 +19,11 @@ const Status = ({ toProcess }) => {
   const { t } = useTranslation();
   return (
     <span>
-      <h3>
+      <h3 className="text-xl font-bold mb-4">
         {toProcess > 0 || toProcess === null
           ? t('process.status.finding')
           : t('process.status.complete')}
       </h3>
-      <style jsx>
-        {`
-          h3 {
-            font-size: 24px;
-          }
-        `}
-      </style>
     </span>
   );
 };
@@ -171,7 +165,7 @@ export default class Main extends React.Component<{
         ) + this.state.savedTracks.duplicates.length;
 
     return (
-      <div>
+      <div className="mx-4 md:mx-0">
         <Status toProcess={this.state.toProcess} />
         <Panel>
           {this.state.toProcess === null && (
@@ -242,125 +236,127 @@ export default class Main extends React.Component<{
           )}
         </Panel>
 
-        <ul className="playlists-list">
-          {(this.state.savedTracks.duplicates.length ||
-            this.state.savedTracks.status) && (
-              <li className="playlists-list-item media">
-                <div className="img">
-                  <img
-                    width="100"
-                    height="100"
-                    className="playlists-list-item__img"
-                    src={'./placeholder.png'}
-                  />
-                </div>
-                <div className="bd">
-                  <span className="playlists-list-item__name">
-                    <Translation>{(t) => t('process.saved.title')}</Translation>
-                  </span>
-                  {this.state.savedTracks.status && (
-                    <Badge>
-                      <Translation>
-                        {(t) => t(this.state.savedTracks.status)}
-                      </Translation>
-                    </Badge>
-                  )}
-                  {this.state.savedTracks.duplicates.length != 0 && (
-                    <span>
+        {this.state.toProcess === 0 &&
+          <ul className="playlists-list">
+            {(this.state.savedTracks.duplicates.length ||
+              this.state.savedTracks.status) && (
+                <li className="playlists-list-item media">
+                  <div className="img">
+                    <img
+                      width="100"
+                      height="100"
+                      className="playlists-list-item__img"
+                      src={'./placeholder.png'}
+                    />
+                  </div>
+                  <div className="bd">
+                    <span className="playlists-list-item__name">
+                      <Translation>{(t) => t('process.saved.title')}</Translation>
+                    </span>
+                    {this.state.savedTracks.status && (
+                      <Badge>
+                        <Translation>
+                          {(t) => t(this.state.savedTracks.status)}
+                        </Translation>
+                      </Badge>
+                    )}
+                    {this.state.savedTracks.duplicates.length != 0 && (
                       <span>
-                        <Translation>
-                          {(t) =>
-                            t('process.saved.duplicates', {
-                              count: this.state.savedTracks.duplicates.length,
-                            })
-                          }
-                        </Translation>
+                        <span>
+                          <Translation>
+                            {(t) =>
+                              t('process.saved.duplicates', {
+                                count: this.state.savedTracks.duplicates.length,
+                              })
+                            }
+                          </Translation>
+                        </span>
+                        <button
+                          className="btn btn-primary btn-sm playlist-list-item__btn"
+                          onClick={() => this.removeDuplicatesInSavedTracks()}
+                        >
+                          <Translation>
+                            {(t) => t('process.saved.remove-button')}
+                          </Translation>
+                        </button>
+                        <DuplicateTrackList>
+                          {this.state.savedTracks.duplicates.map(
+                            (duplicate, index) => (
+                              <DuplicateTrackListItem
+                                key={index}
+                                reason={duplicate.reason}
+                                trackName={duplicate.track.name}
+                                trackArtistName={duplicate.track.artists[0].name}
+                              />
+                            )
+                          )}
+                        </DuplicateTrackList>
                       </span>
-                      <button
-                        className="btn btn-primary btn-sm playlist-list-item__btn"
-                        onClick={() => this.removeDuplicatesInSavedTracks()}
-                      >
-                        <Translation>
-                          {(t) => t('process.saved.remove-button')}
-                        </Translation>
-                      </button>
-                      <DuplicateTrackList>
-                        {this.state.savedTracks.duplicates.map(
-                          (duplicate, index) => (
+                    )}
+                  </div>
+                </li>
+              )}
+            {this.state.playlists
+              .filter((p) => p.duplicates.length || p.status != '')
+              .map((playlist: PlaylistModel, index) => (
+                <li className="playlists-list-item media" key={index}>
+                  <div className="img">
+                    <img
+                      width="100"
+                      height="100"
+                      className="playlists-list-item__img"
+                      src={
+                        playlist.playlist.images &&
+                        playlist.playlist.images[0] &&
+                        playlist.playlist.images[0].url
+                      }
+                    />
+                  </div>
+                  <div className="bd">
+                    <span className="playlists-list-item__name">
+                      {playlist.playlist.name}
+                    </span>
+                    {playlist.status && (
+                      <Badge>
+                        <Translation>{(t) => t(playlist.status)}</Translation>
+                      </Badge>
+                    )}
+                    {playlist.duplicates.length != 0 && (
+                      <span>
+                        <span>
+                          <Translation>
+                            {(t) =>
+                              t('process.playlist.duplicates', {
+                                count: playlist.duplicates.length,
+                              })
+                            }
+                          </Translation>
+                        </span>
+                        <button
+                          className="btn btn-primary btn-sm playlist-list-item__btn"
+                          onClick={() => this.removeDuplicates(playlist)}
+                        >
+                          <Translation>
+                            {(t) => t('process.playlist.remove-button')}
+                          </Translation>
+                        </button>
+                        <DuplicateTrackList>
+                          {playlist.duplicates.map((duplicate, index) => (
                             <DuplicateTrackListItem
                               key={index}
                               reason={duplicate.reason}
                               trackName={duplicate.track.name}
                               trackArtistName={duplicate.track.artists[0].name}
                             />
-                          )
-                        )}
-                      </DuplicateTrackList>
-                    </span>
-                  )}
-                </div>
-              </li>
-            )}
-          {this.state.playlists
-            .filter((p) => p.duplicates.length || p.status != '')
-            .map((playlist: PlaylistModel, index) => (
-              <li className="playlists-list-item media" key={index}>
-                <div className="img">
-                  <img
-                    width="100"
-                    height="100"
-                    className="playlists-list-item__img"
-                    src={
-                      playlist.playlist.images &&
-                      playlist.playlist.images[0] &&
-                      playlist.playlist.images[0].url
-                    }
-                  />
-                </div>
-                <div className="bd">
-                  <span className="playlists-list-item__name">
-                    {playlist.playlist.name}
-                  </span>
-                  {playlist.status && (
-                    <Badge>
-                      <Translation>{(t) => t(playlist.status)}</Translation>
-                    </Badge>
-                  )}
-                  {playlist.duplicates.length != 0 && (
-                    <span>
-                      <span>
-                        <Translation>
-                          {(t) =>
-                            t('process.playlist.duplicates', {
-                              count: playlist.duplicates.length,
-                            })
-                          }
-                        </Translation>
+                          ))}
+                        </DuplicateTrackList>
                       </span>
-                      <button
-                        className="btn btn-primary btn-sm playlist-list-item__btn"
-                        onClick={() => this.removeDuplicates(playlist)}
-                      >
-                        <Translation>
-                          {(t) => t('process.playlist.remove-button')}
-                        </Translation>
-                      </button>
-                      <DuplicateTrackList>
-                        {playlist.duplicates.map((duplicate, index) => (
-                          <DuplicateTrackListItem
-                            key={index}
-                            reason={duplicate.reason}
-                            trackName={duplicate.track.name}
-                            trackArtistName={duplicate.track.artists[0].name}
-                          />
-                        ))}
-                      </DuplicateTrackList>
-                    </span>
-                  )}
-                </div>
-              </li>
-            ))}
-        </ul>
+                    )}
+                  </div>
+                </li>
+              ))}
+          </ul>}
+        <Anthems />
         <style jsx>
           {`
             .bd {

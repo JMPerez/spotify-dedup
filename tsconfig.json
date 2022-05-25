@@ -19,7 +19,13 @@
     "jsx": "preserve",
     "sourceMap": true,
     "sourceRoot": "/",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"

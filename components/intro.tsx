@@ -6,14 +6,17 @@ const Intro = props => {
   return (
     <div>
       <div className="jumbotron">
-        <h1>{t('home.title')}</h1>
-        <p className="lead">{t('home.description')}</p>
+        <div className="pb-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">{t('home.title')}</h1>
+          <p className="text-xl">{t('home.description')}</p>
+        </div>
         <p>
           <button
             className="btn btn-jumbotron btn-success"
             onClick={props.onLoginClick}
           >
             <svg
+              className="inline-block"
               xmlns="http://www.w3.org/2000/svg"
               height="168"
               width="168"
@@ -37,12 +40,6 @@ const Intro = props => {
       </div>
       <style jsx>
         {`
-          .lead {
-            margin-bottom: 20px;
-            font-size: 16px;
-            font-weight: 200;
-            line-height: 1.4;
-          }
           .jumbotron {
             padding: 30px;
             margin-bottom: 16px;
@@ -58,12 +55,6 @@ const Intro = props => {
           }
 
           @media (min-width: 768px) {
-            h1 {
-              font-size: 63px;
-            }
-            .lead {
-              font-size: 21px;
-            }
             .jumbotron {
               padding: 30px;
               margin-bottom: 30px;

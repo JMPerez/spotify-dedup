@@ -1,5 +1,4 @@
-import i18n, { AvailableLanguages } from '../../i18n';
-
+import { AvailableLanguages } from '../../i18n';
 import Features from '../features';
 import Footer from '../footer';
 import Head from 'next/head';
@@ -69,6 +68,7 @@ export default class Index extends React.Component {
   state = {
     isLoggedIn: false,
     user: null,
+    accessToken: null,
   };
   api = null;
 
@@ -95,10 +95,10 @@ export default class Index extends React.Component {
       global['ga']('send', 'event', 'spotify-dedup', 'user-logged-in');
     }
 
-    Index.api = new SpotifyWebApi();
-    Index.api.setAccessToken(accessToken);
+    this.api = new SpotifyWebApi();
+    this.api.setAccessToken(accessToken);
 
-    const user = await Index.api.getMe();
+    const user = await this.api.getMe();
     this.setState({ isLoggedIn: true, user, accessToken });
   };
 
@@ -110,7 +110,7 @@ export default class Index extends React.Component {
 
         {this.state.isLoggedIn ? (
           <Main
-            api={Index.api}
+            api={this.api}
             user={this.state.user}
             accessToken={this.state.accessToken}
           />
