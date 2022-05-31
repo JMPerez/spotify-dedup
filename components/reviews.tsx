@@ -73,55 +73,100 @@ const Reviews = () => {
       </p>
       {i18n.language === 'en' ? (
         <p style={{ textAlign: 'center' }}>
-          Read what <strong>1,100+ supporters</strong> think about Spotify Dedup
+          Read what <strong>1,200+ supporters</strong> think about Spotify Dedup
           on <a href="https://www.buymeacoffee.com/jmp">Buy Me a Coffee</a>.
         </p>
       ) : null}
-      <ul className="quotes">
-        <li>
-          <blockquote>
-            I just discovered your @Spotify dedup web app & it is awesome!!!
-            Recommend to all #Spotify users! –
-            <a href="https://twitter.com/VanKenton">@VanKenton</a>
-          </blockquote>
-        </li>
-        <li>
-          <blockquote>
-            @jmperezperez I&apos;ve been using your spotify dedup code for years.
-            Today, I finally decided to check out your other stuff. Amazing! I
-            can&apos;t believe it took me this long to discover it –
-            <a href="https://twitter.com/wormx">@wormx</a>
-          </blockquote>
-        </li>
-        <li>
-          <blockquote>
-            Thanks for the Spotify De-Dup! Very helpful and extremely easy to
-            use. – <a href="https://www.buymeacoffee.com/jmp">PTR</a>
-          </blockquote>
-        </li>
-      </ul>
-
-      <style jsx>
-        {`
-          .quotes {
-            list-style: none;
-          }
-
-          ul {
-            padding: 0;
-          }
-          blockquote {
-            background: var(--card-bg-color);
-            border-left: 10px solid var(--accent-color);
-            margin: 1.5em 10px;
-            padding: 0.5em 10px;
-          }
-
-          blockquote p {
-            display: inline;
-          }
-        `}
-      </style>
+      <div className="bg-gray-100 rounded-md w-full flex flex-wrap flex-col sm:flex-row gap-4 my-8 flex-between items-center p-8">
+        {[{
+          text: "Thank you for making it so easy and painless to clean up my spotify playlists after switching back from apple music!",
+          author: {
+            name: 'Rachel'
+          },
+        },
+        {
+          text: "Use this every month. Looking forward to seeing your next project.",
+          author: {
+            name: 'Anonymous'
+          },
+        },
+        {
+          text: "you've saved me a massive headache. thank you!",
+          author: {
+            name: 'Rhoda’s frustrated husband'
+          },
+        },
+        {
+          text: "Just discovered your Spotify Dedup web application. What a time saver! Worked a treat, thank you. So, I figured the least I could do is buy you some coffee to show my appreciation for your efforts and for sharing your work.",
+          author: {
+            name: 'Anonymous'
+          },
+        },
+        {
+          text: "I've been putting off getting rid of duplicate songs in playlists for years now haha. This saved me so much time and took less than a minute to remove dupes. Thank you so much!",
+          author: {
+            name: 'bKenobi3'
+          },
+        },
+        {
+          text: "incredible! this solved a massive problem that was taking me forever to fix (3000 songs in one playlist alone had somehow duplicated themselves! cmon spotify) you sir are a legend!",
+          author: {
+            name: 'Alex King'
+          },
+        },
+        {
+          text: "You're amazing, used your duplicate song finder to get rid of 312 mistakes in my playlist, would've taken me days to find them all",
+          author: {
+            name: 'Courtney McGarrah'
+          },
+        },
+        {
+          text: "I just discovered your @Spotify dedup web app & it is awesome!!! Recommend to all #Spotify users!",
+          author: {
+            name: 'VanKento'
+          },
+          link: 'https://twitter.com/VanKenton'
+        },
+        {
+          text: "I've been using your spotify dedup code for years. Today, I finally decided to check out your other stuff. Amazing! I can't believe it took me this long to discover it",
+          author: {
+            name: 'wormx'
+          },
+          link: 'https://twitter.com/wormxn'
+        },
+        {
+          text: "Thanks for the Spotify De-Dup! Very helpful and extremely easy to use",
+          author: {
+            name: 'PTR'
+          },
+          link: 'https://twitter.com/VanKenton'
+        }
+        ].map((review, index) =>
+          <div key={index} className="bg-white dark:bg-gray-800 w-64 md:w-72 shadow-lg mx-auto rounded-xl p-4">
+            <p className="text-gray-600 dark:text-white flex">
+              <span className="font-bold text-blue-500 -ml-0.5">
+                “
+              </span>
+              <span className="pl-1 pt-1">
+                <span className="text-base">{review.text}</span>
+                <span className="font-bold text-blue-500 m-0.5">
+                  ”
+                </span>
+              </span>
+            </p>
+            <div className="flex items-center mt-4">
+              <a href="https://www.buymeacoffee.com/jmp" className="block relative" target="_blank"
+                rel="noopener noreferrer">
+                <img alt="profil" src={`https://img.buymeacoffee.com/api/?name=${encodeURIComponent(review.author.name)}}}&size=80&bg-image=bmc&background=FF813F`} className="mx-auto object-cover rounded-full h-10 w-10 " />
+              </a>
+              <div className="flex flex-col ml-2 justify-between">
+                <span className="text-gray-800 text-sm">
+                  {review.author.name}
+                </span>
+              </div>
+            </div>
+          </div>)}
+      </div>
     </div>
   );
 };
