@@ -77,7 +77,7 @@ const Reviews = () => {
           on <a href="https://www.buymeacoffee.com/jmp">Buy Me a Coffee</a>.
         </p>
       ) : null}
-      <div className="bg-gray-100 rounded-md w-full flex flex-wrap flex-col sm:flex-row gap-4 my-8 flex-between items-center p-8">
+      <div className="bg-gray-100 dark:bg-zinc-900 rounded-md w-full flex flex-wrap flex-col sm:flex-row gap-4 my-8 flex-between items-center p-8">
         {[{
           text: "Thank you for making it so easy and painless to clean up my spotify playlists after switching back from apple music!",
           author: {
@@ -143,7 +143,7 @@ const Reviews = () => {
         }
         ].map((review, index) =>
           <div key={index} className="bg-white dark:bg-gray-800 w-64 md:w-72 shadow-lg mx-auto rounded-xl p-4">
-            <p className="text-gray-600 dark:text-white flex">
+            <p className="text-gray-600 dark:text-gray-200 flex">
               <span className="font-bold text-blue-500 -ml-0.5">
                 “
               </span>
@@ -157,10 +157,10 @@ const Reviews = () => {
             <div className="flex items-center mt-4">
               <a href="https://www.buymeacoffee.com/jmp" className="block relative" target="_blank"
                 rel="noopener noreferrer">
-                <img alt="profil" src={`https://img.buymeacoffee.com/api/?name=${encodeURIComponent(review.author.name)}}}&size=80&bg-image=bmc&background=FF813F`} className="mx-auto object-cover rounded-full h-10 w-10 " />
+                <img alt="" src={`https://img.buymeacoffee.com/api/?name=${encodeURIComponent(review.author.name)}&size=80&bg-image=bmc&background=FF813F`} className="mx-auto object-cover rounded-full h-10 w-10 bg-orange-100" loading="lazy" />
               </a>
               <div className="flex flex-col ml-2 justify-between">
-                <span className="text-gray-800 text-sm">
+                <span className="text-gray-800 dark:text-gray-400 text-sm">
                   {review.author.name}
                 </span>
               </div>
