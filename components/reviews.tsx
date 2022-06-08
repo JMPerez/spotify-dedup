@@ -78,69 +78,82 @@ const Reviews = () => {
         </p>
       ) : null}
       <div className="bg-gray-100 dark:bg-zinc-900 rounded-md w-full flex flex-wrap flex-col sm:flex-row gap-4 my-8 flex-between items-center p-8">
-        {[{
-          text: "Thank you for making it so easy and painless to clean up my spotify playlists after switching back from apple music!",
-          author: {
-            name: 'Rachel'
+        {[
+          {
+            text: "I use dedup all the time! I wish Spotify would consistently not let you add dupes, so thank goodness for engineers like you fixing their problems for the user :)",
+            author: {
+              name: 'Immi'
+            },
           },
-        },
-        {
-          text: "Use this every month. Looking forward to seeing your next project.",
-          author: {
-            name: 'Anonymous'
+          {
+            text: " owe u my life for your dupe remover. going through 10k songs manually would have been a nightmare. :')",
+            author: {
+              name: 'moosekababs'
+            },
           },
-        },
-        {
-          text: "you've saved me a massive headache. thank you!",
-          author: {
-            name: 'Rhoda’s frustrated husband'
+          {
+            text: "Thank you for making it so easy and painless to clean up my spotify playlists after switching back from apple music!",
+            author: {
+              name: 'Rachel'
+            },
           },
-        },
-        {
-          text: "Just discovered your Spotify Dedup web application. What a time saver! Worked a treat, thank you. So, I figured the least I could do is buy you some coffee to show my appreciation for your efforts and for sharing your work.",
-          author: {
-            name: 'Anonymous'
+          {
+            text: "Use this every month. Looking forward to seeing your next project.",
+            author: {
+              name: 'Anonymous'
+            },
           },
-        },
-        {
-          text: "I've been putting off getting rid of duplicate songs in playlists for years now haha. This saved me so much time and took less than a minute to remove dupes. Thank you so much!",
-          author: {
-            name: 'bKenobi3'
+          {
+            text: "you've saved me a massive headache. thank you!",
+            author: {
+              name: 'Rhoda’s frustrated husband'
+            },
           },
-        },
-        {
-          text: "incredible! this solved a massive problem that was taking me forever to fix (3000 songs in one playlist alone had somehow duplicated themselves! cmon spotify) you sir are a legend!",
-          author: {
-            name: 'Alex King'
+          {
+            text: "Just discovered your Spotify Dedup web application. What a time saver! Worked a treat, thank you. So, I figured the least I could do is buy you some coffee to show my appreciation for your efforts and for sharing your work.",
+            author: {
+              name: 'Anonymous'
+            },
           },
-        },
-        {
-          text: "You're amazing, used your duplicate song finder to get rid of 312 mistakes in my playlist, would've taken me days to find them all",
-          author: {
-            name: 'Courtney McGarrah'
+          {
+            text: "I've been putting off getting rid of duplicate songs in playlists for years now haha. This saved me so much time and took less than a minute to remove dupes. Thank you so much!",
+            author: {
+              name: 'bKenobi3'
+            },
           },
-        },
-        {
-          text: "I just discovered your @Spotify dedup web app & it is awesome!!! Recommend to all #Spotify users!",
-          author: {
-            name: 'VanKento'
+          {
+            text: "incredible! this solved a massive problem that was taking me forever to fix (3000 songs in one playlist alone had somehow duplicated themselves! cmon spotify) you sir are a legend!",
+            author: {
+              name: 'Alex King'
+            },
           },
-          link: 'https://twitter.com/VanKenton'
-        },
-        {
-          text: "I've been using your spotify dedup code for years. Today, I finally decided to check out your other stuff. Amazing! I can't believe it took me this long to discover it",
-          author: {
-            name: 'wormx'
+          {
+            text: "You're amazing, used your duplicate song finder to get rid of 312 mistakes in my playlist, would've taken me days to find them all",
+            author: {
+              name: 'Courtney McGarrah'
+            },
           },
-          link: 'https://twitter.com/wormxn'
-        },
-        {
-          text: "Thanks for the Spotify De-Dup! Very helpful and extremely easy to use",
-          author: {
-            name: 'PTR'
+          {
+            text: "I just discovered your @Spotify dedup web app & it is awesome!!! Recommend to all #Spotify users!",
+            author: {
+              name: 'VanKento'
+            },
+            link: 'https://twitter.com/VanKenton'
           },
-          link: 'https://twitter.com/VanKenton'
-        }
+          {
+            text: "I've been using your spotify dedup code for years. Today, I finally decided to check out your other stuff. Amazing! I can't believe it took me this long to discover it",
+            author: {
+              name: 'wormx'
+            },
+            link: 'https://twitter.com/wormxn'
+          },
+          {
+            text: "Thanks for the Spotify De-Dup! Very helpful and extremely easy to use",
+            author: {
+              name: 'PTR'
+            },
+            link: 'https://twitter.com/VanKenton'
+          }
         ].map((review, index) =>
           <div key={index} className="bg-white dark:bg-gray-800 w-64 md:w-72 shadow-lg mx-auto rounded-xl p-4">
             <p className="text-gray-600 dark:text-gray-200 flex">
