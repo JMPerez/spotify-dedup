@@ -63,19 +63,19 @@ const resources = {
         "Congrats! You don't have duplicates in your playlists nor saved songs.",
       'process.reading-library':
         'Going through your library, finding the playlists you own and your saved songs…',
-      'process.processing':
+      'process.processing_one':
         'Searching for duplicate songs, wait a sec. Still to process {{count}} playlist…',
-      'process.processing_plural':
+      'process.processing_other':
         'Searching for duplicate songs, wait a sec. Still to process {{count}} playlists…',
       'process.saved.title': 'Saved songs in your library',
-      'process.saved.duplicates':
+      'process.saved.duplicates_one':
         'This collection has {{count}} duplicate song',
-      'process.saved.duplicates_plural':
+      'process.saved.duplicates_other':
         'This collection has {{count}} duplicate songs',
       'process.saved.remove-button': 'Remove duplicates from your saved songs',
-      'process.playlist.duplicates':
+      'process.playlist.duplicates_one':
         'This playlist has {{count}} duplicate song',
-      'process.playlist.duplicates_plural':
+      'process.playlist.duplicates_other':
         'This playlist has {{count}} duplicate songs',
       'process.playlist.remove-button': 'Remove duplicates from this playlist',
       'process.items.removed': 'Duplicates removed',

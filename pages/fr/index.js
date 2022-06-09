@@ -48,19 +48,19 @@ const IndexComponent = () => {
       "Félicitations! Vous n'avez aucun doublon dans vos listes de lecture ou dans vos chansons préférées.",
     'process.reading-library':
       'Visite de votre bibliothèque, recherche des listes de lecture créées par vous et de vos chansons préférées…',
-    'process.processing':
+    'process.processing_one':
       'À la recherche de chansons en double, attendez un instant. {{count}} liste de lecture manquante à traiter…',
-    'process.processing_plural':
+    'process.processing_other':
       'À la recherche de chansons en double, attendez un instant. {{count}} listes de lecture manquantes à traiter…',
     'process.saved.title': 'Chansons préférées dans votre bibliothèque',
-    'process.saved.duplicates':
+    'process.saved.duplicates_one':
       'Cette collection contient {{count}} chanson en double',
-    'process.saved.duplicates_plural':
+    'process.saved.duplicates_other':
       'Cette collection contient {{count}} chansons en double',
     'process.saved.remove-button': 'Supprimer les doublons',
-    'process.playlist.duplicates':
+    'process.playlist.duplicates_one':
       'Cette playlist contient {{count}} chanson en double',
-    'process.playlist.duplicates_plural':
+    'process.playlist.duplicates_other':
       'Cette playlist contient {{count}} chansons en double',
     'process.playlist.remove-button': 'Supprimer les doublons',
     'process.items.removed': 'Doublons supprimés',

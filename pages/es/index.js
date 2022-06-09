@@ -47,19 +47,19 @@ const IndexComponent = () => {
       '¡Enhorabuena! No tienes duplicados en tus listas de reproducción ni en tus canciones favoritas.',
     'process.reading-library':
       'Recorriendo tu biblioteca, encontrando las playlists creadas por ti y tus canciones favoritas…',
-    'process.processing':
+    'process.processing_one':
       'Buscando canciones duplicadas, espera un momento. Queda {{count}} playlist por procesar…',
-    'process.processing_plural':
+    'process.processing_other':
       'Buscando canciones duplicadas, espera un momento. Quedan {{count}} playlists por procesar…',
     'process.saved.title': 'Canciones favoritas en tu biblioteca',
-    'process.saved.duplicates':
+    'process.saved.duplicates_one':
       'Esta colección tiene {{count}} canción duplicada',
-    'process.saved.duplicates_plural':
+    'process.saved.duplicates_other':
       'Esta colección tiene {{count}} canciones duplicadas',
     'process.saved.remove-button': 'Eliminar duplicados en canciones favoritas',
-    'process.playlist.duplicates':
+    'process.playlist.duplicates_one':
       'Esta playlist tiene {{count}} canción duplicada',
-    'process.playlist.duplicates_plural':
+    'process.playlist.duplicates_other':
       'Esta playlist tiene {{count}} canciones duplicadas',
     'process.playlist.remove-button': 'Eliminar duplicados de esta playlist',
     'process.items.removed': 'Duplicados eliminados',

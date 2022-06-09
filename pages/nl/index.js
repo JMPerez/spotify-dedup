@@ -48,20 +48,20 @@ const IndexComponent = () => {
       'Gefeliciteerd! Je hebt geen duplicaten in je afspeellijsten en/of opgeslagen nummers.',
     'process.reading-library':
       'Er wordt gezocht naar de afspeellijsten en opgeslagen nummers in je bibliotheek…',
-    'process.processing':
+    'process.processing_one':
       'Er wordt gezocht naar duplicaten. Nog {{count}} afspeellijst te gaan…',
-    'process.processing_plural':
+    'process.processing_other':
       'Er wordt gezocht naar duplicaten. Nog {{count}} afspeellijsten te gaan…',
     'process.saved.title': 'Opgeslagen nummers in je bibliotheek',
-    'process.saved.duplicates':
+    'process.saved.duplicates_one':
       'Deze verzameling heeft {{count}} dubbel nummer',
-    'process.saved.duplicates_plural':
+    'process.saved.duplicates_other':
       'Deze verzameling heeft {{count}} dubbele nummers',
     'process.saved.remove-button':
       'Verwijder duplicaten uit je opgeslagen nummers',
-    'process.playlist.duplicates':
+    'process.playlist.duplicates_one':
       'Deze afspeellijst heeft {{count}} dubbel nummer',
-    'process.playlist.duplicates_plural':
+    'process.playlist.duplicates_other':
       'Deze afspeellijst heeft {{count}} dubbele nummers',
     'process.playlist.remove-button':
       'Verwijder duplicaten uit deze afspeellijst',

@@ -48,19 +48,19 @@ const IndexComponent = () => {
       'Glückwunsch! Du hast weder Duplikate in deinen Playlists noch in deinen Lieblingssongs.',
     'process.reading-library':
       'Deine Bibliothek wird nach Duplikaten in Playlists und deinen Lieblingssongs durchsucht…',
-    'process.processing':
+    'process.processing_one':
       'Suche nach doppelten Titeln. Bitte warte ein wenig. Es ist noch {{count}} Playlist zu verarbeiten…',
-    'process.processing_plural':
+    'process.processing_other':
       'Suche nach doppelten Titeln. Bitte warte ein wenig. Es sind noch {{count}} Playlists zu verarbeiten…',
     'process.saved.title': 'Lieblingssongs in deiner Bibliothek',
-    'process.saved.duplicates':
+    'process.saved.duplicates_one':
       'Diese Sammlung enthält {{count}} doppelten Song',
-    'process.saved.duplicates_plural':
+    'process.saved.duplicates_other':
       'Diese Sammlung enthält {{count}} doppelte Songs',
     'process.saved.remove-button': 'Duplikate entfernen',
-    'process.playlist.duplicates':
+    'process.playlist.duplicates_one':
       'Diese Playlist enthält {{count}} doppelten Titel',
-    'process.playlist.duplicates_plural':
+    'process.playlist.duplicates_other':
       'Diese Playlist enthält {{count}} doppelte Titel',
     'process.playlist.remove-button': 'Duplikate entfernen',
     'process.items.removed': 'Duplikate entfernt',

@@ -47,16 +47,16 @@ const IndexComponent = () => {
       'Grattis! Du har inga dubbletter i varken dina spellistor eller sparade låtar.',
     'process.reading-library':
       'Går igenom ditt bibliotek, letar efter spellistor som du äger och dina sparade låtar…',
-    'process.processing':
+    'process.processing_one':
       'Söker efter dubbletter, vänta ett ögonblick. Bearbetar fortfarande {{count}} spellista…',
-    'process.processing_plural':
+    'process.processing_other':
       'Söker efter dubbletter, vänta ett ögonblick. Bearbetar fortfarande {{count}} spellistor…',
     'process.saved.title': 'Sparade låtar i ditt bibliotek',
-    'process.saved.duplicates': 'Denna samling har {{count}} dubblett',
-    'process.saved.duplicates_plural': 'Denna samling har {{count}} dubbletter',
+    'process.saved.duplicates_one': 'Denna samling har {{ count }} dubblett',
+    'process.saved.duplicates_other': 'Denna samling har {{count}} dubbletter',
     'process.saved.remove-button': 'Ta bort dubbletter från dina sparade låtar',
-    'process.playlist.duplicates': 'Denna spellista har {{count}} dubblett',
-    'process.playlist.duplicates_plural':
+    'process.playlist.duplicates_one': 'Denna spellista har {{count}} dubblett',
+    'process.playlist.duplicates_other':
       'Denna spellista har {{count}} dubbletter',
     'process.playlist.remove-button': 'Ta bort dubbletter från denna spellista',
     'process.items.removed': 'Dubbletter har tagits bort',

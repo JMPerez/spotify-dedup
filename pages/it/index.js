@@ -48,20 +48,20 @@ const IndexComponent = () => {
       'Perfetto! Non ci sono duplicati fra le canzoni salvate e playlist.',
     'process.reading-library':
       'Analizzo la tua libreria, le playlist da te create e le tue canzoni preferite…',
-    'process.processing':
+    'process.processing_one':
       'Sto cercando eventuali tracce duplicate, aspetta un momento. Devo processare ancora {{count}} playlist…',
-    'process.processing_plural':
+    'process.processing_other':
       'Sto cercando eventuali tracce duplicate, aspetta un momento. Devo processare ancora {{count}} playlist…',
     'process.saved.title': 'Canciones favoritas en tu biblioteca',
-    'process.saved.duplicates':
+    'process.saved.duplicates_one':
       'Questa collezione contiene {{count}} traccia doppia',
-    'process.saved.duplicates_plural':
+    'process.saved.duplicates_other':
       'Questa collezione contiene {{count}} tracce doppie',
     'process.saved.remove-button':
       'Elimino le tracce doppie fra le canzoni preferite',
-    'process.playlist.duplicates':
+    'process.playlist.duplicates_one':
       'Questa playlist contiene {{count}} traccia doppia',
-    'process.playlist.duplicates_plural':
+    'process.playlist.duplicates_other':
       'Questa playlist contiene {{count}} tracce doppie',
     'process.playlist.remove-button':
       'Elimino le tracce doppie eda questa playlist',

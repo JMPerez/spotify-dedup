@@ -48,19 +48,19 @@ const IndexComponent = () => {
             'Gratulacje! Nie masz duplikatów w swoich playlistach ani polubionych utworach.',
         'process.reading-library':
             'Twoja biblioteka zostanie przeszukana w poszukiwaniu duplikatów w playlistach i polubionych utworach....',
-        'process.processing':
+        'process.processing_one':
             'Wyszukiwanie duplikatów utworów. Proszę czekać. Pozostała {{count}} playlista do przetworzenia....',
-        'process.processing_plural':
+        'process.processing_other':
             'Wyszukiwanie duplikatów utworów. Proszę czekać. Pozostało {{count}} playlist do przetworzenia....',
         'process.saved.title': 'Polubione utwory w twojej bibliotece',
-        'process.saved.duplicates':
+        'process.saved.duplicates_one':
             'Ta kolekcja zawiera {{count}} duplikat piosenki',
-        'process.saved.duplicates_plural':
+        'process.saved.duplicates_other':
             'Ta kolekcja zawiera {{count}} duplikatów piosenek',
         'process.saved.remove-button': 'Usuń duplikaty',
-        'process.playlist.duplicates':
+        'process.playlist.duplicates_one':
             'Ta playlista zawiera {{count}} duplikat.',
-        'process.playlist.duplicates_plural':
+        'process.playlist.duplicates_other':
             'Ta playlista zawiera {{count}} duplikatów.',
         'process.playlist.remove-button': 'Usuń duplikaty',
         'process.items.removed': 'Duplikaty usunięte',
