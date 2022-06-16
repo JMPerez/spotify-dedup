@@ -80,6 +80,12 @@ const Reviews = () => {
       <div className="bg-gray-100 dark:bg-zinc-900 rounded-md w-full flex flex-wrap flex-col sm:flex-row gap-4 my-8 flex-between items-center p-8">
         {[
           {
+            text: "This was an absolute perfect web app for my huge playlists and for a absolute great music and various music styles lover. You saved me a lot a time.",
+            author: {
+              name: 'Maria'
+            },
+          },
+          {
             text: "I use dedup all the time! I wish Spotify would consistently not let you add dupes, so thank goodness for engineers like you fixing their problems for the user :)",
             author: {
               name: 'Immi'
