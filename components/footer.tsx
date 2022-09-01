@@ -43,7 +43,7 @@ const Footer = () => {
                 '<a target="_blank" rel="noreferrer" href="https://spotify-top.com">',
               linkClose: '</a>',
             }),
-          }} style={{ whiteSpace: 'nowrap' }}
+          }}
         />
       </p>
       <style jsx>
@@ -54,9 +54,6 @@ const Footer = () => {
             padding-right: 15px;
             color: var(--secondary-text-color);
             text-align: center;
-          }
-          span {
-            white-space: nowrap;
           }
         `}
       </style>
