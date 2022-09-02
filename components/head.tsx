@@ -12,7 +12,7 @@ const Head = () => {
           <Link href={`/${i18n.language === 'en' ? '' : i18n.language}`} prefetch={false}><a>{t('menu.link-home')}</a></Link>
         </li>
         <li>
-          <Link href="/stats" prefetch={false}><a>{t('menu.link-stats')}</a></Link>
+          <Link href="https://spotify-top.com" prefetch={false}><a>{t('menu.link-stats')}</a></Link>
         </li>
       </ul>
       <h3>
