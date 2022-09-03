@@ -6,6 +6,7 @@ export const AvailableLanguages = [
   'en',
   'es',
   'fr',
+  'id',
   'it',
   'nl',
   'pl',
