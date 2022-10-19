@@ -127,7 +127,7 @@ export default function Stats() {
           {data ?
             <><p>
               This chart shows how many requests to the Spotify Web API are made
-              to read the list of playlists ans saved songs, get the list of
+              to read the list of playlists and saved songs, get the list of
               songs in a playlist, and remove duplicates. The most recent value
               is{' '}
               <strong>
