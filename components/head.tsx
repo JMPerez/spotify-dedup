@@ -9,10 +9,13 @@ const Head = () => {
     <div className="flex items-center mb-6 mx-4 md:mx-0">
       <ul className="nav nav-pills">
         <li>
-          <Link href={`/${i18n.language === 'en' ? '' : i18n.language}`} prefetch={false}><a>{t('menu.link-home')}</a></Link>
+          <Link
+            href={`/${i18n.language === 'en' ? '' : i18n.language}`}
+            prefetch={false}
+            legacyBehavior><a>{t('menu.link-home')}</a></Link>
         </li>
         <li>
-          <Link href="https://spotify-top.com" prefetch={false}><a>{t('menu.link-stats')}</a></Link>
+          <Link href="https://spotify-top.com" prefetch={false} legacyBehavior><a>{t('menu.link-stats')}</a></Link>
         </li>
       </ul>
       <h3>
