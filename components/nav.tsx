@@ -10,7 +10,7 @@ const Nav = () => (
   <nav>
     <ul>
       <li>
-        <Link href="/">
+        <Link href="/" legacyBehavior>
           <a>Home</a>
         </Link>
       </li>
