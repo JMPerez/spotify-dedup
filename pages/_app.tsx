@@ -1,11 +1,10 @@
 import '../styles/globals.css';
 
-import type { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useAnalytics } from '../lib/analytics';
-import { useRouter } from 'next/router';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: any) {
   useAnalytics();
   const router = useRouter();
   const include3rdPartyScripts = router.asPath != '/callback';
