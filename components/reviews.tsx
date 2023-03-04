@@ -176,7 +176,7 @@ const Reviews = () => {
             <div className="flex items-center mt-4">
               <a href="https://www.buymeacoffee.com/jmp" className="block relative" target="_blank"
                 rel="noopener noreferrer">
-                <img alt="" src={`https://img.buymeacoffee.com/api/?name=${encodeURIComponent(review.author.name)}&size=80&bg-image=bmc&background=FF813F`} className="mx-auto object-cover rounded-full h-10 w-10 bg-orange-100" loading="lazy" />
+                <img alt={`${review.author.name}'s avatar image`} src={`https://img.buymeacoffee.com/api/?name=${encodeURIComponent(review.author.name)}&size=80&bg-image=bmc&background=FF813F`} className="mx-auto object-cover rounded-full h-10 w-10 bg-orange-100" loading="lazy" />
               </a>
               <div className="flex flex-col ml-2 justify-between">
                 <span className="text-gray-800 dark:text-gray-400 text-sm">

@@ -29,7 +29,7 @@ const resources = {
       'meta.title':
         'Spotify Dedup - Remove duplicate songs from your Spotify library',
       'meta.description':
-        'Delete repeated songs from your Spotify playlists and saved tracks automatically. Quickly and easy.',
+        'Delete repeated songs from your Spotify playlists and saved tracks automatically. Fix your music library. Quickly and easy.',
       'features.find-remove.header': 'Find & remove',
       'features.find-remove.body':
         'Dedup checks your playlists and saved songs in {{- strongOpen}}your Spotify library{{- strongClose}}. Once Dedup finds duplicates you can remove them per-playlist basis.',
