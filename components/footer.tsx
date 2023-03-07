@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
@@ -38,9 +37,9 @@ const Footer = () => {
         ·{' '}
         <span
           dangerouslySetInnerHTML={{
-            __html: t('footer.spotify-top', {
+            __html: t('footer.musicalyst', {
               linkOpen:
-                '<a target="_blank" rel="noreferrer" href="https://spotify-top.com">',
+                '<a target="_blank" rel="noreferrer" href="https://musicalyst.com">',
               linkClose: '</a>',
             }),
           }}

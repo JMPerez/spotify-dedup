@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -29,7 +29,7 @@ const IndexComponent = () => {
     'footer.github': 'Kolla in {{- linkOpen}}koden på GitHub 📃{{- linkClose}}',
     'footer.bmc':
       'Stöd projektet genom att {{- linkOpen}}bjuda på en kaffe ☕{{- linkClose}}',
-    'footer.spotify-top': 'Besök {{- linkOpen}}Spotify Top 🎧{{- linkClose}} för att få statistik om din nyligen spelade musik',
+    'footer.musicalyst': 'Besök {{- linkOpen}}Musicalyst 🎧{{- linkClose}} för att få statistik om din nyligen spelade musik',
     'bmc.button': 'Skulle du vilja bjuda mig på en kaffe?',
     'result.duplicate.reason-same-id': 'Dubblett',
     'result.duplicate.reason-same-data':
@@ -60,7 +60,7 @@ const IndexComponent = () => {
       'Denna spellista har {{count}} dubbletter',
     'process.playlist.remove-button': 'Ta bort dubbletter från denna spellista',
     'process.items.removed': 'Dubbletter har tagits bort',
-    'spotifytop.heading': '🚀 Nytt projekt, Spotify Top!',
+    'spotifytop.heading': '🚀 Nytt projekt, Musicalyst!',
     'spotifytop.description':
       'Har du någonsin undrat vilka artister, låtar eller genrer du har lyssnat mest på på Spotify nyligen?',
     'spotifytop.check1': 'Ta en titt på mitt nya verktyg',

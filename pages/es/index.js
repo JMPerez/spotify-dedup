@@ -27,7 +27,7 @@ const IndexComponent = () => {
     'reviews.title': 'Esto es lo que dicen los usuarios',
     'footer.author': 'Hecho con ♥ por {{- linkOpen}}JMPerez 👨‍💻{{- linkClose}}',
     'footer.github': 'Mira el {{- linkOpen}}código en GitHub 📃{{- linkClose}}',
-    'footer.spotify-top': 'Echa un vistazo a {{- linkOpen}}Spotify Top 🎧{{- linkClose}}',
+    'footer.musicalyst': 'Echa un vistazo a {{- linkOpen}}Musicalyst 🎧{{- linkClose}}',
     'footer.bmc':
       'Apoya el proyecto {{- linkOpen}}comprando un café ☕{{- linkClose}}',
     'bmc.button': '¿Me compras un café?',
@@ -63,7 +63,7 @@ const IndexComponent = () => {
       'Esta playlist tiene {{count}} canciones duplicadas',
     'process.playlist.remove-button': 'Eliminar duplicados de esta playlist',
     'process.items.removed': 'Duplicados eliminados',
-    'spotifytop.heading': '¡🚀 Nuevo proyecto, Spotify Top!',
+    'spotifytop.heading': '¡🚀 Nuevo proyecto, Musicalyst!',
     'spotifytop.description':
       '¿Te has preguntado alguna vez qué artistas, canciones o géneros has estado escuchando más a menudo en Spotify últimamente?',
     'spotifytop.check1': 'Echa un vistazo a mi nueva herramienta',

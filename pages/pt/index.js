@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -29,7 +29,7 @@ const IndexComponent = () => {
     'footer.github': 'Veja o {{- linkOpen}}código no GitHub 📃{{- linkClose}}',
     'footer.bmc':
       'Apoie o projeto {{- linkOpen}}comprando um café ☕{{- linkClose}}',
-    'footer.spotify-top': "Confira o {{- linkOpen}}Spotify Top 🎧{{- linkClose}}",
+    'footer.musicalyst': "Confira o {{- linkOpen}}Musicalyst 🎧{{- linkClose}}",
     'bmc.button': 'Você pode me comprar um café?',
     'result.duplicate.reason-same-id': 'Duplicado',
     'result.duplicate.reason-same-data':
@@ -63,7 +63,7 @@ const IndexComponent = () => {
     'process.playlist.remove-button':
       'Remova duplicatas desta lista de reprodução',
     'process.items.removed': 'Duplicatas removidas',
-    'spotifytop.heading': '🚀 Novo projeto, Spotify Top!',
+    'spotifytop.heading': '🚀 Novo projeto, Musicalyst!',
     'spotifytop.description':
       'Você já se perguntou quais artistas, músicas ou gêneros você tem ouvido com mais frequência no Spotify ultimamente?',
     'spotifytop.check1': 'Dê uma olhada em minha nova ferramenta',

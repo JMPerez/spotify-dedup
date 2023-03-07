@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
@@ -22,7 +22,7 @@ const IndexComponent = () => {
         'footer.author': 'Dibuat dengan oleh {{- linkOpen}}JMPerez {{- linkClose}}',
         'footer.github': 'Lihat kode {{- linkOpen}}di GitHub {{- linkClose}}',
         'footer.bmc': 'Dukung proyek {{- linkOpen}}membeli kopi {{- linkClose}}',
-        'footer.spotify-top': 'Kunjungi {{- linkOpen}}Spotify Top {{- linkClose}} untuk melihat statistik tentang riwayat mendengarkan Anda',
+        'footer.musicalyst': 'Kunjungi {{- linkOpen}}Musicalyst {{- linkClose}} untuk melihat statistik tentang riwayat mendengarkan Anda',
         'bmc.button': 'Maukah Anda membelikan saya kopi?',
         'result.duplicate.reason-same-id': 'Duplikat',
         'result.duplicate.reason-same-data': 'Duplikat (nama, artis, dan durasi yang sama)',
@@ -43,7 +43,7 @@ const IndexComponent = () => {
         'process.playlist.duplicates_other': 'Daftar putar ini memiliki {{count}} lagu duplikat',
         'process.playlist.remove-button': 'Hapus duplikat dari daftar putar ini',
         'process.items.removed': 'Duplikat dihapus',
-        'spotifytop.heading': '🚀 Memperkenalkan Spotify Top!',
+        'spotifytop.heading': '🚀 Memperkenalkan Musicalyst!',
         'spotifytop.description': 'Pernah bertanya-tanya artis, lagu, atau genre apa yang paling sering Anda dengarkan akhir-akhir ini?',
         'spotifytop.check1': 'Periksa proyek terbaru saya',
         'spotifytop.check2': 'untuk mendapatkan wawasan yang dipersonalisasi tentang apa yang telah Anda putar di Spotify',

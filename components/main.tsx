@@ -1,18 +1,18 @@
+import { Translation, useTranslation } from 'react-i18next';
 import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
 import { SpotifyTrackType, SpotifyUserType } from '../dedup/spotifyApi';
-import { Translation, useTranslation } from 'react-i18next';
 
+import React from 'react';
+import Process from '../dedup/process';
+import { PlaylistModel } from '../dedup/types';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import { DuplicateTrackList } from './duplicateTrackList';
 import { DuplicateTrackListItem } from './duplicateTrackListItem';
 import Panel from './panel';
-import { PlaylistModel } from '../dedup/types';
-import Process from '../dedup/process';
-import React from 'react';
 import TmmBanner from './tmm/TmmBanner';
 
 const Status = ({ toProcess }) => {
@@ -64,7 +64,7 @@ export default class Main extends React.Component<{
     process.process(this.props.api, this.props.user);
 
     const hasUsedSpotifyTop = async () => {
-      const res = await fetch(`https://spotify-top.com/api/profile`, {
+      const res = await fetch(`https://musicalyst.com/api/profile`, {
         method: 'GET',
         headers: { 'Spotify-Auth': this.props.accessToken },
       });
@@ -221,11 +221,11 @@ export default class Main extends React.Component<{
                       <Translation>{(t) => t('spotifytop.check1')}</Translation>
                       ,{' '}
                       <a
-                        href="https://spotify-top.com/?ref=spotifydedup"
+                        href="https://musicalyst.com/?ref=spotifydedup"
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Spotify Top
+                        Musicalyst
                       </a>
                     </strong>{' '}
                     <Translation>{(t) => t('spotifytop.check2')}</Translation>

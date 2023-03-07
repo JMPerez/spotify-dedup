@@ -44,7 +44,7 @@ const TmmBanner = ({ placement }: { placement: string }) => {
       (async () => {
         navigator.sendBeacon &&
           navigator.sendBeacon(
-            `https://spotify-top.com/api/campaigns/logImpression_sd`,
+            `https://musicalyst.com/api/campaigns/logImpression_sd`,
             JSON.stringify({ id: campaign.id, placement })
           );
       })();
@@ -61,7 +61,7 @@ const TmmBanner = ({ placement }: { placement: string }) => {
     if (campaign?.id !== null) {
       navigator.sendBeacon &&
         navigator.sendBeacon(
-          `https://spotify-top.com/api/campaigns/logClick_sd`,
+          `https://musicalyst.com/api/campaigns/logClick_sd`,
           JSON.stringify({ id: campaign.id, placement })
         );
     }

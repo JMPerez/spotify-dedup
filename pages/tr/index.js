@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
@@ -22,7 +22,7 @@ const IndexComponent = () => {
         "footer.author": "{{- linkOpen}}JMPerez 👨‍💻{{- linkClose}} tarafından ♥ ile yapıldı.",
         "footer.github": "{{- linkOpen}}GitHub'da 📃{{- linkClose}} kaynak kodlarımızı görüntüleyin.",
         "footer.bmc": "{{- linkOpen}}Kahve ☕ al{{- linkClose}}arak projeye destek verin.",
-        "footer.spotify-top": "{{- linkOpen}}Spotify Top 🎧{{- linkClose}}'a giderek dinleme geçmişiniz hakkında bilgi alın.",
+        "footer.musicalyst": "{{- linkOpen}}Musicalyst 🎧{{- linkClose}}'a giderek dinleme geçmişiniz hakkında bilgi alın.",
         "bmc.button": "Bana bir bardak kahve alır mıydın?",
         "result.duplicate.reason-same-id": "Yinelenen Şarkı",
         "result.duplicate.reason-same-data": "Yinelenen Şarkı (aynı isim, artist adı ve süre.)",
@@ -43,7 +43,7 @@ const IndexComponent = () => {
         "process.playlist.duplicates_other": "Bu çalma listesinde {{count}} yinelenen şarkı var.",
         "process.playlist.remove-button": "Bu çalma listesinden yinelenen şarkıları sil",
         "process.items.removed": "Yenilenen şarkılar silindi!",
-        "spotifytop.heading": "🚀 Karşınızda Spotify Top!",
+        "spotifytop.heading": "🚀 Karşınızda Musicalyst!",
         "spotifytop.description": "Son zamanlarda hangi şarkıcıları, hangi şarkıları dinlediğinizi merak ettiniz mi?",
         "spotifytop.check1": "Spotify'da ne çaldığınıza dair size özel bir rapor almak için",
         "spotifytop.check2": "son projeme bir göz atın.",

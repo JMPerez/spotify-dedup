@@ -45,8 +45,8 @@ const resources = {
         'Check out the {{- linkOpen}}code on GitHub 📃{{- linkClose}}',
       'footer.bmc':
         'Support the project {{- linkOpen}}buying a coffee ☕{{- linkClose}}',
-      'footer.spotify-top':
-        'Visit {{- linkOpen}}Spotify Top 🎧{{- linkClose}} to see stats about your listening history',
+      'footer.musicalyst':
+        'Visit {{- linkOpen}}Musicalyst 🎧{{- linkClose}} to see stats about your listening history',
       'bmc.button': 'Would you buy me a coffee?',
       'result.duplicate.reason-same-id': 'Duplicate',
       'result.duplicate.reason-same-data':
@@ -80,7 +80,7 @@ const resources = {
         'This playlist has {{count}} duplicate songs',
       'process.playlist.remove-button': 'Remove duplicates from this playlist',
       'process.items.removed': 'Duplicates removed',
-      'spotifytop.heading': '🚀 Introducing Spotify Top!',
+      'spotifytop.heading': '🚀 Introducing Musicalyst!',
       'spotifytop.description':
         'Ever wondered what artists, songs, or genres you have been listening the most lately?',
       'spotifytop.check1': 'Check my latest project',

@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -28,7 +28,7 @@ const IndexComponent = () => {
     'footer.author':
       'Mit ♥ gemacht von {{- linkOpen}}JMPerez 👨‍💻{{- linkClose}}',
     'footer.github': '{{- linkOpen}}Code auf GitHub{{- linkClose}} ansehen 📃',
-    'footer.spotify-top': 'Schauen Sie sich {{- linkOpen}}Spotify Top 🎧{{- linkClose}} an',
+    'footer.musicalyst': 'Schauen Sie sich {{- linkOpen}}Musicalyst 🎧{{- linkClose}} an',
     'footer.bmc':
       'Unterstütze das Projekt {{- linkOpen}}beim Kaffeekauf ☕{{- linkClose}}',
     'bmc.button': 'Würdest du mir einen Kaffee kaufen?',
@@ -64,7 +64,7 @@ const IndexComponent = () => {
       'Diese Playlist enthält {{count}} doppelte Titel',
     'process.playlist.remove-button': 'Duplikate entfernen',
     'process.items.removed': 'Duplikate entfernt',
-    'spotifytop.heading': '🚀 Neues Projekt, Spotify Top!',
+    'spotifytop.heading': '🚀 Neues Projekt, Musicalyst!',
     'spotifytop.description':
       'Haben Sie sich jemals gefragt, welche Künstler, Songs oder Genres Sie in letzter Zeit am meisten gehört haben?',
     'spotifytop.check1': 'Überprüfe mein aktuelles Projekt',

@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -30,7 +30,7 @@ const IndexComponent = () => {
       'Regardez le {{- linkOpen}}code sur GitHub 📃{{- linkClose}}',
     'footer.bmc':
       'Soutenez le projet {{- linkOpen}}en achetant un café ☕{{- linkClose}}',
-    'footer.spotify-top': 'Découvrez {{- linkOpen}}Spotify Top 🎧{{- linkClose}}',
+    'footer.musicalyst': 'Découvrez {{- linkOpen}}Musicalyst 🎧{{- linkClose}}',
     'bmc.button': 'Achetez-moi un café',
     'result.duplicate.reason-same-id': 'Dupliqué',
     'result.duplicate.reason-same-data':
@@ -64,7 +64,7 @@ const IndexComponent = () => {
       'Cette playlist contient {{count}} chansons en double',
     'process.playlist.remove-button': 'Supprimer les doublons',
     'process.items.removed': 'Doublons supprimés',
-    'spotifytop.heading': '🚀 Nouveau projet, Spotify Top!',
+    'spotifytop.heading': '🚀 Nouveau projet, Musicalyst!',
     'spotifytop.description':
       'Vous vous demandez quels artistes, chansons ou genres vous avez le plus écoutés sur Spotify ces derniers temps?',
     'spotifytop.check1': 'Jetez un œil à mon nouvel outil',
