@@ -1,19 +1,18 @@
-import { Translation, useTranslation } from 'react-i18next';
 import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
 import { SpotifyTrackType, SpotifyUserType } from '../dedup/spotifyApi';
+import { Translation, useTranslation } from 'react-i18next';
 
-import React from 'react';
-import Process from '../dedup/process';
-import { PlaylistModel } from '../dedup/types';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import { DuplicateTrackList } from './duplicateTrackList';
 import { DuplicateTrackListItem } from './duplicateTrackListItem';
 import Panel from './panel';
-import TmmBanner from './tmm/TmmBanner';
+import { PlaylistModel } from '../dedup/types';
+import Process from '../dedup/process';
+import React from 'react';
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
@@ -357,7 +356,6 @@ export default class Main extends React.Component<{
               ))}
           </ul>
         )}
-        <TmmBanner placement="duplicates-processing" />
         <style jsx>
           {`
             .bd {
