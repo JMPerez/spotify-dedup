@@ -1,11 +1,10 @@
 import '../styles/globals.css';
 
+import { Analytics } from '@vercel/analytics/react';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useAnalytics } from '../lib/analytics';
 
 export default function App({ Component, pageProps }: any) {
-  useAnalytics();
   const router = useRouter();
   const include3rdPartyScripts = router.asPath != '/callback';
   return (
@@ -27,5 +26,6 @@ export default function App({ Component, pageProps }: any) {
         </Script>
       }
       <Component {...pageProps} />
+      <Analytics />
     </>);
 }
