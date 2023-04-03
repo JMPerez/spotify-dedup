@@ -9,7 +9,7 @@ const IndexComponent = () => {
     'menu.link-stats': 'Estadísticas',
     'home.title': 'Elimina canciones duplicadas de tu biblioteca de Spotify.',
     'home.description':
-      'Spotify Dedup limpia tus playlists y canciones guardadas en Spotify. Es fácil y rápido.',
+      'Spotify Dedup limpia tus playlists y canciones de tu cuenta de Spotify. Es fácil y rápido.',
     'home.login-button': 'Iniciar sesión con Spotify',
     'meta.title':
       'Spotify Dedup - Elimina canciones duplicadas de tu biblioteca de Spotify',
