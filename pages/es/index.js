@@ -7,9 +7,9 @@ const IndexComponent = () => {
   i18n.addResourceBundle('es', 'translation', {
     'menu.link-home': 'Principal',
     'menu.link-stats': 'Estadísticas',
-    'home.title': 'Deduplicador Spotify',
+    'home.title': 'Elimina canciones duplicadas de tu biblioteca de Spotify.',
     'home.description':
-      'Elimina canciones duplicadas de tus playlists y canciones guardadas.',
+      'Spotify Dedup limpia tus playlists y canciones guardadas en Spotify. Es fácil y rápido.',
     'home.login-button': 'Iniciar sesión con Spotify',
     'meta.title':
       'Spotify Dedup - Elimina canciones duplicadas de tu biblioteca de Spotify',
@@ -69,6 +69,27 @@ const IndexComponent = () => {
     'spotifytop.check1': 'Echa un vistazo a mi nueva herramienta',
     'spotifytop.check2':
       'para ver un informe de qué has reproducido en Spotify recientemente.',
+    "faq.section-title": "Preguntas frecuentes",
+    "faq.question-1": "¿Qué hace esta aplicación web?",
+    "faq.answer-1": "Spotify Dedup te ayuda a limpiar tu bibliteca de Spotify identificando y eliminando canciones duplicadas en listas de reproducción y canciones guardadas.",
+    "faq.question-2": "¿Cómo encuentra esta herramienta duplicados?",
+    "faq.answer-2": "Spotify Dedup encuentra duplicados basándose en el identificador de la canción, la similitud en el título, el artista y la duración. Identifica duplicados que la aplicación de Spotify no detecta.",
+    "faq.question-3": "¿Cómo es mejor esta herramienta que la detección de duplicados de Spotify?",
+    "faq.answer-3": "La misma canción en Spotify tiene distintos identificadores dependiendo del país o territorio y release. Spotify solo advierte sobre duplicados basados en el identificador de la canción, mientras que esta herramienta también detecta duplicados basados en la similitud del título, artista y duración.",
+    "faq.question-4": "¿Cómo maneja esta herramienta duplicados con diferentes IDs?",
+    "faq.answer-4": "Esta herramienta puede identificar duplicados aunque tengan diferentes IDs de canción pero compartan el mismo título, artista y duración.",
+    "faq.question-5": "¿Está segura mi información con esta aplicación web?",
+    "faq.answer-5": "Sí, esta aplicación web no almacena datos de usuario en sus servidores. Solo solicita el conjunto mínimo de permisos necesarios para procesar la biblioteca del usuario.",
+    "faq.question-6": "¿Qué permisos requiere esta aplicación web?",
+    "faq.answer-6": "Esta aplicación web utiliza el servicio de autenticación de Spotify para solicitar el conjunto mínimo de permisos necesarios para procesar la biblioteca del usuario.",
+    "faq.question-7": "¿Cómo ha sido probada esta herramienta?",
+    "faq.answer-7": "Esta herramienta ha sido probada en combate por miles de usuarios que la han utilizado para identificar duplicados en millones de listas de reproducción.",
+    "faq.question-8": "¿Puede esta herramienta eliminar duplicados en varias listas de reproducción?",
+    "faq.answer-8": "Esta herramienta puede identificar y eliminar duplicados en todas las listas de reproducción de una biblioteca, pero no detecta duplicados de una canción en varias listas de reproducción.",
+    "faq.question-9": "¿Cómo puedo revocar los permisos otorgados a esta aplicación web?",
+    "faq.answer-9": "Puedes revocar los permisos dados a esta aplicación web en cualquier momento en tu cuenta de Spotify, en la sección 'Aplicaciones'.",
+    "faq.question-10": "¿Funciona esta herramienta con otros servicios de streaming?",
+    "faq.answer-10": "No, esta herramienta solo funciona con Spotify y utiliza la API web de Spotify para identificar y eliminar duplicados en la biblioteca del usuario."
   });
   i18n.changeLanguage('es');
   return (

@@ -1,27 +1,27 @@
+import { Translation, useTranslation } from 'react-i18next';
 import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
 import { SpotifyTrackType, SpotifyUserType } from '../dedup/spotifyApi';
-import { Translation, useTranslation } from 'react-i18next';
 
+import React from 'react';
+import Process from '../dedup/process';
+import { PlaylistModel } from '../dedup/types';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import { DuplicateTrackList } from './duplicateTrackList';
 import { DuplicateTrackListItem } from './duplicateTrackListItem';
 import Panel from './panel';
-import { PlaylistModel } from '../dedup/types';
-import Process from '../dedup/process';
-import React from 'react';
+import TmmBanner from './tmm/TmmBanner';
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
+  const isProcessingComplete = toProcess === 0;
   return (
     <span>
       <h3 className="text-xl font-bold mb-4">
-        {toProcess > 0 || toProcess === null
-          ? t('process.status.finding')
-          : t('process.status.complete')}
+        {t(`process.status.${isProcessingComplete ? 'complete' : 'finding'}`)}
       </h3>
     </span>
   );
@@ -356,6 +356,9 @@ export default class Main extends React.Component<{
               ))}
           </ul>
         )}
+        <div style={{ maxWidth: '720px' }} className="m-auto">
+          <TmmBanner placement="duplicates-processing" />
+        </div>
         <style jsx>
           {`
             .bd {

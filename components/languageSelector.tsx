@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import React from 'react';
 
 const LanguageSelector = () => {
   return (
-    <div className="footer">
+    <div>
       <p>
         Change language to{' '}
         <Link prefetch={false} href="/de" legacyBehavior>

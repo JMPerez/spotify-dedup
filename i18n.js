@@ -22,9 +22,9 @@ const resources = {
     translation: {
       'menu.link-home': 'Home',
       'menu.link-stats': 'Stats',
-      'home.title': 'Spotify Deduplicator',
+      'home.title': 'Remove duplicate songs from your Spotify library.',
       'home.description':
-        'Remove duplicate songs from your playlists and saved songs.',
+        'Spotify Dedup cleans up your playlists and saved songs on Spotify. It\'s easy and fast.',
       'home.login-button': 'Log in with Spotify',
       'meta.title':
         'Spotify Dedup - Remove duplicate songs from your Spotify library',
@@ -32,7 +32,7 @@ const resources = {
         'Delete repeated songs from your Spotify playlists and saved tracks automatically. Fix your music library. Quickly and easy.',
       'features.find-remove.header': 'Find & remove',
       'features.find-remove.body':
-        'Dedup checks your playlists and saved songs in {{- strongOpen}}your Spotify library{{- strongClose}}. Once Dedup finds duplicates you can remove them per-playlist basis.',
+        'Dedup checks your playlists and saved songs in {{- strongOpen}}your Spotify library{{- strongClose}}. Once Dedup finds duplicates you can remove them on a per-playlist basis.',
       'features.safer.header': 'Safer',
       'features.safer.body':
         'Dedup will only remove {{- strongOpen}}duplicate songs{{- strongClose}}, leaving the rest of the playlist and saved songs untouched.',
@@ -46,7 +46,7 @@ const resources = {
       'footer.bmc':
         'Support the project {{- linkOpen}}buying a coffee ☕{{- linkClose}}',
       'footer.musicalyst':
-        'Visit {{- linkOpen}}Musicalyst 🎧{{- linkClose}} to see stats about your listening history',
+        'Visit {{- linkOpen}}Musicalyst{{- linkClose}} to see stats about your listening history 🎧',
       'bmc.button': 'Would you buy me a coffee?',
       'result.duplicate.reason-same-id': 'Duplicate',
       'result.duplicate.reason-same-data':
@@ -86,6 +86,27 @@ const resources = {
       'spotifytop.check1': 'Check my latest project',
       'spotifytop.check2':
         'to get personalized insights about what you have been playing on Spotify',
+      "faq.section-title": "Frequently asked questions",
+      'faq.question-1': 'What does this web application do?',
+      'faq.answer-1': 'This web application helps Spotify users clean up their music libraries by identifying and deleting duplicate songs across playlists and saved songs.',
+      'faq.question-2': 'How does this tool find duplicates?',
+      'faq.answer-2': 'The tool finds duplicates based on song identifier, title, artist, and duration similarity. It identifies duplicates that Spotify\'s application does not catch.',
+      'faq.question-3': 'How is this tool better than Spotify\'s duplicate detection?',
+      'faq.answer-3': ' The same song can have multiple identifiers on Spotify, both in the same release or in several ones. Spotify only warns about duplicates based on the song identifier, whereas this tool also detects duplicates based on title, artist, and duration similarity.',
+      'faq.question-4': 'How does this tool handle duplicates with different IDs?',
+      'faq.answer-4': 'This tool can identify duplicates even if they have different song IDs but share the same title, artist, and duration.',
+      'faq.question-5': 'Is my data safe with this web application?',
+      'faq.answer-5': 'Yes, this web application does not store any user data on its servers. It only requests the minimum set of permissions necessary to process your library.',
+      'faq.question-6': 'What permissions does this web application require?',
+      'faq.answer-6': 'This web application uses Spotify\'s authentication service to access your saved tracks and playlists in your library.',
+      'faq.question-7': 'How has this tool been tested?',
+      'faq.answer-7': 'This tool has been battle-tested by thousands of users who have used it to identify duplicates in millions of playlists.',
+      'faq.question-8': 'Can this tool delete duplicates across multiple playlists?',
+      'faq.answer-8': 'This tool can identify and delete duplicates on all playlists in a library, but doesn\'t detect duplicates of a song across multiple playlists.',
+      'faq.question-9': 'How can I revoke the permissions granted to this web application?',
+      'faq.answer-9': 'Users can revoke the permissions granted to this web application at any time on your Spotify account, under the \'Apps\' section.',
+      'faq.question-10': 'Does this tool work with other music streaming services?',
+      'faq.answer-10': 'No, this tool only works with Spotify and uses Spotify\'s Web API to identify and delete duplicates in your library.',
     },
   },
   fallbackLng: 'en',

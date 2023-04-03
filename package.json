@@ -22,7 +22,6 @@
     "next": "^13.2.3",
     "next-i18next": "^13.2.1",
     "postcss": "^8.4.14",
-    "puppeteer-core": "^13.5.2",
     "react": "^18.2.0",
     "react-chartkick": "^0.5.2",
     "react-dom": "^18.2.0",
@@ -32,7 +31,6 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
-    "@types/puppeteer-core": "^5.4.0",
     "@types/react": "^17.0.43",
     "eslint": "8.12.0",
     "eslint-config-next": "12.1.4",

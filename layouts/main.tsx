@@ -32,10 +32,6 @@ const Main = ({ children }) => (
         box-sizing: border-box;
       }
       body {
-        font-family: 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial,
-          sans-serif;
-        font-size: 14px;
-        line-height: 1.428571429;
         background: var(--surface-color);
         color: var(--text-color);
         padding-top: 20px;

@@ -1,11 +1,10 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Reviews = () => {
   const { t, i18n } = useTranslation();
   return (
-    <div className="mt-10">
-      <p className="font-bold text-2xl text-center">
+    <div>
+      <p className="font-semibold text-3xl tracking-tight text-slate-900 sm:text-4xl text-center">
         {t('reviews.title')}{' '}
         <svg
           className="inline-block w-6 h-6"
@@ -72,12 +71,12 @@ const Reviews = () => {
         </svg>
       </p>
       {i18n.language === 'en' ? (
-        <p style={{ textAlign: 'center' }}>
-          Read what <strong>1,200+ supporters</strong> think about Spotify Dedup
-          on <a href="https://www.buymeacoffee.com/jmp">Buy Me a Coffee</a>.
+        <p className="mt-4 text-lg tracking-tight text-center text-slate-700">
+          Read what <strong>1,500+ supporters</strong> think about Spotify Dedup
+          on <a href="https://www.buymeacoffee.com/jmp" className="font-semibold">Buy Me a Coffee</a>.
         </p>
       ) : null}
-      <div className="bg-gray-100 dark:bg-zinc-900 rounded-md w-full flex flex-wrap flex-col sm:flex-row gap-4 my-8 flex-between items-center p-8">
+      <div className="rounded-md w-full flex flex-wrap flex-col sm:flex-row gap-4 my-8 flex-between items-center p-8">
         {[
           {
             text: "This was an absolute perfect web app for my huge playlists and for a absolute great music and various music styles lover. You saved me a lot a time.",

@@ -7,9 +7,9 @@ const IndexComponent = () => {
   i18n.addResourceBundle('sv', 'translation', {
     'menu.link-home': 'Hem',
     'menu.link-stats': 'Statistik',
-    'home.title': 'Spotify Deduplicering',
+    'home.title': 'Ta bort dubbletter från ditt Spotify-bibliotek.',
     'home.description':
-      'Ta bort dubbletter från dina spellistor och sparade låtar.',
+      'Spotify Dedup rensar dina spellistor och låtar sparade på Spotify. Det är enkelt och snabbt.',
     'home.login-button': 'Logga in med Spotify',
     'meta.title':
       'Spotify Dedup - Ta bort dubbletter från ditt Spotify bibliotek',

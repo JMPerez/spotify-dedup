@@ -82,7 +82,7 @@ const TmmBanner = ({ placement }: { placement: string }) => {
     >{isMobile ?
       <div className="p-5 bg-orange-600 relative antialiased" style={{
         background: backgrounds[randomIndex],
-        fontFamily: "ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji"
+        fontFamily: "ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
       }}>
         <div>
           <div className="text-lg font-semibold w-80 mb-2 text-white leading-6">

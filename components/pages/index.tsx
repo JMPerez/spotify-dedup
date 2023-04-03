@@ -1,16 +1,16 @@
+import Head from 'next/head';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import OAuthManager from '../../dedup/oauthManager';
+import SpotifyWebApi from '../../dedup/spotifyApi';
 import { AvailableLanguages } from '../../i18n';
+import Faq from '../faq';
 import Features from '../features';
 import Footer from '../footer';
-import Head from 'next/head';
 import Header from '../head';
 import Intro from '../intro';
-import LanguageSelector from '../languageSelector';
 import Main from '../main';
-import OAuthManager from '../../dedup/oauthManager';
-import React from 'react';
 import Reviews from '../reviews';
-import SpotifyWebApi from '../../dedup/spotifyApi';
-import { useTranslation } from 'react-i18next';
 
 const MetaHead = () => {
   const { t, i18n } = useTranslation();
@@ -104,24 +104,36 @@ export default class Index extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div style={this.state.isLoggedIn ? {} : { background: "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.3),rgba(0,0,0,0))" }}>
         <MetaHead />
         <Header />
-
-        {this.state.isLoggedIn ? (
-          <Main
-            api={this.api}
-            user={this.state.user}
-            accessToken={this.state.accessToken}
-          />
-        ) : (
-          <Intro onLoginClick={this.handleLoginClick} />
-        )}
+        <div className="pb-16">
+          {this.state.isLoggedIn ? (
+            <div className="max-w-3xl m-auto"><Main
+              api={this.api}
+              user={this.state.user}
+              accessToken={this.state.accessToken}
+            /></div>
+          ) : (
+            <Intro onLoginClick={this.handleLoginClick} />
+          )}
+        </div>
         {this.state.isLoggedIn
           ? null
-          : [<Features key={0} />, <Reviews key={1} />]}
-        <Footer />
-        <LanguageSelector />
+          : [<div key={0}>
+            <Features />
+          </div>,
+          <div className="bg-slate-50 py-20" key={1}>
+            <Reviews />
+          </div>,
+          <div className="bg-slate-50" key={1}>
+            <Faq />
+          </div>,
+          ]
+        }
+        <div className="bg-slate-50">
+          <Footer />
+        </div>
       </div>
     );
   }
