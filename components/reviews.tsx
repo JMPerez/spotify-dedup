@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 const Reviews = () => {
   const { t, i18n } = useTranslation();
   return (
-    <div>
+    <div className="mx-auto py-16 max-w-4xl px-4 sm:px-6 lg:px-8">
       <p className="font-semibold text-3xl tracking-tight text-slate-900 sm:text-4xl text-center">
         {t('reviews.title')}{' '}
         <svg

@@ -123,7 +123,7 @@ export default class Index extends React.Component {
           : [<div key={0}>
             <Features />
           </div>,
-          <div className="bg-slate-50 py-20" key={1}>
+          <div className="bg-slate-50" key={1}>
             <Reviews />
           </div>,
           <div className="bg-slate-50" key={1}>
