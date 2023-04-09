@@ -47,7 +47,27 @@ const IndexComponent = () => {
         "spotifytop.description": "Son zamanlarda hangi şarkıcıları, hangi şarkıları dinlediğinizi merak ettiniz mi?",
         "spotifytop.check1": "Spotify'da ne çaldığınıza dair size özel bir rapor almak için",
         "spotifytop.check2": "son projeme bir göz atın.",
-
+        'faq.section-title': "Sıkça sorulan sorular",
+        'faq.question-1': 'Bu web uygulaması ne yapıyor?',
+        'faq.answer-1': 'Spotify Dedup, çalma listeleri ve kayıtlı şarkılar arasında yinelenen şarkıları belirleyip silerek Spotify\'daki müzik kitaplıklarınızı temizlemenize yardımcı olur.',
+        'faq.question-2': 'Bu araç kopyaları nasıl buluyor?',
+        'faq.answer-2': 'Araç, şarkı tanımlayıcısına, başlığa, sanatçıya ve süre benzerliğine göre kopyaları bulur. Spotify\'ın uygulamasının bulamadığı kopyaları tanımlar.',
+        'faq.question-3': 'Bu araç nasıl Spotify\'ın kopya tespitinden daha iyi?',
+        'faq.answer-3': ' Aynı şarkının Spotify\'da hem aynı sürümde hem de birkaç sürümde birden fazla tanımlayıcısı olabilir.Spotify yalnızca şarkı tanımlayıcısına göre kopyalar hakkında uyarır, oysa bu araç aynı zamanda başlık, sanatçı ve süre benzerliğine göre kopyaları da algılar.',
+        'faq.question-4': 'Kopyalar bulunduğunda hangi şarkılar kaldırılır?',
+        'faq.answer-4': 'Dedup, yinelenen şarkılar grubundaki ilk şarkıyı tutacak ve gerisini kaldıracaktır.',
+        'faq.question-5': 'Verilerim bu web uygulamasıyla güvende mi?',
+        'faq.answer-5': 'Evet, bu web uygulaması sunucularında herhangi bir kullanıcı verisi saklamaz. Yalnızca kitaplığınızı işlemek için gereken minimum izin kümesini ister.',
+        'faq.question-6': 'Bu web uygulaması hangi izinleri gerektiriyor?',
+        'faq.answer-6': 'Bu web uygulaması, kitaplığınızdaki kayıtlı parçalarınıza ve çalma listelerinize erişmek için Spotify\'ın kimlik doğrulama hizmetini kullanır.',
+        'faq.question-7': 'Bu araç nasıl test edildi?',
+        'faq.answer-7': 'Bu araç, 2014\'ten beri milyonlarca oynatma listesindeki kopyaları tespit etmek için onu kullanan binlerce kullanıcı tarafından savaşta test edilmiştir.',
+        'faq.question-8': 'Bu araç birden çok oynatma listesindeki kopyaları silebilir mi?',
+        'faq.answer-8': 'Bu araç, bir kitaplıktaki tüm çalma listelerindeki kopyaları belirleyebilir ve silebilir, ancak bir şarkının birden fazla çalma listesindeki yinelemelerini algılamaz.',
+        'faq.question-9': 'Bu web uygulamasına verilen izinleri nasıl iptal edebilirim?',
+        'faq.answer-9': 'Kullanıcılar bu web uygulamasına verilen izinleri istedikleri zaman Spotify hesabınızda \'Uygulamalar\' bölümünden iptal edebilirler.',
+        'faq.question-10': 'Bu araç diğer müzik akışı hizmetleriyle çalışır mı?',
+        'faq.answer-10': 'Hayır, bu araç yalnızca Spotify ile çalışır ve kitaplığınızdaki kopyaları belirlemek ve silmek için Spotify\'ın Web API\'sini kullanır.'
     });
     i18n.changeLanguage('tr');
     return (

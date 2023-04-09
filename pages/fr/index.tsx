@@ -70,6 +70,27 @@ const IndexComponent = () => {
     'spotifytop.check1': 'Jetez un œil à mon nouvel outil',
     'spotifytop.check2':
       'pour voir un rapport de ce que vous avez joué récemment sur Spotify.',
+    'faq.section-title': "Foire aux questions",
+    'faq.question-1': 'Que fait cette application Web ?',
+    'faq.answer-1': 'Spotify Dedup vous aide à nettoyer vos bibliothèques musicales sur Spotify en identifiant et en supprimant les chansons en double dans les listes de lecture et les chansons enregistrées.',
+    'faq.question-2': 'Comment cet outil trouve-t-il les doublons ?',
+    'faq.answer-2': 'L\'outil trouve les doublons en fonction de l\'identifiant des chansons, du titre, de l\'artiste et de la similarité de la durée. Il identifie les doublons que l\'application Spotify ne trouve pas.',
+    'faq.question-3': 'En quoi cet outil est-il meilleur que la détection des doublons de Spotify ?',
+    'faq.answer-3': ' Une même chanson peut avoir plusieurs identifiants sur Spotify que ce soit dans la même release ou dans plusieurs. Spotify avertit uniquement des doublons en fonction de l\'identifiant de la chanson, tandis que cet outil détecte également les doublons en fonction de la similarité du titre, de l\'artiste et de la durée.',
+    'faq.question-4': 'Lorsque des doublons sont trouvés, quelles chansons sont supprimées ?',
+    'faq.answer-4': 'Dedup conservera la première chanson dans un groupe de chansons en double et supprimera le reste.',
+    'faq.question-5': 'Mes données sont-elles en sécurité avec cette application Web ?',
+    'faq.answer-5': 'Oui, cette application Web ne stocke aucune donnée utilisateur sur ses serveurs. Il ne demande que l\'ensemble minimum d\'autorisations nécessaires pour traiter votre bibliothèque.',
+    'faq.question-6': 'De quelles autorisations cette application Web a-t-elle besoin ?',
+    'faq.answer-6': 'Cette application Web utilise le service d\'authentification de Spotify pour accéder à vos pistes et listes de lecture enregistrées dans votre bibliothèque.',
+    'faq.question-7': 'Comment cet outil a-t-il été testé ?',
+    'faq.answer-7': 'Cet outil a été testé par des milliers d\'utilisateurs qui l\'ont utilisé pour identifier les doublons dans des millions de listes de lecture depuis 2014.',
+    'faq.question-8': 'Cet outil peut-il supprimer les doublons sur plusieurs listes de lecture ?',
+    'faq.answer-8': 'Cet outil peut identifier et supprimer les doublons sur toutes les playlists d\'une bibliothèque, mais ne détecte pas les doublons d\'une chanson sur plusieurs playlists.',
+    'faq.question-9': 'Comment puis-je révoquer les autorisations accordées à cette application Web ?',
+    'faq.answer-9': 'Les utilisateurs peuvent révoquer à tout moment les autorisations accordées à cette application Web sur votre compte Spotify, dans la section \'Applications\'.',
+    'faq.question-10': 'Cet outil fonctionne-t-il avec d\'autres services de streaming musical?',
+       'faq.answer-10': 'Non, cet outil ne fonctionne qu\'avec Spotify et utilise l\'API Web de Spotify pour identifier et supprimer les doublons dans votre bibliothèque.'
   });
   i18n.changeLanguage('fr');
   return (

@@ -47,6 +47,27 @@ const IndexComponent = () => {
         'spotifytop.description': 'Pernah bertanya-tanya artis, lagu, atau genre apa yang paling sering Anda dengarkan akhir-akhir ini?',
         'spotifytop.check1': 'Periksa proyek terbaru saya',
         'spotifytop.check2': 'untuk mendapatkan wawasan yang dipersonalisasi tentang apa yang telah Anda putar di Spotify',
+        'faq.section-title': "Pertanyaan umum",
+        'faq.question-1': 'Apa yang dilakukan aplikasi web ini?',
+        'faq.answer-1': 'Spotify Dedup membantu Anda membersihkan pustaka musik di Spotify dengan mengidentifikasi dan menghapus lagu duplikat di seluruh daftar putar dan lagu yang disimpan.',
+        'faq.question-2': 'Bagaimana alat ini menemukan duplikat?',
+        'faq.answer-2': 'Alat menemukan duplikat berdasarkan kesamaan pengidentifikasi lagu, judul, artis, dan durasi. Ini mengidentifikasi duplikat yang tidak ditemukan oleh aplikasi Spotify.',
+        'faq.question-3': 'Bagaimana alat ini lebih baik daripada deteksi duplikat Spotify?',
+        'faq.answer-3': ' Lagu yang sama dapat memiliki banyak pengidentifikasi di Spotify baik dalam rilis yang sama atau dalam beberapa rilis. Spotify hanya memperingatkan tentang duplikat berdasarkan pengenal lagu, sedangkan alat ini juga mendeteksi duplikat berdasarkan kemiripan judul, artis, dan durasi.',
+        'faq.question-4': 'Ketika duplikat ditemukan, lagu mana yang dihapus?',
+        'faq.answer-4': 'Dedup akan menyimpan lagu pertama dalam grup lagu duplikat, dan akan menghapus sisanya.',
+        'faq.question-5': 'Apakah data saya aman dengan aplikasi web ini?',
+        'faq.answer-5': 'Ya, aplikasi web ini tidak menyimpan data pengguna apa pun di servernya. Itu hanya meminta izin minimum yang diperlukan untuk memproses pustaka Anda.',
+        'faq.question-6': 'Izin apa yang dibutuhkan oleh aplikasi web ini?',
+        'faq.answer-6': 'Aplikasi web ini menggunakan layanan autentikasi Spotify untuk mengakses lagu dan daftar putar tersimpan di perpustakaan Anda.',
+        'faq.question-7': 'Bagaimana alat ini diuji?',
+        'faq.answer-7': 'Alat ini telah diuji coba oleh ribuan pengguna yang telah menggunakannya untuk mengidentifikasi duplikat di jutaan daftar putar sejak 2014.',
+        'faq.question-8': 'Dapatkah alat ini menghapus duplikat di banyak daftar putar?',
+        'faq.answer-8': 'Alat ini dapat mengidentifikasi dan menghapus duplikat pada semua daftar putar di perpustakaan, tetapi tidak mendeteksi duplikat lagu di banyak daftar putar.',
+        'faq.question-9': 'Bagaimana cara mencabut izin yang diberikan untuk aplikasi web ini?',
+        'faq.answer-9': 'Pengguna dapat mencabut izin yang diberikan untuk aplikasi web ini kapan saja di akun Spotify Anda, di bawah bagian \'Aplikasi\'.',
+        'faq.question-10': 'Apakah alat ini berfungsi dengan layanan streaming musik lainnya?',
+        'faq.answer-10': 'Tidak, alat ini hanya bekerja dengan Spotify dan menggunakan API Web Spotify untuk mengidentifikasi dan menghapus duplikat di perpustakaan Anda.'
     });
     i18n.changeLanguage('id');
     return (

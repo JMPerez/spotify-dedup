@@ -72,6 +72,27 @@ const IndexComponent = () => {
     'spotifytop.check1': "Dai un'occhiata al mio nuovo strumento",
     'spotifytop.check2':
       'per vedere un report di ciò che hai riprodotto su Spotify di recente.',
+    'faq.section-title': "Domande frequenti",
+    'faq.question-1': 'Cosa fa questa applicazione web?',
+    'faq.answer-1': 'Spotify Dedup ti aiuta a ripulire le tue librerie musicali su Spotify identificando ed eliminando i brani duplicati nelle playlist e nei brani salvati.',
+    'faq.question-2': 'In che modo questo strumento trova i duplicati?',
+    'faq.answer-2': 'Lo strumento trova i duplicati in base all\'identificatore del brano, al titolo, all\'artista e alla somiglianza della durata. Identifica i duplicati che l\'applicazione di Spotify non trova.',
+    'faq.question-3': 'In che modo questo strumento è migliore del rilevamento duplicati di Spotify?',
+    'faq.answer-3': ' La stessa canzone può avere più identificatori su Spotify sia nella stessa versione che in più versioni. Spotify avvisa solo dei duplicati in base all\'identificatore del brano, mentre questo strumento rileva anche i duplicati in base al titolo, all\'artista e alla somiglianza della durata.',
+    'faq.question-4': 'Quando vengono trovati duplicati, quali brani vengono rimossi?',
+    'faq.answer-4': 'Dedup manterrà il primo brano all\'interno di un gruppo di brani duplicati e rimuoverà il resto.',
+    'faq.question-5': 'I miei dati sono al sicuro con questa applicazione web?',
+    'faq.answer-5': 'Sì, questa applicazione web non memorizza alcun dato utente sui propri server. Richiede solo il set minimo di autorizzazioni necessarie per elaborare la tua libreria.',
+    'faq.question-6': 'Quali autorizzazioni richiede questa applicazione web?',
+    'faq.answer-6': 'Questa applicazione web utilizza il servizio di autenticazione di Spotify per accedere alle tracce e alle playlist salvate nella tua libreria.',
+    'faq.question-7': 'Come è stato testato questo strumento?',
+    'faq.answer-7': 'Questo strumento è stato testato sul campo da migliaia di utenti che lo hanno utilizzato per identificare i duplicati in milioni di playlist dal 2014.',
+    'faq.question-8': 'Questo strumento può eliminare i duplicati in più playlist?',
+    'faq.answer-8': 'Questo strumento può identificare ed eliminare i duplicati su tutte le playlist in una libreria, ma non rileva i duplicati di un brano in più playlist.',
+    'faq.question-9': 'Come posso revocare i permessi concessi a questa applicazione web?',
+    'faq.answer-9': 'Gli utenti possono revocare le autorizzazioni concesse a questa applicazione web in qualsiasi momento sul proprio account Spotify, nella sezione \'App\'.',
+    'faq.question-10': 'Questo strumento funziona con altri servizi di streaming musicale?',
+    'faq.answer-10': 'No, questo strumento funziona solo con Spotify e utilizza l\'API Web di Spotify per identificare ed eliminare i duplicati nella tua libreria.'
   });
   i18n.changeLanguage('it');
   return (

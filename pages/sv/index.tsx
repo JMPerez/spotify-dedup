@@ -66,6 +66,27 @@ const IndexComponent = () => {
     'spotifytop.check1': 'Ta en titt på mitt nya verktyg',
     'spotifytop.check2':
       'för att se en rapport om vad du nyligen har spelat på Spotify.',
+    'faq.section-title': "Vanliga frågor",
+    'faq.question-1': 'Vad gör den här webbapplikationen?',
+    'faq.answer-1': 'Spotify Dedup hjälper dig att rensa upp i dina musikbibliotek på Spotify genom att identifiera och ta bort dubbletter av låtar över spellistor och sparade låtar.',
+    'faq.question-2': 'Hur hittar det här verktyget dubbletter?',
+    'faq.answer-2': 'Verktyget hittar dubbletter baserat på låtens identifierare, titel, artist och längdlikhet. Den identifierar dubbletter som Spotifys applikation inte hittar.',
+    'faq.question-3': 'Hur är det här verktyget bättre än Spotifys dubblettdetektering?',
+    'faq.answer-3': ' Samma låt kan ha flera identifierare på Spotify som både finns i samma release eller i flera. Spotify varnar bara för dubbletter baserat på låtidentifieraren, medan det här verktyget också upptäcker dubbletter baserat på titel, artist och varaktighetslikhet.',
+    'faq.question-4': 'När dubbletter hittas, vilka låtar tas bort?',
+    'faq.answer-4': 'Dedup kommer att behålla den första låten i en grupp dubbletter av låtar och tar bort resten.',
+    'faq.question-5': 'Är mina data säkra med denna webbapplikation?',
+    'faq.answer-5': 'Ja, denna webbapplikation lagrar inga användardata på sina servrar. Den begär bara den minsta uppsättningen av behörigheter som krävs för att bearbeta ditt bibliotek.',
+    'faq.question-6': 'Vilka behörigheter kräver denna webbapplikation?',
+    'faq.answer-6': 'Denna webbapplikation använder Spotifys autentiseringstjänst för att komma åt dina sparade spår och spellistor i ditt bibliotek.',
+    'faq.question-7': 'Hur har detta verktyg testats?',
+    'faq.answer-7': 'Detta verktyg har testats av tusentals användare som har använt det för att identifiera dubbletter i miljontals spellistor sedan 2014.',
+    'faq.question-8': 'Kan det här verktyget ta bort dubbletter över flera spellistor?',
+    'faq.answer-8': 'Detta verktyg kan identifiera och ta bort dubbletter på alla spellistor i ett bibliotek, men upptäcker inte dubbletter av en låt över flera spellistor.',
+    'faq.question-9': 'Hur kan jag återkalla de behörigheter som beviljats för denna webbapplikation?',
+    'faq.answer-9': 'Användare kan när som helst återkalla de behörigheter som beviljats för denna webbapplikation på ditt Spotify-konto, under avsnittet \'Appar\'.',
+    'faq.question-10': 'Fungerar det här verktyget med andra musikströmningstjänster?',
+    'faq.answer-10': 'Nej, det här verktyget fungerar bara med Spotify och använder Spotifys webb-API för att identifiera och ta bort dubbletter i ditt bibliotek.'
   });
   i18n.changeLanguage('sv');
   return (

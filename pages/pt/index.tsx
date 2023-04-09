@@ -69,6 +69,27 @@ const IndexComponent = () => {
     'spotifytop.check1': 'Dê uma olhada em minha nova ferramenta',
     'spotifytop.check2':
       'para ver um relatório do que você jogou no Spotify recentemente.',
+    'faq.section-title': "Perguntas frequentes",
+    'faq.question-1': 'O que esta aplicação web faz?',
+    'faq.answer-1': 'Spotify Dedup ajuda você a limpar suas bibliotecas de música no Spotify, identificando e excluindo músicas duplicadas em listas de reprodução e músicas salvas.',
+    'faq.question-2': 'Como esta ferramenta encontra duplicatas?',
+    'faq.answer-2': 'A ferramenta encontra duplicatas com base no identificador de músicas, título, artista e similaridade de duração. Ele identifica duplicatas que o aplicativo do Spotify não encontra.',
+    'faq.question-3': 'Como esta ferramenta é melhor do que a detecção de duplicados do Spotify?',
+    'faq.answer-3': ' A mesma música pode ter vários identificadores no Spotify, tanto no mesmo lançamento quanto em vários. O Spotify apenas avisa sobre duplicatas com base no identificador da música, enquanto esta ferramenta também detecta duplicatas com base no título, artista e similaridade de duração.',
+    'faq.question-4': 'Quando duplicatas são encontradas, quais músicas são removidas?',
+    'faq.answer-4': 'Dedup manterá a primeira música dentro de um grupo de músicas duplicadas e removerá o resto.',
+    'faq.question-5': 'Meus dados estão seguros com este aplicativo da web?',
+    'faq.answer-5': 'Sim, esta aplicação web não armazena nenhum dado do usuário em seus servidores. Ele solicita apenas o conjunto mínimo de permissões necessárias para processar sua biblioteca.',
+    'faq.question-6': 'Quais permissões este aplicativo web requer?',
+    'faq.answer-6': 'Este aplicativo da web usa o serviço de autenticação do Spotify para acessar suas faixas e listas de reprodução salvas em sua biblioteca.',
+    'faq.question-7': 'Como esta ferramenta foi testada?',
+    'faq.answer-7': 'Esta ferramenta foi testada por milhares de usuários que a usaram para identificar duplicatas em milhões de listas de reprodução desde 2014.',
+    'faq.question-8': 'Esta ferramenta pode excluir duplicatas em várias listas de reprodução?',
+    'faq.answer-8': 'Esta ferramenta pode identificar e excluir duplicatas em todas as listas de reprodução em uma biblioteca, mas não detecta duplicatas de uma música em várias listas de reprodução.',
+    'faq.question-9': 'Como posso revogar as permissões concedidas a esta aplicação web?',
+    'faq.answer-9': 'Os usuários podem revogar as permissões concedidas a este aplicativo da web a qualquer momento em sua conta do Spotify, na seção \'Aplicativos\'.',
+    'faq.question-10': 'Esta ferramenta funciona com outros serviços de streaming de música?',
+    'faq.answer-10': 'Não, esta ferramenta funciona apenas com o Spotify e usa a API da Web do Spotify para identificar e excluir duplicatas em sua biblioteca.'
   });
   i18n.changeLanguage('pt');
   return (

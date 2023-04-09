@@ -70,6 +70,27 @@ const IndexComponent = () => {
     'spotifytop.check1': 'Überprüfe mein aktuelles Projekt',
     'spotifytop.check2':
       'um personalisierte Einblicke in das zu erhalten, was Sie auf Spotify gespielt haben.',
+    'faq.section-title': "Häufig gestellte Fragen",
+    'faq.question-1': 'Was macht diese Webanwendung?',
+    'faq.answer-1': 'Spotify Dedup hilft Ihnen, Ihre Musikbibliotheken auf Spotify zu bereinigen, indem doppelte Titel in Wiedergabelisten und gespeicherten Titeln identifiziert und gelöscht werden.',
+    'faq.question-2': 'Wie findet dieses Tool Duplikate?',
+    'faq.answer-2': 'Das Tool findet Duplikate basierend auf der Songkennung, dem Titel, dem Interpreten und der Ähnlichkeit der Länge. Es identifiziert Duplikate, die die Anwendung von Spotify nicht findet.',
+    'faq.question-3': 'Inwiefern ist dieses Tool besser als die Duplikaterkennung von Spotify?',
+    'faq.answer-3': ' Derselbe Song kann mehrere Kennungen auf Spotify haben, die sich beide in derselben Veröffentlichung oder in mehreren befinden. Spotify warnt nur vor Duplikaten basierend auf der Song-ID, während dieses Tool Duplikate auch basierend auf Titel-, Interpreten- und Dauerähnlichkeit erkennt.',
+    'faq.question-4': 'Wenn Duplikate gefunden werden, welche Songs werden entfernt?',
+    'faq.answer-4': 'Dedup behält den ersten Song innerhalb einer Gruppe doppelter Songs und entfernt den Rest.',
+    'faq.question-5': 'Sind meine Daten mit dieser Webanwendung sicher?',
+    'faq.answer-5': 'Ja, diese Webanwendung speichert keine Benutzerdaten auf ihren Servern. Es fordert nur die minimalen Berechtigungen an, die zum Verarbeiten Ihrer Bibliothek erforderlich sind.',
+    'faq.question-6': 'Welche Berechtigungen benötigt diese Webanwendung?',
+    'faq.answer-6': 'Diese Webanwendung verwendet den Authentifizierungsdienst von Spotify, um auf Ihre gespeicherten Titel und Wiedergabelisten in Ihrer Bibliothek zuzugreifen.',
+    'faq.question-7': 'Wie wurde dieses Tool getestet?',
+    'faq.answer-7': 'Dieses Tool wurde von Tausenden von Benutzern erprobt, die es seit 2014 zur Identifizierung von Duplikaten in Millionen von Wiedergabelisten verwendet haben.',
+    'faq.question-8': 'Kann dieses Tool Duplikate aus mehreren Wiedergabelisten löschen?',
+    'faq.answer-8': 'Dieses Tool kann Duplikate in allen Wiedergabelisten in einer Bibliothek identifizieren und löschen, erkennt jedoch keine Duplikate eines Titels in mehreren Wiedergabelisten.',
+    'faq.question-9': 'Wie kann ich die dieser Webanwendung erteilten Berechtigungen widerrufen?',
+    'faq.answer-9': 'Benutzer können die dieser Webanwendung erteilten Berechtigungen jederzeit in Ihrem Spotify-Konto unter dem Abschnitt \'Apps\' widerrufen.',
+    'faq.question-10': 'Funktioniert dieses Tool mit anderen Musik-Streaming-Diensten?',
+    'faq.answer-10': 'Nein, dieses Tool funktioniert nur mit Spotify und verwendet die Web-API von Spotify, um Duplikate in Ihrer Bibliothek zu identifizieren und zu löschen.'
   });
   i18n.changeLanguage('de');
   return (
