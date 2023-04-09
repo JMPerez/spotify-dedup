@@ -12,9 +12,9 @@ const IndexComponent = () => {
       'Elimina le tracce duplicate dalle tue playlist e dalle canzoni salvate.',
     'home.login-button': 'Accedi con Spotify',
     'meta.title':
-      'Spotify Dedup - Elimina automaticamente tracce duplicate dalla tua libreria di Spotify',
+      'Dedup - Elimina tracce duplicate dalla tua libreria di Spotify',
     'meta.description':
-      'Cancella le tracce ripetute dalle tue playlist di Spotify in maniera facile e veloce',
+      'Elimina rapidamente le tracce duplicate dalle tue playlist e dalle canzoni salvate su Spotify con Spotify Dedup. Semplice, veloce e senza stress!',
     'features.find-remove.header': 'Cerca e elimina',
     'features.find-remove.body':
       'Dedup ispeziona le liste e le canzoni salvate nella tua {{- strongOpen}}libreria di Spotify{{- strongClose}}. Una volta che rileva tracce duplicate ti permette di eliminarle da ciascuna playlist.',

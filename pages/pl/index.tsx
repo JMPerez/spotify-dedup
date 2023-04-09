@@ -12,9 +12,9 @@ const IndexComponent = () => {
             'Usuń duplikaty utworów z playlist i polubionych utworów.',
         'home.login-button': 'Zaloguj się przez Spotify',
         'meta.title':
-            'Spotify Dedup - Automatycznie usuń duplikaty utworów ze swojej biblioteki Spotify',
+            'Spotify Dedup - Usuń duplikaty utworów w Spotify',
         'meta.description':
-            'Szybko i łatwo usuwaj duplikaty utworów z playlist Spotify i polubionych utworów.',
+            'Szybko i łatwo usuń zduplikowane utwory ze swoich playlist i zapisanych utworów na Spotify. Zaoszczędź czas i uniknij stresu!',
         'features.find-remove.header': 'Znajdź i usuń',
         'features.find-remove.body':
             'Dedup sprawdza twoje playlisty i polubione utwory w {{- strongOpen}}bibliotece Spotify{{- strongClose}}. Gdy Dedup znajdzie duplikaty, możesz je usunąć z poszczególnych playlist.',

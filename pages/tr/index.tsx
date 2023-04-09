@@ -10,7 +10,7 @@ const IndexComponent = () => {
         "home.title": "Spotify Deduplicator",
         "home.description": "Çalma listelerinizden ve beğendiğiniz şarkılardan aynı olanları silin.",
         "home.login-button": "Spotify ile giriş yapın",
-        "meta.title": "Spotify Dedup - Çalma listelerinizden ve kayıtlı şarkılarınızdan birden fazla olanları silin",
+        "meta.title": "Spotify Dedup - Çalma listesi ve kaydedilmiş şarkılardaki çiftleri silin",
         "meta.description": "Spotify'da yinelenen şarkılarınızı çalma listelerinizden ve beğenilen şarkılarınızdan kolayca ve hızlıca kaldırın.",
         "features.find-remove.header": "Bul ve sil",
         "features.find-remove.body": "Dedup, {{- strongOpen}}Spotify kütüphanenize {{- strongClose}} birden fazla kez eklenen aynı şarkıları kontrol eder. Birden fazla kez eklenen şarkı bulunduğunda, çalma listelerinizden hızlıca bu şarkıların kopyalarını silebilirsiniz.",

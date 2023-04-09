@@ -14,7 +14,7 @@ const IndexComponent = () => {
     'meta.title':
       'Spotify Dedup - Ta bort dubbletter från ditt Spotify bibliotek',
     'meta.description':
-      'Ta bort upprepade låtar från dina Spotify-spellistor och sparade spår snabbt och enkelt.',
+      'Säg hejdå till duplicerade låtar på dina Spotify-spellistor och sparade spår - snabbt och enkelt med Spotify Dedup. Spar tid och undvik besväret med manuell sökning!',
     'features.find-remove.header': 'Hitta & ta bort',
     'features.find-remove.body':
       'Dedup kontrollerar dina spellistor och sparade låtar i {{- strongOpen}}ditt Spotify bibliotek{{- strongClose}}. När Dedup hittar dubbletter kan du ta bort dom per spellistebasis.',

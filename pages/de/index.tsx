@@ -14,7 +14,7 @@ const IndexComponent = () => {
     'meta.title':
       'Spotify Dedup - Entferne doppelte Musiktitel automatisch aus deiner Spotify-Bibliothek',
     'meta.description':
-      'Lösche schnell und einfach doppelte Songs aus deinen Spotify-Playlists und Lieblingssongs.',
+      'Entfernen Sie schnell und einfach doppelte Songs von Ihren Playlists und gespeicherten Tracks auf Spotify. Zeit sparen, Stress vermeiden!',
     'features.find-remove.header': 'Finden und löschen',
     'features.find-remove.body':
       'Dedup überprüft deine Playlists und Lieblingssongs in deiner {{- strongOpen}}Spotify-Bibliothek{{- strongClose}}. Sobald Dedup Duplikate gefunden hat, kannst du diese pro Playlist entfernen.',
