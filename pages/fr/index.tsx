@@ -7,9 +7,9 @@ const IndexComponent = () => {
   i18n.addResourceBundle('fr', 'translation', {
     'menu.link-home': "Page d'accueil",
     'menu.link-stats': 'Statistiques',
-    'home.title': 'Déduplicateur Spotify',
+    'home.title': 'Supprimez les chansons en double de votre bibliothèque Spotify.',
     'home.description':
-      'Supprimez les chansons en double de vos listes de lecture et chansons enregistrées.',
+      "Spotify Dedup nettoie vos listes de lecture et les chansons enregistrées de votre compte Spotify. C'est facile et rapide.",
     'home.login-button': 'Se connecter avec Spotify',
     'meta.title':
       'Spotify Dedup - Supprimer automatiquement les chansons en double de votre bibliothèque Spotify',
@@ -90,7 +90,7 @@ const IndexComponent = () => {
     'faq.question-9': 'Comment puis-je révoquer les autorisations accordées à cette application Web ?',
     'faq.answer-9': 'Les utilisateurs peuvent révoquer à tout moment les autorisations accordées à cette application Web sur votre compte Spotify, dans la section \'Applications\'.',
     'faq.question-10': 'Cet outil fonctionne-t-il avec d\'autres services de streaming musical?',
-       'faq.answer-10': 'Non, cet outil ne fonctionne qu\'avec Spotify et utilise l\'API Web de Spotify pour identifier et supprimer les doublons dans votre bibliothèque.'
+    'faq.answer-10': 'Non, cet outil ne fonctionne qu\'avec Spotify et utilise l\'API Web de Spotify pour identifier et supprimer les doublons dans votre bibliothèque.'
   });
   i18n.changeLanguage('fr');
   return (

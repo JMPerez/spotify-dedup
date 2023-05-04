@@ -1,6 +1,6 @@
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -9,12 +9,12 @@ const IndexComponent = () => {
     'menu.link-stats': 'Statistik',
     'home.title': 'Ta bort dubbletter från ditt Spotify-bibliotek.',
     'home.description':
-      'Spotify Dedup rensar dina spellistor och låtar sparade på Spotify. Det är enkelt och snabbt.',
+      'Spotify Dedup rensar dina spellistor och sparade låtar från ditt Spotify-konto. Det är enkelt och snabbt.',
     'home.login-button': 'Logga in med Spotify',
     'meta.title':
       'Spotify Dedup - Ta bort dubbletter från ditt Spotify bibliotek',
     'meta.description':
-      'Säg hejdå till duplicerade låtar på dina Spotify-spellistor och sparade spår - snabbt och enkelt med Spotify Dedup. Spar tid och undvik besväret med manuell sökning!',
+      'Säg hejdå till duplicerade låtar på dina Spotify-spellistor och sparade spår - snabbt och enkelt. Spar tid och undvik besväret med manuell sökning!',
     'features.find-remove.header': 'Hitta & ta bort',
     'features.find-remove.body':
       'Dedup kontrollerar dina spellistor och sparade låtar i {{- strongOpen}}ditt Spotify bibliotek{{- strongClose}}. När Dedup hittar dubbletter kan du ta bort dom per spellistebasis.',

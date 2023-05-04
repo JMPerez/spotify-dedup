@@ -1,14 +1,14 @@
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
     i18n.addResourceBundle('tr', 'translation', {
         "menu.link-home": "Ana Sayfa",
         "menu.link-stats": "İstatistikler",
-        "home.title": "Spotify Deduplicator",
-        "home.description": "Çalma listelerinizden ve beğendiğiniz şarkılardan aynı olanları silin.",
+        "home.title": "Spotify kütüphanenizden çift kopyalı şarkıları silin.",
+        "home.description": "Spotify Dedup çalma listelerinizi ve kaydedilen şarkılarınızı Spotify hesabınızdan temizler. Kolay ve hızlıdır.",
         "home.login-button": "Spotify ile giriş yapın",
         "meta.title": "Spotify Dedup - Çalma listesi ve kaydedilmiş şarkılardaki çiftleri silin",
         "meta.description": "Spotify'da yinelenen şarkılarınızı çalma listelerinizden ve beğenilen şarkılarınızdan kolayca ve hızlıca kaldırın.",

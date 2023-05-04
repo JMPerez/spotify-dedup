@@ -1,14 +1,14 @@
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
     i18n.addResourceBundle('id', 'translation', {
         'menu.link-home': 'Beranda',
         'menu.link-stats': 'Statistik',
-        'home.title': 'Spotify Deduplikator',
-        'home.description': 'Hapus lagu duplikat dari daftar putar Anda dan simpan lagu.',
+        'home.title': 'Hapus lagu-lagu duplikat dari perpustakaan Spotify Anda.',
+        'home.description': 'Spotify Dedup membersihkan daftar putar dan lagu yang disimpan dari akun Spotify Anda. Mudah dan cepat.',
         'home.login-button': 'Masuk dengan Spotify',
         'meta.title': 'Spotify Dedup - Hapus lagu duplikat dari perpustakaan Spotify Anda',
         'meta.description': 'Hapus lagu berulang dari daftar putar Spotify Anda dan simpan trek secara otomatis. Cepat dan mudah.',

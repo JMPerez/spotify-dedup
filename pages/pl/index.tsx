@@ -1,15 +1,15 @@
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
     i18n.addResourceBundle('pl', 'translation', {
         'menu.link-home': 'Home',
         'menu.link-stats': 'Statystyki',
-        'home.title': 'Deduplikator Spotify',
+        'home.title': 'Usuń zduplikowane utwory ze swojej biblioteki Spotify.',
         'home.description':
-            'Usuń duplikaty utworów z playlist i polubionych utworów.',
+            'Spotify Dedup czyści twoje listy odtwarzania i zapisane utwory z twojego konta Spotify. To łatwe i szybkie.',
         'home.login-button': 'Zaloguj się przez Spotify',
         'meta.title':
             'Spotify Dedup - Usuń duplikaty utworów w Spotify',
