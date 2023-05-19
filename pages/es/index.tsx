@@ -11,6 +11,7 @@ const IndexComponent = () => {
     'home.description':
       'Spotify Dedup limpia tus playlists y canciones de tu cuenta de Spotify. Es fácil y rápido.',
     'home.login-button': 'Iniciar sesión con Spotify',
+    'home.review': 'Lee lo que {{-supportersCount}} seguidores piensan sobre Spotify Dedup en {{- linkOpen}}Buy Me a Coffee{{- linkClose}}',
     'meta.title':
       'Dedup - Elimina canciones duplicadas de tu biblioteca de Spotify',
     'meta.description':

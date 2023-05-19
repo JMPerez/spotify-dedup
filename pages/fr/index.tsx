@@ -11,6 +11,7 @@ const IndexComponent = () => {
     'home.description':
       "Spotify Dedup nettoie vos listes de lecture et les chansons enregistrées de votre compte Spotify. C'est facile et rapide.",
     'home.login-button': 'Se connecter avec Spotify',
+    'home.review': 'Lisez ce que {{-supportersCount}} supporters pensent de Spotify Dedup sur {{- linkOpen}}Buy Me a Coffee{{- linkClose}}.',
     'meta.title':
       'Spotify Dedup - Supprimer automatiquement les chansons en double de votre bibliothèque Spotify',
     'meta.description':

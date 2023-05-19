@@ -25,6 +25,7 @@ const resources = {
       'home.title': 'Remove duplicate songs from your Spotify library.',
       'home.description':
         'Spotify Dedup cleans up your playlists and saved songs from your Spotify account. It\'s easy and fast.',
+      'home.review': 'Read what {{-supportersCount}} supporters think about Spotify Dedup on {{- linkOpen}}Buy Me a Coffee{{- linkClose}}',
       'home.login-button': 'Log in with Spotify',
       'meta.title':
         'Spotify Dedup - Remove duplicate songs from your Spotify library',

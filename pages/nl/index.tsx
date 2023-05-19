@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -11,6 +11,7 @@ const IndexComponent = () => {
     'home.description':
       'Spotify Dedup maakt je afspeellijsten en opgeslagen nummers schoon van je Spotify-account. Het is makkelijk en snel.',
     'home.login-button': 'Log in met Spotify',
+    'home.review': 'Lees wat {{-supportersCount}} supporters vinden van Spotify Dedup op {{- linkOpen}}Buy Me a Coffee{{- linkClose}}.',
     'meta.title':
       'Spotify Dedup - Verwijder automatisch dubbele nummers uit je Spotify-bibliotheek',
     'meta.description':

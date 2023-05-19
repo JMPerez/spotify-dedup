@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -11,6 +11,7 @@ const IndexComponent = () => {
     'home.description':
       'Spotify Dedup bereinigt Ihre Playlists und gespeicherten Songs von Ihrem Spotify-Konto. Es ist einfach und schnell.',
     'home.login-button': 'Mit Spotify einloggen',
+    'home.review': 'Lesen Sie, was {{-supportersCount}} Unterstützer über Spotify Dedup auf {{- linkOpen}}Buy Me a Coffee{{- linkClose}} denken.',
     'meta.title':
       'Spotify Dedup - Entferne doppelte Musiktitel automatisch aus deiner Spotify-Bibliothek',
     'meta.description':

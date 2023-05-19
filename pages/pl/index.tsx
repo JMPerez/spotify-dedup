@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
@@ -11,6 +11,7 @@ const IndexComponent = () => {
         'home.description':
             'Spotify Dedup czyści twoje listy odtwarzania i zapisane utwory z twojego konta Spotify. To łatwe i szybkie.',
         'home.login-button': 'Zaloguj się przez Spotify',
+        'home.review': 'Przeczytaj, co ponad {{-supportersCount}} zwolenników myśli o Spotify Dedup na platformie {{- linkOpen}}Buy Me a Coffee{{- linkClose}}.',
         'meta.title':
             'Spotify Dedup - Usuń duplikaty utworów w Spotify',
         'meta.description':

@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
-import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -11,6 +11,7 @@ const IndexComponent = () => {
     'home.description':
       'Spotify Dedup rensar dina spellistor och sparade låtar från ditt Spotify-konto. Det är enkelt och snabbt.',
     'home.login-button': 'Logga in med Spotify',
+    'home.review': 'Läs vad {{-supportersCount}} supportrar tycker om Spotify Dedup på {{- linkOpen}}Buy Me a Coffee{{- linkClose}}.',
     'meta.title':
       'Spotify Dedup - Ta bort dubbletter från ditt Spotify bibliotek',
     'meta.description':

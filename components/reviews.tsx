@@ -1,6 +1,9 @@
+import fetcher from '@/lib/fetcher';
 import { useTranslation } from 'react-i18next';
-
+import useSWR from 'swr';
 const Reviews = () => {
+  const { data } = useSWR('/api/buymecoffee', fetcher<{ total: number }>);
+
   const { t, i18n } = useTranslation();
   return (
     <div className="mx-auto py-16 max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -70,18 +73,56 @@ const Reviews = () => {
           ></path>
         </svg>
       </p>
-      {i18n.language === 'en' ? (
-        <p className="mt-4 text-lg tracking-tight text-center text-slate-700">
-          Read what <strong>1,500+ supporters</strong> think about Spotify Dedup
-          on <a href="https://www.buymeacoffee.com/jmp" className="font-semibold">Buy Me a Coffee</a>.
-        </p>
-      ) : null}
+      <p className="mt-4 text-lg tracking-tight text-center text-slate-700" dangerouslySetInnerHTML={{
+        __html: t('home.review', {
+          supportersCount: '<span class="font-semibold">' + (data && new Number(data.total).toLocaleString(i18n.language)) + '</span>',
+          linkOpen: '<a href="https://www.buymeacoffee.com/jmp" class="font-semibold">',
+          linkClose: '</a>',
+        }),
+      }} />
       <div className="rounded-md w-full flex flex-wrap flex-col sm:flex-row gap-4 my-8 flex-between items-center p-8">
         {[
+          {
+            text: "Thank a lot, you saved my day!! After an export deezer » spotify which went nut, ended up with playlist with thousands of duplicates of nearly 10years of playlist creation. you really made a super efficient and pure service software! Thanks so much :-)!",
+            author: {
+              name: 'Samuel'
+            },
+          },
           {
             text: "This was an absolute perfect web app for my huge playlists and for a absolute great music and various music styles lover. You saved me a lot a time.",
             author: {
               name: 'Maria'
+            },
+          },
+
+          {
+            text: "Insanely handy web app for my hige playlists. I love it!",
+            author: {
+              name: 'MEAT'
+            },
+          },
+          {
+            text: "Thanks for deduping my spotify playlists in seconds, what a great invention! 🙏🏽",
+            author: {
+              name: 'Steff'
+            },
+          },
+          {
+            text: "Good work on this! Its great to know someone else understand that the collection needs to be refined <3",
+            author: {
+              name: 'Luna'
+            },
+          },
+          {
+            text: "This is exactly what I needed. So glad there are others out there who believe a good playlist should not only be curated but be treated like a database and regularly maintained.",
+            author: {
+              name: 'Sara'
+            },
+          },
+          {
+            text: 'Spotify glitched and duped every playlist multiple times. Removing manually would have been a Herculean task. Googled "removed duplicates from Spotify playlist." Dedup came up. It worked perfectly. Thank you.',
+            author: {
+              name: 'Jacob'
             },
           },
           {

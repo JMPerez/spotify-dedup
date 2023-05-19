@@ -11,6 +11,7 @@ const IndexComponent = () => {
     'home.description':
       'Elimina le tracce duplicate dalle tue playlist e dalle canzoni salvate.',
     'home.login-button': 'Accedi con Spotify',
+    'home.review': 'Leggi cosa pensano {{-supportersCount}} sostenitori di Spotify Dedup su {{- linkOpen}}Buy Me a Coffee{{- linkClose}}.',
     'meta.title':
       'Dedup - Elimina tracce duplicate dalla tua libreria di Spotify',
     'meta.description':
