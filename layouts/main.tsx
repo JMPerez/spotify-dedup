@@ -1,4 +1,3 @@
-import React from 'react';
 
 const Main = ({ children }) => (
   <>
@@ -35,7 +34,6 @@ const Main = ({ children }) => (
         background: var(--surface-color);
         color: var(--text-color);
         padding-top: 20px;
-        padding-bottom: 20px;
       }
       a {
         color: var(--link-color);

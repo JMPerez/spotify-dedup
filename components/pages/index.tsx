@@ -104,33 +104,36 @@ export default class Index extends React.Component {
 
   render() {
     return (
-      <div style={this.state.isLoggedIn ? {} : { background: "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.3),rgba(0,0,0,0))" }}>
+      <div style={this.state.isLoggedIn ? {} : { background: "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.3),rgba(0,0,0,0))" }}
+        className="flex h-full flex-col">
         <MetaHead />
         <Header />
-        <div className="pb-16">
-          {this.state.isLoggedIn ? (
-            <div className="max-w-3xl m-auto"><Main
-              api={this.api}
-              user={this.state.user}
-              accessToken={this.state.accessToken}
-            /></div>
-          ) : (
-            <Intro onLoginClick={this.handleLoginClick} />
-          )}
+        <div className="flex-1">
+          <div className="pb-16 mx-6">
+            {this.state.isLoggedIn ? (
+              <div className="max-w-3xl m-auto"><Main
+                api={this.api}
+                user={this.state.user}
+                accessToken={this.state.accessToken}
+              /></div>
+            ) : (
+              <Intro onLoginClick={this.handleLoginClick} />
+            )}
+          </div>
+          {this.state.isLoggedIn
+            ? null
+            : [<div key={0}>
+              <Features />
+            </div>,
+            <div className="bg-slate-50" key={1}>
+              <Reviews />
+            </div>,
+            <div className="bg-slate-50" key={1}>
+              <Faq />
+            </div>,
+            ]
+          }
         </div>
-        {this.state.isLoggedIn
-          ? null
-          : [<div key={0}>
-            <Features />
-          </div>,
-          <div className="bg-slate-50" key={1}>
-            <Reviews />
-          </div>,
-          <div className="bg-slate-50" key={1}>
-            <Faq />
-          </div>,
-          ]
-        }
         <div className="bg-slate-50">
           <Footer />
         </div>

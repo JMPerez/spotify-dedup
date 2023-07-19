@@ -18,7 +18,7 @@ class MyDocument extends Document {
     return (
       <Html lang={i18n.language}>
         <Head />
-        <body className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 pt-0">
+        <body className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 pt-0 flex h-full flex-col">
           <Main />
           <NextScript />
         </body>

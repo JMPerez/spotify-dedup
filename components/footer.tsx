@@ -5,7 +5,7 @@ const Footer = () => {
   const { t } = useTranslation();
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-sm leading-6">
-      <div className="pt-10 pb-14 border-t border-slate-200 justify-between text-slate-500 dark:border-slate-200/5">
+      <div className="pt-10 pb-10 border-t border-slate-200 justify-between text-slate-500 dark:border-slate-200/5">
         <p className="mb-4">
           <span
             dangerouslySetInnerHTML={{
