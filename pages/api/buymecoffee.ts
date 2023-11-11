@@ -5,7 +5,7 @@ import cheerio from 'cheerio';
 
 const BuyMeACoffee = async (_req: NextApiRequest, res: NextApiResponse) => {
   const url = 'https://www.buymeacoffee.com/jmp';
-  const selector = '.text-fs-20.cr-regular.clr-grey.xs-text-fs-16.mg-t-12.xs-mg-t-8';
+  const selector = '.text-sm.font-cr-regular.text-grey71.gap-1';
   const response = await axios.get(url);
   const html = response.data;
   const $ = cheerio.load(html);
