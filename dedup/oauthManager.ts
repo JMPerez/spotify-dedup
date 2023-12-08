@@ -15,24 +15,29 @@ function obtainToken(options?: { scopes: Array<string> }) {
     let authWindow = null;
     let pollAuthWindowClosed = null;
 
-    function receiveMessage(event: { origin: string; data: unknown }) {
-      clearInterval(pollAuthWindowClosed);
-      if (event.origin !== OAuthConfig.host) {
-        reject({
-          message: `Origin ${event.origin} does not match ${OAuthConfig.host}`,
-        });
-        return;
-      }
-      if (authWindow !== null) {
-        authWindow.close();
-        authWindow = null;
-      }
+    function receiveMessage(event: { origin: string; data: string }) {
+      try {
+        const message = JSON.parse(event.data);
+        if (message.token) {
+          clearInterval(pollAuthWindowClosed);
+          if (event.origin !== OAuthConfig.host) {
+            reject({
+              message: `Origin ${event.origin} does not match ${OAuthConfig.host}`,
+            });
+            return;
+          }
+          if (authWindow !== null) {
+            authWindow.close();
+            authWindow = null;
+          }
 
-      window.removeEventListener('message', receiveMessage, false);
+          window.removeEventListener('message', receiveMessage, false);
 
-      // todo: manage case when the user rejects the oauth
-      // or the oauth fails to obtain a token
-      resolve(event.data);
+          // todo: manage case when the user rejects the oauth
+          // or the oauth fails to obtain a token
+          resolve(message.token);
+        }
+      } catch (e) { }
     }
 
     window.addEventListener('message', receiveMessage, false);

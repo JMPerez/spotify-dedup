@@ -24,22 +24,22 @@ const resources = {
       'menu.link-stats': 'Stats',
       'home.title': 'Remove duplicate songs from your Spotify library.',
       'home.description':
-        'Spotify Dedup cleans up your playlists and saved songs from your Spotify account. It\'s easy and fast.',
+        'Spotify Dedup cleans up your playlists and liked songs from your Spotify account. It\'s easy and fast.',
       'home.review': 'Read what {{-supportersCount}} supporters think about Spotify Dedup on {{- linkOpen}}Buy Me a Coffee{{- linkClose}}',
       'home.login-button': 'Log in with Spotify',
       'meta.title':
         'Spotify Dedup - Remove duplicate songs from your Spotify library',
       'meta.description':
-        'Delete repeated songs from your Spotify playlists and saved tracks automatically. Fix your music library. Quickly and easy.',
+        'Delete repeated songs from your Spotify playlists and liked songs automatically. Fix your music library. Quickly and easy.',
       'features.find-remove.header': 'Find & remove',
       'features.find-remove.body':
-        'Dedup checks your playlists and saved songs in {{- strongOpen}}your Spotify library{{- strongClose}}. Once Dedup finds duplicates you can remove them on a per-playlist basis.',
+        'Dedup checks your playlists and liked songs in {{- strongOpen}}your Spotify library{{- strongClose}}. Once Dedup finds duplicates you can remove them on a per-playlist basis.',
       'features.safer.header': 'Safer',
       'features.safer.body':
-        'Dedup will only remove {{- strongOpen}}duplicate songs{{- strongClose}}, leaving the rest of the playlist and saved songs untouched.',
+        'Dedup will only remove {{- strongOpen}}duplicate songs{{- strongClose}}, leaving the rest of the playlist and liked songs untouched.',
       'features.open-source.header': 'Open Source',
       'features.open-source.body':
-        "You might want to have a look at the {{- linkGithubOpen}}source code on GitHub{{- linkGithubClose}}. This web app uses the {{- linkWebApiOpen}}Spotify Web API{{- linkWebApiClose}} to manage user's playlists and saved tracks.",
+        "You might want to have a look at the {{- linkGithubOpen}}source code on GitHub{{- linkGithubClose}}. This web app uses the {{- linkWebApiOpen}}Spotify Web API{{- linkWebApiClose}} to manage user's playlists and liked songs.",
       'reviews.title': 'This is what users are saying',
       'footer.author': 'Made with ♥ by {{- linkOpen}}JMPerez 👨‍💻{{- linkClose}}',
       'footer.github':
@@ -55,26 +55,26 @@ const resources = {
       'result.duplicate.track':
         '<0>{{trackName}}</0> <2>by</2> <4>{{trackArtistName}}</4>',
       'process.status.finding':
-        'Finding duplicates in your playlists and saved songs…',
+        'Finding duplicates in your playlists and liked songs…',
       'process.status.complete': 'Processing complete!',
       'process.status.complete.body':
-        'Your playlists and saved songs have been processed!',
+        'Your playlists and liked songs have been processed!',
       'process.status.complete.dups.body':
-        'Click on the {{- strongOpen}}Remove duplicates{{- strongClose}} button to get rid of duplicates in that playlist or saved songs collection.',
+        'Click on the {{- strongOpen}}Remove duplicates{{- strongClose}} button to get rid of duplicates in that playlist or liked songs collection.',
       'process.status.complete.nodups.body':
-        "Congrats! You don't have duplicates in your playlists nor saved songs.",
+        "Congrats! You don't have duplicates in your playlists nor liked songs.",
       'process.reading-library':
-        'Going through your library, finding the playlists you own and your saved songs…',
+        'Going through your library, finding the playlists you own and your liked songs…',
       'process.processing_one':
         'Searching for duplicate songs, wait a sec. Still to process {{count}} playlist…',
       'process.processing_other':
         'Searching for duplicate songs, wait a sec. Still to process {{count}} playlists…',
-      'process.saved.title': 'Saved songs in your library',
+      'process.saved.title': 'liked songs in your library',
       'process.saved.duplicates_one':
         'This collection has {{count}} duplicate song',
       'process.saved.duplicates_other':
         'This collection has {{count}} duplicate songs',
-      'process.saved.remove-button': 'Remove duplicates from your saved songs',
+      'process.saved.remove-button': 'Remove duplicates from your liked songs',
       'process.playlist.duplicates_one':
         'This playlist has {{count}} duplicate song',
       'process.playlist.duplicates_other':
@@ -89,7 +89,7 @@ const resources = {
         'to get personalized insights about what you have been playing on Spotify',
       'faq.section-title': "Frequently asked questions",
       'faq.question-1': 'What does this web application do?',
-      'faq.answer-1': 'Spotify Dedup helps you clean up your music libraries on Spotify by identifying and deleting duplicate songs across playlists and saved songs.',
+      'faq.answer-1': 'Spotify Dedup helps you clean up your music libraries on Spotify by identifying and deleting duplicate songs across playlists and liked songs.',
       'faq.question-2': 'How does this tool find duplicates?',
       'faq.answer-2': 'The tool finds duplicates based on the songs identifier, title, artist, and duration similarity. It identifies duplicates that Spotify\'s application does not catch.',
       'faq.question-3': 'How is this tool better than Spotify\'s duplicate detection?',
@@ -99,7 +99,7 @@ const resources = {
       'faq.question-5': 'Is my data safe with this web application?',
       'faq.answer-5': 'Yes, this web application does not store any user data on its servers. It only requests the minimum set of permissions necessary to process your library.',
       'faq.question-6': 'What permissions does this web application require?',
-      'faq.answer-6': 'This web application uses Spotify\'s authentication service to access your saved tracks and playlists in your library.',
+      'faq.answer-6': 'This web application uses Spotify\'s authentication service to access your liked songs and playlists in your library.',
       'faq.question-7': 'How has this tool been tested?',
       'faq.answer-7': 'This tool has been battle-tested by thousands of users who have used it to identify duplicates in millions of playlists since 2014.',
       'faq.question-8': 'Can this tool delete duplicates across multiple playlists?',

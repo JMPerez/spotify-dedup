@@ -4,6 +4,7 @@ import {
 } from '../dedup/deduplicator';
 import { SpotifyTrackType, SpotifyUserType } from '../dedup/spotifyApi';
 import { Translation, useTranslation } from 'react-i18next';
+import { Progress } from "@/components/ui/progress"
 
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
@@ -19,7 +20,7 @@ const Status = ({ toProcess }) => {
   const isProcessingComplete = toProcess === 0;
   return (
     <span>
-      <h3 className="text-xl font-bold mb-4">
+      <h3 className="text-2xl font-bold tracking-tight">
         {t(`process.status.${isProcessingComplete ? 'complete' : 'finding'}`)}
       </h3>
     </span>
@@ -231,6 +232,9 @@ export default class Main extends React.Component<{
                 </div>
               ) : null}
             </span>
+          )}
+          {this.state.toProcess > 0 && (
+            <Progress value={100 - 100 * (1.0 * this.state.toProcess / (1 /* liked songs */ + this.state.playlists.length))} />
           )}
         </Panel>
 

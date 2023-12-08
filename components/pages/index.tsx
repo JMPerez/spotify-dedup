@@ -128,7 +128,7 @@ export default class Index extends React.Component {
             <div className="bg-slate-50" key={1}>
               <Reviews />
             </div>,
-            <div className="bg-slate-50" key={1}>
+            <div className="bg-slate-50" key={2}>
               <Faq />
             </div>,
             ]
