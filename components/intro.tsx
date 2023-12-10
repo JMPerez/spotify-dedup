@@ -1,11 +1,10 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Intro = props => {
   const { t, i18n } = useTranslation();
   return (
     <div>
-      <div className="p-10 text-center">
+      <div className="px-10 pb-10 text-center">
         <h1 className="mt-6 text-[2.5rem] leading-none sm:text-6xl tracking-tight font-bold text-slate-900 dark:text-white max-w-2xl mx-auto">{t('home.title')}</h1>
         <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">{t('home.description')}</p>
       </div>
