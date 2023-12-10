@@ -68,7 +68,8 @@ async function fetchPageWithDefaults(
 
 export default async function promisesForPages(
   api: SpotifyWebApi,
-  initialRequest
+  initialRequest,
+  onProgressChanged: (progress: number) => void,
 ): Promise<Array<any>> {
   const results = await initialRequest;
   if (results === null) {
@@ -97,15 +98,18 @@ export default async function promisesForPages(
 
   // resolve promises sequentially
   // https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence
+  let fulfilledPromises = 0;
   return promises.reduce(
     (previousPromise, currentPromise) =>
       previousPromise
-        .then((result: Array<Object>) =>
-          currentPromise()
+        .then((result: Array<Object>) => {
+          onProgressChanged && onProgressChanged(1.0 * (++fulfilledPromises / promises.length));
+          return currentPromise()
             .then(Array.prototype.concat.bind(result))
             .catch((e) => {
               console.error('There was an error reducing promises', e);
             })
+        }
         )
         .catch((e) => {
           console.error(

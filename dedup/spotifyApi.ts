@@ -22,6 +22,7 @@ export type SpotifyPlaylistType = {
   snapshot_id?: string;
   tracks: {
     href: string;
+    total: number;
   };
 };
 
@@ -44,6 +45,16 @@ export type SpotifyUserType = {
   type: 'user';
   uri: string;
 };
+
+type Page<Type> = {
+  href: string;
+  items: Array<Type>;
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total: number;
+}
 
 const apiPrefix = 'https://api.spotify.com/v1';
 
@@ -165,8 +176,8 @@ export default class SpotifyWebApi {
     return parseAPIResponse(res);
   }
 
-  async getMySavedTracks(options?: { limit?: number }) {
-    return this.getGeneric(`${apiPrefix}/me/tracks`, options);
+  async getMySavedTracks(options?: { limit?: number }): Promise<Page<SpotifySavedTrackType>> {
+    return this.getGeneric(`${apiPrefix}/me/tracks`, options) as Promise<Page<SpotifySavedTrackType>>;
   }
 
   async removeFromMySavedTracks(trackIds: Array<string>) {

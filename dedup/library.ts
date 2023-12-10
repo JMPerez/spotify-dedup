@@ -3,11 +3,13 @@ import SpotifyWebApi from './spotifyApi';
 
 export const fetchUserOwnedPlaylists = async (
   api: SpotifyWebApi,
-  userId: string
+  userId: string,
+  onProgressChanged: (progress: number) => void,
 ) => {
   const pages = await promisesForPages(
     api,
-    api.getUserPlaylists(userId, { limit: 50 })
+    api.getUserPlaylists(userId, { limit: 50 }),
+    onProgressChanged
   );
 
   return pages.reduce(

@@ -1,9 +1,9 @@
 import promisesForPages from './promiseForPages';
 import SpotifyWebApi, {
-  SpotifyTrackType,
-  SpotifyPlaylistType,
   SpotifyPlaylistTrackType,
+  SpotifyPlaylistType,
   SpotifySavedTrackType,
+  SpotifyTrackType,
 } from './spotifyApi';
 import { PlaylistModel } from './types';
 
@@ -63,13 +63,15 @@ class BaseDeduplicator {
 export class PlaylistDeduplicator extends BaseDeduplicator {
   static async getTracks(
     api: SpotifyWebApi,
-    playlist: SpotifyPlaylistType
+    playlist: SpotifyPlaylistType,
+    onProgressChanged: (progress: number) => void,
   ): Promise<Array<SpotifyTrackType>> {
     return new Promise((resolve, reject) => {
       const tracks = [];
       promisesForPages(
         api,
-        api.getGeneric(playlist.tracks.href) // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
+        api.getGeneric(playlist.tracks.href), // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
+        onProgressChanged,
       )
         .then(
           (
@@ -146,11 +148,12 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
 export class SavedTracksDeduplicator extends BaseDeduplicator {
   static async getTracks(
     api: SpotifyWebApi,
-    initialRequest
+    initialRequest,
+    onProgressChanged: (progress: number) => void,
   ): Promise<Array<SpotifyTrackType>> {
     return new Promise((resolve, reject) => {
       const tracks = [];
-      promisesForPages(api, initialRequest)
+      promisesForPages(api, initialRequest, onProgressChanged)
         .then(
           (
             pagePromises // todo: I'd love to replace this with

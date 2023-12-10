@@ -20,8 +20,6 @@
     "axios": "^1.4.0",
     "chart.js": "^3.7.1",
     "cheerio": "^1.0.0-rc.12",
-    "chrome-aws-lambda": "^10.1.0",
-    "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "i18next": "^22.4.10",
     "lucide-react": "^0.294.0",

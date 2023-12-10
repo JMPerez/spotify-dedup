@@ -1,19 +1,19 @@
+import { Progress } from "@/components/ui/progress";
+import { Translation, useTranslation } from 'react-i18next';
 import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
 import { SpotifyTrackType, SpotifyUserType } from '../dedup/spotifyApi';
-import { Translation, useTranslation } from 'react-i18next';
-import { Progress } from "@/components/ui/progress"
 
+import React from 'react';
+import Process from '../dedup/process';
+import { PlaylistModel } from '../dedup/types';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import { DuplicateTrackList } from './duplicateTrackList';
 import { DuplicateTrackListItem } from './duplicateTrackListItem';
 import Panel from './panel';
-import { PlaylistModel } from '../dedup/types';
-import Process from '../dedup/process';
-import React from 'react';
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
@@ -38,6 +38,7 @@ type StateType = {
       track: SpotifyTrackType;
     }>;
   };
+  progress: number;
   hasUsedSpotifyTop?: boolean;
 };
 
@@ -53,6 +54,7 @@ export default class Main extends React.Component<{
       status: null,
       duplicates: [],
     },
+    progress: 0
   };
 
   componentDidMount() {
@@ -161,7 +163,7 @@ export default class Main extends React.Component<{
         : this.state.playlists.reduce(
           (prev, current) => prev + current.duplicates.length,
           0
-        ) + this.state.savedTracks.duplicates.length;
+        ) + this.state.savedTracks?.duplicates?.length;
 
     return (
       <div className="mx-4 md:mx-0">
@@ -233,8 +235,8 @@ export default class Main extends React.Component<{
               ) : null}
             </span>
           )}
-          {this.state.toProcess > 0 && (
-            <Progress value={100 - 100 * (1.0 * this.state.toProcess / (1 /* liked songs */ + this.state.playlists.length))} />
+          {(this.state.toProcess > 0 || this.state.progress < 100) && (
+            <Progress value={this.state.progress} />
           )}
         </Panel>
 
