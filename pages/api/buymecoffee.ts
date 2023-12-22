@@ -1,7 +1,8 @@
+import * as cheerio from 'cheerio';
+
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import axios from 'axios';
-import cheerio from 'cheerio';
 
 const BuyMeACoffee = async (_req: NextApiRequest, res: NextApiResponse) => {
   const url = 'https://www.buymeacoffee.com/jmp';
