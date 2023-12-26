@@ -1,4 +1,3 @@
-import { Progress } from "@/components/ui/progress";
 import { Translation, useTranslation } from 'react-i18next';
 import {
   PlaylistDeduplicator,
@@ -6,6 +5,7 @@ import {
 } from '../dedup/deduplicator';
 import { SpotifyTrackType, SpotifyUserType } from '../dedup/spotifyApi';
 
+import { Progress } from "@/components/ui/progress";
 import React from 'react';
 import Process from '../dedup/process';
 import { PlaylistModel } from '../dedup/types';
@@ -14,6 +14,7 @@ import BuyMeACoffee from './bmc';
 import { DuplicateTrackList } from './duplicateTrackList';
 import { DuplicateTrackListItem } from './duplicateTrackListItem';
 import Panel from './panel';
+import TryMusicalyst from "./tryMusicalyst";
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
@@ -207,32 +208,6 @@ export default class Main extends React.Component<{
                 {(t) => t('process.status.complete.nodups.body')}
               </Translation>
               <BuyMeACoffee />
-              {this.state.hasUsedSpotifyTop === false ? (
-                <div>
-                  <p>
-                    <strong>
-                      <Translation>
-                        {(t) => t('spotifytop.heading')}
-                      </Translation>
-                    </strong>{' '}
-                    <Translation>
-                      {(t) => t('spotifytop.description')}
-                    </Translation>{' '}
-                    <strong>
-                      <Translation>{(t) => t('spotifytop.check1')}</Translation>
-                      ,{' '}
-                      <a
-                        href="https://musicalyst.com/?ref=spotifydedup"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Musicalyst
-                      </a>
-                    </strong>{' '}
-                    <Translation>{(t) => t('spotifytop.check2')}</Translation>
-                  </p>
-                </div>
-              ) : null}
             </span>
           )}
           {(this.state.toProcess > 0 || this.state.progress < 100) && (
@@ -361,6 +336,7 @@ export default class Main extends React.Component<{
               ))}
           </ul>
         )}
+        {this.state.toProcess == 0 && <TryMusicalyst accessToken={this.props.accessToken} />}
         <style jsx>
           {`
             .bd {
