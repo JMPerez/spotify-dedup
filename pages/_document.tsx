@@ -13,8 +13,6 @@ class MyDocument extends Document {
   }
 
   render() {
-    const include3rdPartyScripts =
-      this.props.__NEXT_DATA__.page !== '/callback';
     return (
       <Html lang={i18n.language}>
         <Head />
