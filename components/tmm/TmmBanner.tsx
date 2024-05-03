@@ -22,14 +22,16 @@ const options = [
   },
 ];
 
+type Campaign = { id: number; link: string; }
+
 const TmmBanner = ({ placement }: { placement: string }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const entry = useIntersectionObserver(ref, {
     threshold: 0.5
   })
   const [hasBeenSeen, setHasBeenSeen] = useState<boolean>(false);
-  const [randomIndex, setRandomIndex] = useState(null);
-  const [campaign, setCampaign] = useState(null);
+  const [randomIndex, setRandomIndex] = useState<number | null>(null);
+  const [campaign, setCampaign] = useState<Campaign | null>(null);
   const isMobile = useMedia('(max-width: 600px)')
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const TmmBanner = ({ placement }: { placement: string }) => {
         navigator.sendBeacon &&
           navigator.sendBeacon(
             `https://musicalyst.com/api/campaigns/logImpression_sd`,
-            JSON.stringify({ id: campaign.id, placement })
+            JSON.stringify({ id: campaign?.id, placement })
           );
       })();
     }
@@ -62,7 +64,7 @@ const TmmBanner = ({ placement }: { placement: string }) => {
       navigator.sendBeacon &&
         navigator.sendBeacon(
           `https://musicalyst.com/api/campaigns/logClick_sd`,
-          JSON.stringify({ id: campaign.id, placement })
+          JSON.stringify({ id: campaign?.id, placement })
         );
     }
   };
@@ -74,7 +76,7 @@ const TmmBanner = ({ placement }: { placement: string }) => {
     "linear-gradient(155deg, rgba(236,128,63,1) 0%, rgba(251,175,24,1) 50%, rgba(232,91,1,1) 100%)"
   ];
   return <div ref={ref}>
-    {campaign && <a
+    {campaign && randomIndex !== null && <a
       target="_blank"
       rel="noopener noreferrer nofollow"
       href={`${campaign.link}${placement}`}

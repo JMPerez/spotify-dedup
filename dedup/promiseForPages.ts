@@ -37,7 +37,7 @@ async function fetchPageWithDefaults(
   offset: number,
   limit: number
 ) {
-  let result: PaginableResultType = null;
+  let result: PaginableResultType;
 
   try {
     result = (await fetchGeneric(
@@ -58,9 +58,9 @@ async function fetchPageWithDefaults(
       href,
       offset,
       limit,
-      next: null,
-      previous: null,
-      total: null,
+      next: '',
+      previous: '',
+      total: 0,
     };
   }
   return result;

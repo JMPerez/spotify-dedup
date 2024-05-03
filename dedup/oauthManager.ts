@@ -1,7 +1,7 @@
 import OAuthConfig from './oauthConfig';
 
 function toQueryString(obj: { [key: string]: string }) {
-  const parts = [];
+  const parts: Array<string> = [];
   for (const i in obj) {
     if (obj.hasOwnProperty(i)) {
       parts.push(`${encodeURIComponent(i)}=${encodeURIComponent(obj[i])}`);
@@ -12,8 +12,8 @@ function toQueryString(obj: { [key: string]: string }) {
 
 function obtainToken(options?: { scopes: Array<string> }) {
   const promise = new Promise((resolve, reject) => {
-    let authWindow = null;
-    let pollAuthWindowClosed = null;
+    let authWindow: Window | null = null;
+    let pollAuthWindowClosed: NodeJS.Timeout;
 
     function receiveMessage(event: { origin: string; data: string }) {
       try {
@@ -60,7 +60,7 @@ function obtainToken(options?: { scopes: Array<string> }) {
       response_type: 'token',
     };
 
-    if (options.scopes) {
+    if (options?.scopes) {
       params.scope = options.scopes.join(' ');
     }
 

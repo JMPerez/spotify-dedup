@@ -3,16 +3,16 @@ import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
-import { SpotifyTrackType, SpotifyUserType } from '../dedup/spotifyApi';
+import { Duplicate, PlaylistModel } from '../dedup/types';
 
 import { Progress } from "@/components/ui/progress";
 import React from 'react';
 import Process from '../dedup/process';
-import { PlaylistModel } from '../dedup/types';
+import { SpotifyUserType } from '../dedup/spotifyApi';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
-import { DuplicateTrackList } from './duplicateTrackList';
-import { DuplicateTrackListItem } from './duplicateTrackListItem';
+import DuplicateTrackList from './duplicateTrackList';
+import DuplicateTrackListItem from './duplicateTrackListItem';
 import Panel from './panel';
 import TryMusicalyst from "./tryMusicalyst";
 
@@ -33,11 +33,7 @@ type StateType = {
   playlists: Array<PlaylistModel>;
   savedTracks: {
     status?: string;
-    duplicates: Array<{
-      index: number;
-      reason: string;
-      track: SpotifyTrackType;
-    }>;
+    duplicates: Array<Duplicate>;
   };
   progress: number;
   hasUsedSpotifyTop?: boolean;
@@ -49,10 +45,10 @@ export default class Main extends React.Component<{
   accessToken: string;
 }> {
   state: StateType = {
-    toProcess: null,
+    toProcess: undefined,
     playlists: [],
     savedTracks: {
-      status: null,
+      status: undefined,
       duplicates: [],
     },
     progress: 0
@@ -170,10 +166,10 @@ export default class Main extends React.Component<{
       <div className="mx-4 md:mx-0">
         <Status toProcess={this.state.toProcess} />
         <Panel>
-          {this.state.toProcess === null && (
+          {this.state.toProcess === undefined && (
             <Translation>{(t) => t('process.reading-library')}</Translation>
           )}
-          {this.state.toProcess > 0 && (
+          {this.state.toProcess !== undefined && this.state.toProcess > 0 && (
             <Translation>
               {(t) => t('process.processing', { count: this.state.toProcess })}
             </Translation>
@@ -210,7 +206,7 @@ export default class Main extends React.Component<{
               <BuyMeACoffee />
             </span>
           )}
-          {(this.state.toProcess > 0 || this.state.progress < 100) && (
+          {(this.state.toProcess !== undefined && (this.state.toProcess > 0 || this.state.progress < 100)) && (
             <Progress value={this.state.progress} />
           )}
         </Panel>
@@ -235,7 +231,7 @@ export default class Main extends React.Component<{
                     {this.state.savedTracks.status && (
                       <Badge>
                         <Translation>
-                          {(t) => t(this.state.savedTracks.status)}
+                          {(t) => t(this.state.savedTracks.status as string)}
                         </Translation>
                       </Badge>
                     )}

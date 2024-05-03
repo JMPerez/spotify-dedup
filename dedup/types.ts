@@ -1,13 +1,15 @@
-import { SpotifyTrackType, SpotifyPlaylistType } from './spotifyApi';
-import { ReactElement } from 'react';
+import { SpotifyPlaylistType, SpotifyTrackType } from './spotifyApi';
 
 export type PlaylistModel = {
   playlist: SpotifyPlaylistType;
-  duplicates: Array<{
-    index: number;
-    reason: string;
-    track: SpotifyTrackType;
-  }>;
+  duplicates: Array<Duplicate>;
   status: string;
   processed: boolean;
 };
+
+export type DuplicateReason = 'same-id' | 'same-name-artist';
+export type Duplicate = {
+  index: number;
+  reason: DuplicateReason;
+  track: SpotifyTrackType;
+}

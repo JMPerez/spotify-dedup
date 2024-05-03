@@ -1,6 +1,5 @@
-import React from 'react';
 
-export const DuplicateTrackList = ({ children }) => (
+const DuplicateTrackList = ({ children }) => (
   <ul>
     {children}
     <style jsx>{`
@@ -10,3 +9,5 @@ export const DuplicateTrackList = ({ children }) => (
     `}</style>
   </ul>
 );
+
+export default DuplicateTrackList;

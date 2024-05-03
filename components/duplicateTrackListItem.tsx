@@ -1,24 +1,31 @@
-import React from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+
+import { DuplicateReason } from '@/dedup/types';
 import Badge from './badge';
 
-export const DuplicateTrackListItem = ({
+const reasonToString = (reason: DuplicateReason) => {
+  switch (reason) {
+    case 'same-id': return 'result.duplicate.reason-same-id';
+    case 'same-name-artist': return 'result.duplicate.reason-same-data';
+  }
+}
+
+const DuplicateTrackListItem = ({
   reason,
   trackName,
   trackArtistName,
+}: {
+  reason: DuplicateReason,
+  trackName: string,
+  trackArtistName: string
 }) => {
   const { t, i18n } = useTranslation();
   return (
     <li>
-      {reason === 'same-id' && (
-        <Badge>{t('result.duplicate.reason-same-id')}</Badge>
-      )}
-      {reason === 'same-name-artist' && (
-        <Badge>{t('result.duplicate.reason-same-data')}</Badge>
-      )}
+      <Badge>{t(reasonToString(reason))}</Badge>
       <Trans i18nKey="result.duplicate.track">
-        <span>{{ trackName }}</span> <span className="gray">by</span>{' '}
-        <span>{{ trackArtistName }}</span>
+        <span>{{ trackName } as any}</span> <span className="gray">by</span>{' '}
+        <span>{{ trackArtistName } as any}</span>
       </Trans>
       <style jsx>
         {`
@@ -30,3 +37,5 @@ export const DuplicateTrackListItem = ({
     </li>
   );
 };
+
+export default DuplicateTrackListItem;

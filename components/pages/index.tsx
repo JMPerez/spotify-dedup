@@ -61,7 +61,17 @@ const MetaHead = () => {
     </Head>
   );
 };
-export default class Index extends React.Component {
+
+type Props = {
+};
+
+type State = {
+  isLoggedIn: boolean;
+  user: null | Object;
+  accessToken: string | null;
+};
+
+export default class Index extends React.Component<Props, State> {
   constructor(props) {
     super(props);
   }
@@ -70,7 +80,7 @@ export default class Index extends React.Component {
     user: null,
     accessToken: null,
   };
-  api = null;
+  api: SpotifyWebApi | null = null;
 
   handleLoginClick = async () => {
     const accessToken = await OAuthManager.obtainToken({
@@ -96,10 +106,10 @@ export default class Index extends React.Component {
     }
 
     this.api = new SpotifyWebApi();
-    this.api.setAccessToken(accessToken);
+    this.api.setAccessToken(accessToken as string);
 
     const user = await this.api.getMe();
-    this.setState({ isLoggedIn: true, user, accessToken });
+    this.setState({ isLoggedIn: true, user, accessToken: accessToken as string });
   };
 
   render() {
@@ -110,7 +120,7 @@ export default class Index extends React.Component {
         <Header />
         <div className="flex-1">
           <div className="pb-16 mx-6">
-            {this.state.isLoggedIn ? (
+            {this.state.isLoggedIn && this.state.user !== null && this.state.accessToken !== null ? (
               <div className="max-w-3xl m-auto"><Main
                 api={this.api}
                 user={this.state.user}

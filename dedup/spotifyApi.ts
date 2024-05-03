@@ -91,7 +91,7 @@ const parseAPIResponse = (response: Response): Object =>
       throw new NetworkException(err.message, response.status);
     })
     .then((responseBody: string) => {
-      let parsedJSON: Object = null;
+      let parsedJSON: Object;
       try {
         parsedJSON = responseBody === '' ? null : JSON.parse(responseBody);
       } catch (e) {
@@ -108,7 +108,7 @@ const parseAPIResponse = (response: Response): Object =>
     });
 
 export default class SpotifyWebApi {
-  token: string;
+  token: string | null;
 
   constructor() {
     this.token = null;
@@ -137,7 +137,7 @@ export default class SpotifyWebApi {
           Authorization: `Bearer ${this.token}`,
         },
       });
-      return parseAPIResponse(res);
+      return parseAPIResponse(res as Response);
     } catch (e) {
       console.error('e', e);
       return Promise.reject(e);
@@ -173,7 +173,7 @@ export default class SpotifyWebApi {
         body: JSON.stringify(dataToBeSent),
       }
     );
-    return parseAPIResponse(res);
+    return parseAPIResponse(res as Response);
   }
 
   async getMySavedTracks(options?: { limit?: number }): Promise<Page<SpotifySavedTrackType>> {
@@ -188,6 +188,6 @@ export default class SpotifyWebApi {
       },
       body: JSON.stringify(trackIds),
     });
-    return parseAPIResponse(res);
+    return parseAPIResponse(res as Response);
   }
 }

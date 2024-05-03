@@ -1,11 +1,12 @@
-import promisesForPages from './promiseForPages';
 import SpotifyWebApi, {
   SpotifyPlaylistTrackType,
   SpotifyPlaylistType,
   SpotifySavedTrackType,
   SpotifyTrackType,
 } from './spotifyApi';
-import { PlaylistModel } from './types';
+import { Duplicate, PlaylistModel } from './types';
+
+import promisesForPages from './promiseForPages';
 
 class BaseDeduplicator {
   async removeDuplicates(model) {
@@ -19,6 +20,7 @@ class BaseDeduplicator {
   static findDuplicatedTracks(tracks: Array<SpotifyTrackType>) {
     const seenIds: { [key: string]: boolean } = {};
     const seenNameAndArtist: { [key: string]: Array<number> } = {};
+    let duplicates: Array<Duplicate> = [];
     const result = tracks.reduce((duplicates, track, index) => {
       if (track === null) return duplicates;
       if (track.id === null) return duplicates;
@@ -55,7 +57,7 @@ class BaseDeduplicator {
         seenNameAndArtist[seenNameAndArtistKey].push(track.duration_ms);
       }
       return duplicates;
-    }, []);
+    }, duplicates);
     return result;
   }
 }
@@ -67,7 +69,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
     onProgressChanged: (progress: number) => void,
   ): Promise<Array<SpotifyTrackType>> {
     return new Promise((resolve, reject) => {
-      const tracks = [];
+      const tracks: Array<SpotifyTrackType> = [];
       promisesForPages(
         api,
         api.getGeneric(playlist.tracks.href), // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
@@ -84,7 +86,9 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         .then((pages) => {
           pages.forEach((page) => {
             page.items.forEach((item: SpotifyPlaylistTrackType) => {
-              tracks.push(item && item.track);
+              if (item?.track) {
+                tracks.push(item.track);
+              }
             });
           });
           resolve(tracks);
@@ -114,7 +118,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
             positions: [d.index],
           }))
           .reverse(); // reverse so we delete the last ones first
-        const promises = [];
+        const promises: Array<() => {}> = [];
         do {
           const chunk = tracksToRemove.splice(0, 100);
           (function (playlistModel, chunk, api) {
@@ -152,7 +156,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
     onProgressChanged: (progress: number) => void,
   ): Promise<Array<SpotifyTrackType>> {
     return new Promise((resolve, reject) => {
-      const tracks = [];
+      const tracks: Array<SpotifyTrackType> = [];
       promisesForPages(api, initialRequest, onProgressChanged)
         .then(
           (
@@ -165,7 +169,9 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
         .then((pages) => {
           pages.forEach((page) => {
             page.items.forEach((item: SpotifySavedTrackType) => {
-              tracks.push(item.track);
+              if (item?.track) {
+                tracks.push(item.track);
+              }
             });
           });
           resolve(tracks);
@@ -183,11 +189,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
   static async removeDuplicates(
     api: SpotifyWebApi,
     model: {
-      duplicates: Array<{
-        index: number;
-        reason: string;
-        track: SpotifyTrackType;
-      }>;
+      duplicates: Array<Duplicate>;
     }
   ) {
     return new Promise<void>((resolve, reject) => {

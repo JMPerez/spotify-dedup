@@ -4,7 +4,11 @@ const redirectUri =
     ? 'http://localhost:3000/callback'
     : 'https://spotify-dedup.com/callback/';
 
-const host = /http[s]?:\/\/[^/]+/.exec(redirectUri)[0];
+let host: string | null = null;
+const h = /http[s]?:\/\/[^/]+/.exec(redirectUri);
+if (h) {
+  host = h[0];
+}
 
 export default {
   clientId,

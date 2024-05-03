@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Main = ({ children }) => (
   <>
-    <Link className="bg-indigo-900 text-center py-4 lg:px-4" href="https://buymeacoffee.com/jmp/dedup-spotify-breaking-changes-api" target="_blank">
+    <Link className="bg-indigo-900 text-center py-4 lg:px-4 block" href="https://buymeacoffee.com/jmp/dedup-spotify-breaking-changes-api" target="_blank">
       <div className="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
         <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Info</span>
         <span className="mr-2 text-left text-sm flex-auto text-balance">We are having some issues removing duplicates due to changes in Spotify's API. <span className="text-yellow-400 hover:text-yellow-200">Read more about it</span>.</span>

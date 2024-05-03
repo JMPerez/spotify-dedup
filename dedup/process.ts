@@ -1,10 +1,11 @@
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
-import { fetchUserOwnedPlaylists } from './library';
-import PlaylistCache from './playlistCache';
 import SpotifyWebApi, {
   SpotifyPlaylistType,
   SpotifyUserType
 } from './spotifyApi';
+
+import { fetchUserOwnedPlaylists } from './library';
+import PlaylistCache from './playlistCache';
 import { PlaylistModel } from './types';
 
 const playlistCache = new PlaylistCache();
@@ -57,7 +58,7 @@ export default class {
 
       currentState = {
         ...currentState,
-        toProcess: currentState.toProcess - 1,
+        toProcess: currentState.toProcess ? currentState.toProcess - 1 : undefined,
         totalTracksDownloaded: currentState.totalTracksDownloaded + playlist.playlist.tracks.total,
         progress: 10 + 90 * ((currentState.totalTracksDownloaded + playlist.playlist.tracks.total) / currentState.totalTracksToDownload)
       }
@@ -72,7 +73,7 @@ export default class {
       dispatch('updateState', currentState);
     }
 
-    let playlistsToCheck = [];
+    let playlistsToCheck: Array<SpotifyPlaylistType> = [];
     const ownedPlaylists: Array<SpotifyPlaylistType> = await fetchUserOwnedPlaylists(
       api,
       user.id,
@@ -141,7 +142,7 @@ export default class {
 
     this.dispatch('updateState', currentState);
 
-    for (const playlistModel of currentState.playlists) {
+    for (const playlistModel of currentState.playlists || []) {
       if (playlistCache.needsCheckForDuplicates(playlistModel.playlist)) {
         try {
           let prevTotalTracksDownloaded = currentState.totalTracksDownloaded;
