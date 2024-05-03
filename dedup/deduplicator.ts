@@ -62,6 +62,10 @@ class BaseDeduplicator {
   }
 }
 
+function removeDuplicatesInArray(data: string[]): string[] {
+  return data.filter((value, index, self) => self.indexOf(value) === index);
+}
+
 export class PlaylistDeduplicator extends BaseDeduplicator {
   static async getTracks(
     api: SpotifyWebApi,
@@ -112,25 +116,78 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
           'It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
         );
       } else {
-        const tracksToRemove = playlistModel.duplicates
-          .map((d) => ({
-            uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
-            positions: [d.index],
-          }))
-          .reverse(); // reverse so we delete the last ones first
-        const promises: Array<() => {}> = [];
-        do {
-          const chunk = tracksToRemove.splice(0, 100);
-          (function (playlistModel, chunk, api) {
-            promises.push(() =>
-              api.removeTracksFromPlaylist(
-                playlistModel.playlist.owner.id,
-                playlistModel.playlist.id,
-                chunk
-              )
-            );
-          })(playlistModel, chunk, api);
-        } while (tracksToRemove.length > 0);
+
+        let promises: Array<() => {}> = [];
+
+        // due to the change in Spotify's API, we can no longer specify a position to be deleted.
+        // thus, we need to delete all the tracks with a certain id, and then add a track in the right position.
+
+        // first, let's remove the duplicates that are based on artist name alone, as we are fine deleting
+        // all instances of these
+
+        // todo: we should probably use the id from "linked_from" for deduplication
+        const tracksToRemoveSameNameArtist = removeDuplicatesInArray(playlistModel.duplicates.filter(duplicate => duplicate.reason === 'same-name-artist')
+          .map((d) => d.track.linked_from ? d.track.linked_from.uri : d.track.uri));
+
+
+        if (tracksToRemoveSameNameArtist.length) {
+          do {
+            const chunk = tracksToRemoveSameNameArtist.splice(0, 100);
+            (function (playlistModel, chunk, api) {
+              promises.push(() =>
+                api.removeTracksFromPlaylist(
+                  playlistModel.playlist.id,
+                  chunk
+                )
+              );
+            })(playlistModel, chunk, api);
+          } while (tracksToRemoveSameNameArtist.length > 0);
+        }
+
+        // second, let's remove the duplicates that are based on ids
+        const tracksToRemoveSameId = removeDuplicatesInArray(
+          playlistModel.duplicates.filter(duplicate => duplicate.reason === 'same-id')
+            .map((d) => d.track.linked_from ? d.track.linked_from.uri : d.track.uri)
+        );
+
+        const tracksToAddBack = [...tracksToRemoveSameId];
+        if (tracksToRemoveSameId.length) {
+          do {
+            const chunk = tracksToRemoveSameId.splice(0, 100);
+            (function (playlistModel, chunk, api) {
+              promises.push(() => {
+                const result = api.removeTracksFromPlaylist(
+                  playlistModel.playlist.id,
+                  chunk
+                );
+                return result;
+              }
+              );
+            })(playlistModel, chunk, api);
+          } while (tracksToRemoveSameId.length > 0);
+        }
+
+        // last, put back one instance for each of the removed set of tracks with the same id
+        // to simplify things, just append it
+        // ideally, we would store the index of the first appearance, and for each of the above
+        // removals calculate the new position, but it's quite complex, and the API might throw
+        // an error if the index is beyond the current playlist length
+
+        // todo: check if there would be an error if trying to create it outbound
+
+        if (tracksToAddBack.length) {
+          do {
+            const chunk = tracksToAddBack.splice(0, 100);
+            (function (playlistModel, chunk, api) {
+              promises.push(() =>
+                api.addTracksToPlaylist(
+                  playlistModel.playlist.id,
+                  chunk
+                )
+              );
+            })(playlistModel, chunk, api);
+          } while (tracksToAddBack.length > 0);
+        }
 
         promises
           .reduce(
