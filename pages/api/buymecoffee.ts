@@ -15,7 +15,7 @@ const BuyMeACoffee = async (_req: NextApiRequest, res: NextApiResponse) => {
 
   res.setHeader(
     'Cache-Control',
-    'public, s-maxage=62400, stale-while-revalidate=124800'
+    'public, max-age=0, s-maxage=86400'
   );
   return res.status(200).json({ total: supportersNumber });
 };
