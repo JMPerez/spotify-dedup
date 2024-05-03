@@ -8,6 +8,11 @@ export default function App({ Component, pageProps }: any) {
   return (
     <>
       <Component {...pageProps} />
-      <Analytics />
+      <Analytics beforeSend={(event) => {
+        if (event.url.includes('/callback')) {
+          return null;
+        }
+        return event;
+      }} />
     </>);
 }
