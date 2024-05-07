@@ -332,7 +332,7 @@ export default class Main extends React.Component<{
               ))}
           </ul>
         )}
-        {this.state.toProcess == 0 && <TryMusicalyst accessToken={this.props.accessToken} />}
+        {this.state.toProcess === 0 && <TryMusicalyst accessToken={this.props.accessToken} />}
         <style jsx>
           {`
             .bd {

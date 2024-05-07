@@ -8,7 +8,7 @@ export type SpotifyTrackType = {
   artists: Array<SpotifyArtistType>;
   duration_ms: number;
   id: string;
-  linked_from: SpotifyTrackType;
+  linked_from?: SpotifyTrackType;
   name: string;
   uri: string;
 };
@@ -171,7 +171,8 @@ export default class SpotifyWebApi {
 
   async addTracksToPlaylist(
     playlistId: string,
-    uris: Array<string>
+    uris: Array<string>,
+    position: number
   ) {
     const res = await fetch(
       `${apiPrefix}/playlists/${playlistId}/tracks`,
@@ -180,7 +181,7 @@ export default class SpotifyWebApi {
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
-        body: JSON.stringify({ uris }),
+        body: JSON.stringify({ uris, position }),
       }
     );
     return parseAPIResponse(res as Response);

@@ -18,18 +18,30 @@ class BaseDeduplicator {
   }
 
   static findDuplicatedTracks(tracks: Array<SpotifyTrackType>) {
-    const seenIds: { [key: string]: boolean } = {};
+
+    // a map of the ids that have been seen and their canonical position
+    const seenIds: { [key: string]: number } = {};
+
     const seenNameAndArtist: { [key: string]: Array<number> } = {};
+
     let duplicates: Array<Duplicate> = [];
     const result = tracks.reduce((duplicates, track, index) => {
       if (track === null) return duplicates;
       if (track.id === null) return duplicates;
-      let isDuplicate = false;
+
+      let isDuplicate = false,
+        canonicalPosition: number | undefined = undefined;
+
       const seenNameAndArtistKey =
         `${track.name}:${track.artists[0].name}`.toLowerCase();
+
       if (track.id in seenIds) {
         // if the two tracks have the same Spotify ID, they are duplicates
+        // we store the position of the item that will be considered canonical
+        // as we will need it to reinsert the track when all the tracks wiht
+        // the same id are removed
         isDuplicate = true;
+        canonicalPosition = seenIds[track.id];
       } else {
         // if they have the same name, main artist, and roughly same duration
         // we consider tem duplicates too
@@ -49,9 +61,10 @@ class BaseDeduplicator {
           index: index,
           track: track,
           reason: track.id in seenIds ? 'same-id' : 'same-name-artist',
+          canonicalPosition
         });
       } else {
-        seenIds[track.id] = true;
+        seenIds[track.id] = index;
         seenNameAndArtist[seenNameAndArtistKey] =
           seenNameAndArtist[seenNameAndArtistKey] || [];
         seenNameAndArtist[seenNameAndArtistKey].push(track.duration_ms);
@@ -64,6 +77,34 @@ class BaseDeduplicator {
 
 function removeDuplicatesInArray(data: string[]): string[] {
   return data.filter((value, index, self) => self.indexOf(value) === index);
+}
+
+export const calculateTracksToAddBack = function (duplicates: Duplicate[]): { track: SpotifyTrackType; position: number }[] {
+  // Step 1: create an array with as many items as the highest duplicate index
+  const positions: (SpotifyTrackType | null)[] = Array(Math.max(...duplicates.map(d => d.index)) + 1).fill(null);
+
+  // Step 2: mark the canonical positions
+  duplicates.forEach(duplicate => {
+    if (duplicate.reason === 'same-id' && duplicate.canonicalPosition !== undefined && !positions[duplicate.canonicalPosition]) {
+      positions[duplicate.canonicalPosition] = duplicate.track;
+    }
+  });
+
+  // Step 3: simulate the deletion of each duplicate
+  duplicates.sort((a, b) => b.index - a.index);
+  duplicates.forEach(duplicate => {
+    positions.splice(duplicate.index, 1);
+  });
+
+  // Step 4: identify the tracks to add back
+  const tracksToAddBack: { track: SpotifyTrackType; position: number }[] = [];
+  positions.forEach((track, index) => {
+    if (track) {
+      tracksToAddBack.push({ track, position: index });
+    }
+  });
+
+  return tracksToAddBack;
 }
 
 export class PlaylistDeduplicator extends BaseDeduplicator {
@@ -117,6 +158,9 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         );
       } else {
 
+
+
+
         let promises: Array<() => {}> = [];
 
         // due to the change in Spotify's API, we can no longer specify a position to be deleted.
@@ -150,7 +194,6 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
             .map((d) => d.track.linked_from ? d.track.linked_from.uri : d.track.uri)
         );
 
-        const tracksToAddBack = [...tracksToRemoveSameId];
         if (tracksToRemoveSameId.length) {
           do {
             const chunk = tracksToRemoveSameId.splice(0, 100);
@@ -167,22 +210,16 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
           } while (tracksToRemoveSameId.length > 0);
         }
 
-        // last, put back one instance for each of the removed set of tracks with the same id
-        // to simplify things, just append it
-        // ideally, we would store the index of the first appearance, and for each of the above
-        // removals calculate the new position, but it's quite complex, and the API might throw
-        // an error if the index is beyond the current playlist length
-
-        // todo: check if there would be an error if trying to create it outbound
-
+        const tracksToAddBack = calculateTracksToAddBack(playlistModel.duplicates);
         if (tracksToAddBack.length) {
           do {
-            const chunk = tracksToAddBack.splice(0, 100);
+            const chunk = tracksToAddBack.splice(0, 1);
             (function (playlistModel, chunk, api) {
               promises.push(() =>
                 api.addTracksToPlaylist(
                   playlistModel.playlist.id,
-                  chunk
+                  [chunk[0].track.uri],
+                  chunk[0].position
                 )
               );
             })(playlistModel, chunk, api);
