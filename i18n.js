@@ -95,7 +95,7 @@ const resources = {
       'faq.question-3': 'How is Dedup better than Spotify\'s built-in duplicate detection?',
       'faq.answer-3': 'Spotify\'s applications only warn about duplicates when adding a song to a playlit or liked songs with the exact same song identifier. However, the same song can have multiple identifiers on Spotify that both in the same release or in several ones. Dedup detects duplicates based on title, artist, and duration similarity.',
       'faq.question-4': 'When duplicates are found, which songs are removed?',
-      'faq.answer-4': 'Dedup will keep the first song within a group of duplicate songs, and will remove the rest.',
+      'faq.answer-4': 'Dedup will keep the first song within a group of duplicate songs, and will remove the rest. That first song will get its "added time" updated due to Spotify\'s API design.',
       'faq.question-5': 'Is my data safe with this web application?',
       'faq.answer-5': 'Yes, this web application does not store any user data on its servers. It only requests the minimum set of permissions necessary to process your library.',
       'faq.question-6': 'What permissions does this web application require?',
