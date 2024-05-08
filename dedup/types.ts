@@ -12,5 +12,4 @@ export type Duplicate = {
   index: number;
   reason: DuplicateReason;
   track: SpotifyTrackType;
-  canonicalPosition: number | undefined;
 }

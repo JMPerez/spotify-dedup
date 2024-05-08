@@ -154,7 +154,7 @@ export default class SpotifyWebApi {
 
   async removeTracksFromPlaylist(
     playlistId: string,
-    uris: Array<string>
+    positions: Array<number>
   ) {
     const res = await fetch(
       `${apiPrefix}/playlists/${playlistId}/tracks`,
@@ -163,9 +163,10 @@ export default class SpotifyWebApi {
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
-        body: JSON.stringify({ tracks: uris.map(uri => ({ uri })) }),
-      }
-    );
+        body: JSON.stringify({
+          positions
+        })
+      });
     return parseAPIResponse(res as Response);
   }
 

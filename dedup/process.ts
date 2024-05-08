@@ -31,7 +31,6 @@ export default class {
   }
 
   dispatch(event: string, params) {
-    console.log({ params })
     const callbacks = this.listeners[event];
     callbacks.forEach((callback) => callback(params));
   }
