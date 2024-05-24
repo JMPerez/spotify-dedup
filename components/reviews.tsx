@@ -2,7 +2,7 @@ import fetcher from '@/lib/fetcher';
 import { useTranslation } from 'react-i18next';
 import useSWR from 'swr';
 const Reviews = () => {
-  const { data } = useSWR('/api/buymecoffee', fetcher<{ total: number }>);
+  const { data } = useSWR('/api/bmc', fetcher<{ total: number }>);
 
   const { t, i18n } = useTranslation();
   return (
@@ -75,7 +75,7 @@ const Reviews = () => {
       </p>
       <p className="mt-4 text-lg tracking-tight text-center text-slate-700" dangerouslySetInnerHTML={{
         __html: t('home.review', {
-          supportersCount: '<span class="font-semibold">' + (data && new Number(data.total).toLocaleString(i18n.language)) + '</span>',
+          supportersCount: '<span class="font-semibold">' + (new Number(data?.total || 1400).toLocaleString(i18n.language)) + '</span>',
           linkOpen: '<a href="https://www.buymeacoffee.com/jmp" class="font-semibold">',
           linkClose: '</a>',
         }),

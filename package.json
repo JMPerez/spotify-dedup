@@ -8,9 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "next-sitemap",
     "start": "next start",
-    "analyze": "BUNDLE_ANALYZE=browser next build",
+    "analyze": "BUNDLE_ANALYZE=browser next build"
   },
   "type": "module",
   "dependencies": {
@@ -19,17 +18,18 @@
     "@vercel/analytics": "^1.2.2",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
+    "babel-plugin-react-compiler": "0.0.0-experimental-592953e-20240517",
     "chart.js": "^4.4.2",
     "cheerio": "^1.0.0-rc.12",
     "clsx": "^2.1.1",
     "i18next": "^23.11.3",
     "lucide-react": "^0.376.0",
-    "next": "^14.2.3",
+    "next": "15.0.0-rc.0",
     "next-i18next": "^15.3.0",
     "postcss": "^8.4.38",
-    "react": "^18.3.1",
+    "react": "19.0.0-rc-935180c7e0-20240524",
     "react-chartkick": "^0.5.3",
-    "react-dom": "^18.3.1",
+    "react-dom": "19.0.0-rc-935180c7e0-20240524",
     "react-i18next": "^14.1.1",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
@@ -39,9 +39,8 @@
   "devDependencies": {
     "@types/node": "^20.12.7",
     "@types/react": "^18.3.1",
-    "eslint": "9.1.1",
+    "eslint": "^9.3.0",
     "husky": "^9.0.11",
-    "next-sitemap": "^4.2.3",
     "typescript": "^5.4.5"
   }
 }

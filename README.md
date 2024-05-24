@@ -16,11 +16,11 @@ You can check it out on [https://spotify-dedup.com](https://spotify-dedup.com) o
 
 Install the dependencies:
 
-    yarn install
+    pnpm install
 
 Run it:
 
-    yarn dev
+    pnpm dev
 
 Then open http://localhost:3000 in a browser
 

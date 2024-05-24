@@ -1,9 +1,9 @@
+import { AvailableLanguages } from '@/languages';
 import Head from 'next/head';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import OAuthManager from '../../dedup/oauthManager';
 import SpotifyWebApi from '../../dedup/spotifyApi';
-import { AvailableLanguages } from '../../i18n';
 import Faq from '../faq';
 import Features from '../features';
 import Footer from '../footer';

@@ -1,20 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-export const AvailableLanguages = [
-  'de',
-  'en',
-  'es',
-  'fr',
-  'id',
-  'it',
-  'nl',
-  'pl',
-  'pt',
-  'sv',
-  'tr',
-];
-
 // the translations
 // (tip move them in a JSON file and import them)
 const resources = {
@@ -109,8 +95,7 @@ const resources = {
       'faq.question-10': 'Does this tool work with other music streaming services?',
       'faq.answer-10': 'No, this tool only works with Spotify through Spotify\'s Web API.',
     },
-  },
-  fallbackLng: 'en',
+  }
 };
 
 i18n
@@ -118,6 +103,7 @@ i18n
   .init({
     resources,
     lng: 'en',
+    fallbackLng: 'en',
     keySeparator: false, // we do not use keys in form messages.welcome
     debug: false,
     react: {
