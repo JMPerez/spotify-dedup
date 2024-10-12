@@ -40,6 +40,7 @@ export async function retryFetch(
       if (attemp === times) {
         console.warn('Max attemps reached');
 
+        alert('There was an error accessing Spotify\'s Web API. Please try again later. If the problem persist, please file an issue on https://github.com/JMPerez/spotify-dedup/issues/')
         throw error;
       }
     }
