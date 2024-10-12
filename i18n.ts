@@ -32,8 +32,6 @@ const resources = {
         'Check out the {{- linkOpen}}code on GitHub 📃{{- linkClose}}',
       'footer.bmc':
         'Support the project {{- linkOpen}}buying a coffee ☕{{- linkClose}}',
-      'footer.musicalyst':
-        'Visit {{- linkOpen}}Musicalyst{{- linkClose}} to see stats about your listening history 🎧',
       'bmc.button': 'Would you buy me a coffee?',
       'result.duplicate.reason-same-id': 'Duplicate',
       'result.duplicate.reason-same-data':
@@ -67,12 +65,6 @@ const resources = {
         'This playlist has {{count}} duplicate songs',
       'process.playlist.remove-button': 'Remove duplicates from this playlist',
       'process.items.removed': 'Duplicates removed',
-      'spotifytop.heading': '🚀 Introducing Musicalyst!',
-      'spotifytop.description':
-        'Ever wondered what artists, songs, or genres you have been listening the most lately?',
-      'spotifytop.check1': 'Check my latest project',
-      'spotifytop.check2':
-        'to get personalized insights about what you have been playing on Spotify',
       'faq.section-title': "Frequently asked questions",
       'faq.question-1': 'What does this web application do?',
       'faq.answer-1': 'Spotify Dedup helps you clean up your music libraries on Spotify by identifying and deleting duplicate songs across playlists and liked songs.',

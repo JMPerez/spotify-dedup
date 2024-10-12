@@ -1,8 +1,8 @@
 import '../../i18n';
 
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
@@ -46,10 +46,6 @@ const IndexComponent = () => {
         'process.playlist.duplicates_other': 'Daftar putar ini memiliki {{count}} lagu duplikat',
         'process.playlist.remove-button': 'Hapus duplikat dari daftar putar ini',
         'process.items.removed': 'Duplikat dihapus',
-        'spotifytop.heading': '🚀 Memperkenalkan Musicalyst!',
-        'spotifytop.description': 'Pernah bertanya-tanya artis, lagu, atau genre apa yang paling sering Anda dengarkan akhir-akhir ini?',
-        'spotifytop.check1': 'Periksa proyek terbaru saya',
-        'spotifytop.check2': 'untuk mendapatkan wawasan yang dipersonalisasi tentang apa yang telah Anda putar di Spotify',
         'faq.section-title': "Pertanyaan umum",
         'faq.question-1': 'Apa yang dilakukan aplikasi web ini?',
         'faq.answer-1': 'Spotify Dedup membantu Anda membersihkan pustaka musik di Spotify dengan mengidentifikasi dan menghapus lagu duplikat di seluruh daftar putar dan lagu yang disimpan.',

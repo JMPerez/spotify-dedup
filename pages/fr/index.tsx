@@ -1,8 +1,8 @@
 import '../../i18n';
 
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -67,12 +67,6 @@ const IndexComponent = () => {
       'Cette playlist contient {{count}} chansons en double',
     'process.playlist.remove-button': 'Supprimer les doublons',
     'process.items.removed': 'Doublons supprimés',
-    'spotifytop.heading': '🚀 Nouveau projet, Musicalyst!',
-    'spotifytop.description':
-      'Vous vous demandez quels artistes, chansons ou genres vous avez le plus écoutés sur Spotify ces derniers temps?',
-    'spotifytop.check1': 'Jetez un œil à mon nouvel outil',
-    'spotifytop.check2':
-      'pour voir un rapport de ce que vous avez joué récemment sur Spotify.',
     'faq.section-title': "Foire aux questions",
     'faq.question-1': 'Que fait cette application Web ?',
     'faq.answer-1': 'Spotify Dedup vous aide à nettoyer vos bibliothèques musicales sur Spotify en identifiant et en supprimant les chansons en double dans les listes de lecture et les chansons enregistrées.',

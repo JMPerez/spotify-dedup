@@ -1,8 +1,8 @@
 import '../../i18n';
 
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -63,12 +63,6 @@ const IndexComponent = () => {
       'Denna spellista har {{count}} dubbletter',
     'process.playlist.remove-button': 'Ta bort dubbletter från denna spellista',
     'process.items.removed': 'Dubbletter har tagits bort',
-    'spotifytop.heading': '🚀 Nytt projekt, Musicalyst!',
-    'spotifytop.description':
-      'Har du någonsin undrat vilka artister, låtar eller genrer du har lyssnat mest på på Spotify nyligen?',
-    'spotifytop.check1': 'Ta en titt på mitt nya verktyg',
-    'spotifytop.check2':
-      'för att se en rapport om vad du nyligen har spelat på Spotify.',
     'faq.section-title': "Vanliga frågor",
     'faq.question-1': 'Vad gör den här webbapplikationen?',
     'faq.answer-1': 'Spotify Dedup hjälper dig att rensa upp i dina musikbibliotek på Spotify genom att identifiera och ta bort dubbletter av låtar över spellistor och sparade låtar.',

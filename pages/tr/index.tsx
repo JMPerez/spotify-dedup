@@ -1,8 +1,8 @@
 import '../../i18n';
 
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
@@ -46,10 +46,6 @@ const IndexComponent = () => {
         "process.playlist.duplicates_other": "Bu çalma listesinde {{count}} yinelenen şarkı var.",
         "process.playlist.remove-button": "Bu çalma listesinden yinelenen şarkıları sil",
         "process.items.removed": "Yenilenen şarkılar silindi!",
-        "spotifytop.heading": "🚀 Karşınızda Musicalyst!",
-        "spotifytop.description": "Son zamanlarda hangi şarkıcıları, hangi şarkıları dinlediğinizi merak ettiniz mi?",
-        "spotifytop.check1": "Spotify'da ne çaldığınıza dair size özel bir rapor almak için",
-        "spotifytop.check2": "son projeme bir göz atın.",
         'faq.section-title': "Sıkça sorulan sorular",
         'faq.question-1': 'Bu web uygulaması ne yapıyor?',
         'faq.answer-1': 'Spotify Dedup, çalma listeleri ve kayıtlı şarkılar arasında yinelenen şarkıları belirleyip silerek Spotify\'daki müzik kitaplıklarınızı temizlemenize yardımcı olur.',

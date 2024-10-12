@@ -1,8 +1,8 @@
 import '../../i18n';
 
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -69,12 +69,6 @@ const IndexComponent = () => {
     'process.playlist.remove-button':
       'Verwijder duplicaten uit deze afspeellijst',
     'process.items.removed': 'Duplicaten verwijderd',
-    'spotifytop.heading': '🚀 Nieuw project, Musicalyst!',
-    'spotifytop.description':
-      'Heb je je ooit afgevraagd naar welke artiesten, liedjes of genres je de laatste tijd het vaakst op Spotify luistert?',
-    'spotifytop.check1': 'Bekijk mijn nieuwe tool',
-    'spotifytop.check2':
-      'om een ​​verslag te zien van wat je onlangs op Spotify hebt afgespeeld.',
     'faq.section-title': "Veel gestelde vragen",
     'faq.question-1': 'Wat doet deze webapplicatie?',
     'faq.answer-1': 'Spotify Dedup helpt je bij het opschonen van je muziekbibliotheken op Spotify door dubbele nummers in afspeellijsten en opgeslagen nummers te identificeren en te verwijderen.',

@@ -1,6 +1,6 @@
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
   const { t, i18n } = useTranslation();
@@ -65,12 +65,6 @@ const IndexComponent = () => {
       'Diese Playlist enthält {{count}} doppelte Titel',
     'process.playlist.remove-button': 'Duplikate entfernen',
     'process.items.removed': 'Duplikate entfernt',
-    'spotifytop.heading': '🚀 Neues Projekt, Musicalyst!',
-    'spotifytop.description':
-      'Haben Sie sich jemals gefragt, welche Künstler, Songs oder Genres Sie in letzter Zeit am meisten gehört haben?',
-    'spotifytop.check1': 'Überprüfe mein aktuelles Projekt',
-    'spotifytop.check2':
-      'um personalisierte Einblicke in das zu erhalten, was Sie auf Spotify gespielt haben.',
     'faq.section-title': "Häufig gestellte Fragen",
     'faq.question-1': 'Was macht diese Webanwendung?',
     'faq.answer-1': 'Spotify Dedup hilft Ihnen, Ihre Musikbibliotheken auf Spotify zu bereinigen, indem doppelte Titel in Wiedergabelisten und gespeicherten Titeln identifiziert und gelöscht werden.',

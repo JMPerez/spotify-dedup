@@ -1,6 +1,6 @@
+import LanguageSelector from './languageSelector';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import LanguageSelector from './languageSelector';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -37,16 +37,6 @@ const Footer = () => {
               }),
             }}
           /> / <Link href="https://www.paypal.com/paypalme/jmperezperez" target="_blank">PayPal</Link>
-          {' '}·{' '}
-          <span
-            dangerouslySetInnerHTML={{
-              __html: t('footer.musicalyst', {
-                linkOpen:
-                  '<a target="_blank" rel="noreferrer" href="https://musicalyst.com">',
-                linkClose: '</a>',
-              }),
-            }}
-          />
         </p>
         <LanguageSelector />
       </div>

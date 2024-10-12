@@ -1,8 +1,8 @@
 import '../../i18n';
 
-import { useTranslation } from 'react-i18next';
 import Index from '../../components/pages/index';
 import Page from '../../layouts/main';
+import { useTranslation } from 'react-i18next';
 
 const IndexComponent = () => {
     const { t, i18n } = useTranslation();
@@ -67,11 +67,6 @@ const IndexComponent = () => {
             'Ta playlista zawiera {{count}} duplikatów.',
         'process.playlist.remove-button': 'Usuń duplikaty',
         'process.items.removed': 'Duplikaty usunięte',
-        'spotifytop.heading': '🚀 Nowy projekt, Musicalyst!',
-        'spotifytop.description':
-            'Czy kiedykolwiek zastanawiałeś się, jakich artystów, piosenek lub gatunków słuchasz ostatnio najczęściej?',
-        'spotifytop.check1': 'Sprawdź mój aktualny projekt',
-        'spotifytop.check2': 'aby uzyskać spersonalizowane informacje na temat tego, co odtwarzałeś najczęściej na Spotify.',
         'faq.section-title': "Często zadawane pytania",
         'faq.question-1': 'Co robi ta aplikacja internetowa?',
         'faq.answer-1': 'Spotify Dedup pomaga uporządkować biblioteki muzyczne w Spotify, identyfikując i usuwając zduplikowane utwory z list odtwarzania i zapisanych utworów.',

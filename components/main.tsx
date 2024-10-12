@@ -1,20 +1,19 @@
-import { Translation, useTranslation } from 'react-i18next';
+import { Duplicate, PlaylistModel } from '../dedup/types';
 import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
-import { Duplicate, PlaylistModel } from '../dedup/types';
+import { Translation, useTranslation } from 'react-i18next';
 
-import { Progress } from "@/components/ui/progress";
-import React from 'react';
-import Process from '../dedup/process';
-import { SpotifyUserType } from '../dedup/spotifyApi';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import DuplicateTrackList from './duplicateTrackList';
 import DuplicateTrackListItem from './duplicateTrackListItem';
 import Panel from './panel';
-import TryMusicalyst from "./tryMusicalyst";
+import Process from '../dedup/process';
+import { Progress } from "@/components/ui/progress";
+import React from 'react';
+import { SpotifyUserType } from '../dedup/spotifyApi';
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
@@ -36,7 +35,6 @@ type StateType = {
     duplicates: Array<Duplicate>;
   };
   progress: number;
-  hasUsedSpotifyTop?: boolean;
 };
 
 export default class Main extends React.Component<{
@@ -60,23 +58,6 @@ export default class Main extends React.Component<{
       this.setState(state);
     });
     process.process(this.props.api, this.props.user);
-
-    const hasUsedSpotifyTop = async () => {
-      const res = await fetch(`https://musicalyst.com/api/profile`, {
-        method: 'GET',
-        headers: { 'Spotify-Auth': this.props.accessToken },
-      });
-      const data = await res.json();
-      return data.hasUsedSpotifyTop;
-    };
-
-    try {
-      hasUsedSpotifyTop()
-        .then((result) => {
-          this.setState({ hasUsedSpotifyTop: result === true });
-        })
-        .catch((e) => { });
-    } catch (e) { }
   }
 
   removeDuplicates = (playlist: PlaylistModel) => {
@@ -332,7 +313,6 @@ export default class Main extends React.Component<{
               ))}
           </ul>
         )}
-        {this.state.toProcess === 0 && <TryMusicalyst accessToken={this.props.accessToken} />}
         <style jsx>
           {`
             .bd {
