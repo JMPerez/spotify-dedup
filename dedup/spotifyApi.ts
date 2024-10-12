@@ -198,7 +198,7 @@ export default class SpotifyWebApi {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
-      body: JSON.stringify(trackIds),
+      body: JSON.stringify({ ids: trackIds }),
     });
     return parseAPIResponse(res as Response);
   }
