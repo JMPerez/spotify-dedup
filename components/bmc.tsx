@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 const Bmc = () => {
@@ -5,7 +6,7 @@ const Bmc = () => {
 
   return (
     <div style={{ paddingTop: '1em' }}>
-      <a
+      <Link
         className="bmc-button"
         target="_blank"
         rel="noreferrer"
@@ -23,7 +24,7 @@ const Bmc = () => {
           alt=""
         />
         <span style={{ marginLeft: '5px' }}>{t('bmc.button')}</span>
-      </a>
+      </Link>
       <style jsx>
         {`
           .bmc-button {

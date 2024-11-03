@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 const Faq = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 const Features = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <div className="mx-auto py-16 max-w-4xl px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-8 md:grid md:grid-cols-3 md:gap-x-12 md:space-x-0">
