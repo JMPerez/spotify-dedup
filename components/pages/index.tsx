@@ -101,8 +101,8 @@ export default class Index extends React.Component<Props, State> {
       console.error('There was an error obtaining the token', error);
     });
 
-    if (global['ga']) {
-      global['ga']('send', 'event', 'spotify-dedup', 'user-logged-in');
+    if (global.sa_event) {
+      global.sa_event('user_logged_in');
     }
 
     this.api = new SpotifyWebApi();

@@ -1,19 +1,19 @@
-import { Duplicate, PlaylistModel } from '../dedup/types';
+import { Translation, useTranslation } from 'react-i18next';
 import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
-import { Translation, useTranslation } from 'react-i18next';
+import { Duplicate, PlaylistModel } from '../dedup/types';
 
+import { Progress } from "@/components/ui/progress";
+import React from 'react';
+import Process from '../dedup/process';
+import { SpotifyUserType } from '../dedup/spotifyApi';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import DuplicateTrackList from './duplicateTrackList';
 import DuplicateTrackListItem from './duplicateTrackListItem';
 import Panel from './panel';
-import Process from '../dedup/process';
-import { Progress } from "@/components/ui/progress";
-import React from 'react';
-import { SpotifyUserType } from '../dedup/spotifyApi';
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
@@ -67,12 +67,18 @@ export default class Main extends React.Component<{
       );
       const playlistModel = this.state.playlists[index];
       if (playlistModel.playlist.id === 'starred') {
+        if (global.sa_event) {
+          global.sa_event('error_remove_duplicates_starred');
+        }
         global['alert'] &&
           global['alert'](
             'It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
           );
       }
       if (playlistModel.playlist.collaborative) {
+        if (global.sa_event) {
+          global.sa_event('error_remove_duplicates_collaborative');
+        }
         global['alert'] &&
           global['alert'](
             'It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
@@ -87,13 +93,8 @@ export default class Main extends React.Component<{
           playlistsCopy[index].duplicates = [];
           playlistsCopy[index].status = 'process.items.removed';
           this.setState({ ...this.state, playlists: [...playlistsCopy] });
-          if (global['ga']) {
-            global['ga'](
-              'send',
-              'event',
-              'spotify-dedup',
-              'playlist-removed-duplicates'
-            );
+          if (global.sa_event) {
+            global.sa_event('playlist_removed_duplicates');
           }
         } catch (e) {
           global['Raven'] &&
@@ -123,13 +124,8 @@ export default class Main extends React.Component<{
           status: 'process.items.removed',
         },
       });
-      if (global['ga']) {
-        global['ga'](
-          'send',
-          'event',
-          'spotify-dedup',
-          'saved-tracks-removed-duplicates'
-        );
+      if (global.sa_event) {
+        global.sa_event('saved_tracks_removed_duplicates');
       }
     })();
   }

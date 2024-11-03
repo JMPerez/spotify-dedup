@@ -65,8 +65,8 @@ export default class {
       let remaining = currentState.toProcess;
 
       if (remaining === 0) {
-        if (global['ga']) {
-          global['ga']('send', 'event', 'spotify-dedup', 'library-processed');
+        if (global.sa_event) {
+          global.sa_event('library_processed');
         }
       }
       dispatch('updateState', currentState);
@@ -81,13 +81,8 @@ export default class {
         this.dispatch('updateState', currentState);
       }
     ).catch((e) => {
-      if (global['ga']) {
-        global['ga'](
-          'send',
-          'event',
-          'spotify-dedup',
-          'error-fetching-user-playlists'
-        );
+      if (global.sa_event) {
+        global.sa_event('error_fetching_user_playlists');
       }
       console.error("There was an error fetching user's playlists", e);
     });
@@ -123,13 +118,10 @@ export default class {
       savedTracks
     );
 
-    if (currentState.savedTracks.duplicates.length && global['ga']) {
-      global['ga'](
-        'send',
-        'event',
-        'spotify-dedup',
-        'saved-tracks-found-duplicates'
-      );
+    if (currentState.savedTracks.duplicates.length) {
+      if (global.sa_event) {
+        global.sa_event('saved_tracks_found_duplicates');
+      }
     }
 
     currentState = {

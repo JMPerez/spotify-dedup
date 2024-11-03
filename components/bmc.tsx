@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Bmc = () => {
@@ -12,8 +11,9 @@ const Bmc = () => {
         rel="noreferrer"
         href="https://www.buymeacoffee.com/jmp"
         onClick={() => {
-          global['ga'] &&
-            global['ga']('send', 'event', 'spotify-dedup', 'bmc-clicked');
+          if (global.sa_event) {
+            global.sa_event('bmc_clicked');
+          }
         }}
       >
         <img
