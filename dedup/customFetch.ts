@@ -28,7 +28,7 @@ export async function retryFetch(
         return response;
       }
 
-      throw new Error('Failed fetch');
+      throw new Error(['Failed fetch', response.status, input.toString()].join('|'));
     } catch (error) {
       console.warn('Fetch attemp failed', attemp);
 
@@ -40,7 +40,8 @@ export async function retryFetch(
       if (attemp === times) {
         console.warn('Max attemps reached');
         if (global.sa_event) {
-          global.sa_event('error_api_max_retries', { message: error.message, stack: error.stack });
+          const [message, statusCode, requestInfo] = error.message.split('|');
+          global.sa_event('error_api_max_retries', { message, statusCode, requestInfo });
         }
         alert('There was an error accessing Spotify\'s Web API. Please try again later. If the problem persist, please file an issue on https://github.com/JMPerez/spotify-dedup/issues/')
         throw error;
