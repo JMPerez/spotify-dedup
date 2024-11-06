@@ -7,7 +7,7 @@ const Bmc = () => {
   return (
     <div className="pt-4">
       <Link
-        className="inline-flex items-center h-9 px-2 text-white bg-orange-500 rounded border border-transparent no-underline"
+        className="inline-flex items-center font-bold h-9 px-2 text-white bg-orange-500 rounded border border-transparent no-underline"
         target="_blank"
         rel="noreferrer"
         href="https://www.buymeacoffee.com/jmp"
