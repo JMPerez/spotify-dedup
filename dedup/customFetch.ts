@@ -1,3 +1,10 @@
+interface SpotifyErrorResponse {
+  error: {
+    status: number;
+    message: string;
+  };
+}
+
 interface RetryOptions {
   times?: number;
   delay?: number;
@@ -11,7 +18,8 @@ class RetryFetchError extends Error {
     message: string,
     public statusCode?: number,
     public requestInfo?: string,
-    public retryAfter?: number
+    public retryAfter?: number,
+    public spotifyError?: SpotifyErrorResponse
   ) {
     super(message);
     this.name = 'RetryFetchError';
@@ -27,12 +35,26 @@ const calculateDelay = (
   attempt: number,
   retryAfter?: number
 ): number => {
-  // If we have a Retry-After header, use that instead of our calculated delay
   if (retryAfter) {
-    return retryAfter * 1000; // Convert seconds to milliseconds
+    return retryAfter * 1000;
   }
   return baseDelay * Math.pow(backoff, attempt - 1);
 };
+
+async function parseSpotifyError(response: Response): Promise<SpotifyErrorResponse | null> {
+  try {
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      const data = await response.json();
+      if (data?.error?.status && data?.error?.message) {
+        return data as SpotifyErrorResponse;
+      }
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 async function makeAttempt(
   input: RequestInfo,
@@ -53,14 +75,33 @@ async function makeAttempt(
       );
     }
 
+    // Special handling for 400 status code
+    if (response.status === 400) {
+      const spotifyError = await parseSpotifyError(response);
+      if (spotifyError) {
+        // Don't retry 400 errors as they indicate invalid requests
+        throw new RetryFetchError(
+          spotifyError.error.message,
+          400,
+          input.toString(),
+          undefined,
+          spotifyError
+        );
+      }
+    }
+
     if (response.ok) {
       return response;
     }
 
+    // For other error status codes, try to parse Spotify error format
+    const spotifyError = await parseSpotifyError(response.clone());
     throw new RetryFetchError(
-      'Failed fetch',
+      spotifyError?.error.message || 'Failed fetch',
       response.status,
-      input.toString()
+      input.toString(),
+      undefined,
+      spotifyError || undefined
     );
   } catch (error) {
     if (onError) {
@@ -68,6 +109,12 @@ async function makeAttempt(
     } else {
       console.warn(`Fetch attempt ${attempt} failed:`, error);
     }
+
+    // Don't retry 400 errors
+    if (error instanceof RetryFetchError && error.statusCode === 400) {
+      throw error;
+    }
+
     throw error;
   }
 }
@@ -84,7 +131,8 @@ async function handleFinalError(
       ? {
         message: error.message,
         statusCode: error.statusCode,
-        requestInfo: error.requestInfo
+        requestInfo: error.requestInfo,
+        spotifyError: error.spotifyError
       }
       : { message: error.message };
 
@@ -92,10 +140,13 @@ async function handleFinalError(
   }
 
   if (showDefaultAlert) {
-    alert(
-      'There was an error accessing the API. Please try again later. ' +
-      'If the problem persists, please report this issue.'
-    );
+    // Use Spotify's error message if available
+    const message = error instanceof RetryFetchError && error.spotifyError
+      ? `Error: ${error.spotifyError.error.message}`
+      : 'There was an error accessing the Spotify API. Please try again later. ' +
+      'If the problem persists, please report this issue.';
+
+    alert(message);
   }
 
   throw error;
@@ -121,6 +172,11 @@ export async function retryFetch(
       return await makeAttempt(input, fetchOptions, attempt, onError);
     } catch (error) {
       lastError = error as Error;
+
+      // Don't retry 400 errors
+      if (error instanceof RetryFetchError && error.statusCode === 400) {
+        return handleFinalError(error, input, showDefaultAlert);
+      }
 
       if (attempt < times) {
         const retryAfter = (error instanceof RetryFetchError) ? error.retryAfter : undefined;
