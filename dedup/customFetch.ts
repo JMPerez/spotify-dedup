@@ -17,7 +17,8 @@ class RetryFetchError extends Error {
   constructor(
     message: string,
     public statusCode?: number,
-    public requestInfo?: string,
+    public url?: string,
+    public httpMethod?: string,
     public retryAfter?: number,
     public spotifyError?: SpotifyErrorResponse
   ) {
@@ -64,13 +65,16 @@ async function makeAttempt(
 ): Promise<Response> {
   try {
     const response = await fetch(input, fetchOptions);
+    const url = input.toString();
+    const httpMethod = fetchOptions.method ?? 'GET';
 
     if (response.status === 429) {
       const retryAfter = response.headers.get('Retry-After');
       throw new RetryFetchError(
         'Rate limited',
         429,
-        input.toString(),
+        url,
+        httpMethod,
         retryAfter ? parseInt(retryAfter) : undefined
       );
     }
@@ -83,7 +87,8 @@ async function makeAttempt(
         throw new RetryFetchError(
           spotifyError.error.message,
           400,
-          input.toString(),
+          url,
+          httpMethod,
           undefined,
           spotifyError
         );
@@ -99,7 +104,8 @@ async function makeAttempt(
     throw new RetryFetchError(
       spotifyError?.error.message || 'Failed fetch',
       response.status,
-      input.toString(),
+      url,
+      httpMethod,
       undefined,
       spotifyError || undefined
     );
@@ -131,7 +137,8 @@ async function handleFinalError(
       ? {
         message: error.message,
         statusCode: error.statusCode,
-        requestInfo: error.requestInfo,
+        url: error.url,
+        httpMethod: error.httpMethod,
         spotifyError: error.spotifyError
       }
       : { message: error.message };
