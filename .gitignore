@@ -24,3 +24,8 @@ npm-debug.log*
 
 # robots
 public/robots.txt
+
+# environment variables
+.env
+.env.local
+.env.*.local

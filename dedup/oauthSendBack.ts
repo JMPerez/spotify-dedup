@@ -1,13 +1,14 @@
-import OAuthConfig from './oauthConfig';
 
 const OAuthSendBack = () => {
   if (typeof window !== 'undefined') {
-    const target = window.self === window.top ? window.opener : window.parent;
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
 
-    const hash = window.location.hash;
-    if (hash) {
-      const token = window.location.hash.split('&')[0].split('=')[1];
-      target.postMessage(JSON.stringify({ token: token }), OAuthConfig.host);
+    if (code) {
+      // Store the code in localStorage
+      localStorage.setItem('spotify_auth_code', code);
+      // Close the window
+      window.close();
     }
   }
 };

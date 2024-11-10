@@ -1,8 +1,6 @@
-const clientId = '04dca0de1c4e4aca88cc615ac23581be';
-const redirectUri =
-  'location' in global && global['location']['host'] === 'localhost:3000'
-    ? 'http://localhost:3000/callback'
-    : 'https://spotify-dedup.com/callback/';
+const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+
+const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI || '';
 
 let host: string | null = null;
 const h = /http[s]?:\/\/[^/]+/.exec(redirectUri);

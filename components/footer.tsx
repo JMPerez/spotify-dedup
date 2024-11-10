@@ -26,7 +26,7 @@ const Footer = () => {
     }
   };
 
-  const renderLink = (translationKey, href) => (
+  const renderLink = (translationKey: string, href: string) => (
     <span
       dangerouslySetInnerHTML={{
         __html: t(translationKey, {
