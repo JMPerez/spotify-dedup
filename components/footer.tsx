@@ -1,3 +1,4 @@
+import { logEvent } from '@/utils/analytics';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './languageSelector';
@@ -21,9 +22,7 @@ const Footer = () => {
   const { t } = useTranslation();
 
   const trackPayPalClick = () => {
-    if (global.sa_event) {
-      global.sa_event('paypal_footer_clicked');
-    }
+    logEvent('paypal_footer_clicked');
   };
 
   const renderLink = (translationKey: string, href: string) => (

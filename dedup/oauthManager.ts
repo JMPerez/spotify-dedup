@@ -1,3 +1,4 @@
+import { logEvent } from '@/utils/analytics';
 import OAuthConfig from './oauthConfig';
 
 interface TokenResponse {
@@ -108,6 +109,9 @@ async function refreshAccessToken(): Promise<string> {
   if (!response.ok) {
     throw new Error('Failed to refresh access token');
   }
+
+  // Log token refresh to Simple Analytics
+  logEvent('access_token_refreshed');
 
   const tokens = await response.json();
   setupTokenRefresh(tokens);

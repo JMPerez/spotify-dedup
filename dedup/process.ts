@@ -1,9 +1,10 @@
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from './deduplicator';
 import SpotifyWebApi, {
-  SpotifyPlaylistType,
-  SpotifyUserType
+  SpotifyCurrentUser,
+  SpotifyPlaylist
 } from './spotifyApi';
 
+import { logEvent } from '@/utils/analytics';
 import { fetchUserOwnedPlaylists } from './library';
 import PlaylistCache from './playlistCache';
 import { PlaylistModel } from './types';
@@ -11,7 +12,7 @@ import { PlaylistModel } from './types';
 const playlistCache = new PlaylistCache();
 
 const playlistToPlaylistModel = (
-  playlist: SpotifyPlaylistType
+  playlist: SpotifyPlaylist
 ): PlaylistModel => ({
   playlist: playlist,
   duplicates: [],
@@ -35,7 +36,7 @@ export default class {
     callbacks.forEach((callback) => callback(params));
   }
 
-  process = async (api: SpotifyWebApi, user: SpotifyUserType) => {
+  process = async (api: SpotifyWebApi, user: SpotifyCurrentUser) => {
     let currentState: {
       playlists?: Array<PlaylistModel>;
       savedTracks?: {
@@ -65,15 +66,13 @@ export default class {
       let remaining = currentState.toProcess;
 
       if (remaining === 0) {
-        if (global.sa_event) {
-          global.sa_event('library_processed');
-        }
+        logEvent('library_processed');
       }
       dispatch('updateState', currentState);
     }
 
-    let playlistsToCheck: Array<SpotifyPlaylistType> = [];
-    const ownedPlaylists: Array<SpotifyPlaylistType> = await fetchUserOwnedPlaylists(
+    let playlistsToCheck: Array<SpotifyPlaylist> = [];
+    const ownedPlaylists: Array<SpotifyPlaylist> = await fetchUserOwnedPlaylists(
       api,
       user.id,
       (progress) => {
@@ -81,9 +80,7 @@ export default class {
         this.dispatch('updateState', currentState);
       }
     ).catch((e) => {
-      if (global.sa_event) {
-        global.sa_event('error_fetching_user_playlists');
-      }
+      logEvent('error_fetching_user_playlists');
       console.error("There was an error fetching user's playlists", e);
     });
 
@@ -118,10 +115,8 @@ export default class {
       savedTracks
     );
 
-    if (currentState.savedTracks.duplicates.length) {
-      if (global.sa_event) {
-        global.sa_event('saved_tracks_found_duplicates');
-      }
+    if (currentState.savedTracks?.duplicates?.length) {
+      logEvent('saved_tracks_found_duplicates');
     }
 
     currentState = {

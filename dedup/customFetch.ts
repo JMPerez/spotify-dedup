@@ -1,3 +1,5 @@
+import { logEvent } from "@/utils/analytics";
+
 interface SpotifyErrorResponse {
   error: {
     status: number;
@@ -132,19 +134,17 @@ async function handleFinalError(
 ): Promise<never> {
   console.warn('Max attempts reached');
 
-  if (typeof global !== 'undefined' && global.sa_event) {
-    const errorDetails = error instanceof RetryFetchError
-      ? {
-        message: error.message,
-        statusCode: error.statusCode,
-        url: error.url,
-        httpMethod: error.httpMethod,
-        spotifyError: error.spotifyError
-      }
-      : { message: error.message };
+  const errorDetails = error instanceof RetryFetchError
+    ? {
+      message: error.message,
+      statusCode: error.statusCode,
+      url: error.url,
+      httpMethod: error.httpMethod,
+      spotifyError: error.spotifyError
+    }
+    : { message: error.message };
 
-    global.sa_event('error_api_max_retries', errorDetails);
-  }
+  logEvent('error_api_max_retries', errorDetails);
 
   if (showDefaultAlert) {
     // Use Spotify's error message if available

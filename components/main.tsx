@@ -6,9 +6,10 @@ import {
 import { Duplicate, PlaylistModel } from '../dedup/types';
 
 import { Progress } from "@/components/ui/progress";
+import { logEvent } from '@/utils/analytics';
 import React from 'react';
 import Process from '../dedup/process';
-import { SpotifyUserType } from '../dedup/spotifyApi';
+import { SpotifyCurrentUser } from '../dedup/spotifyApi';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import DuplicateTrackList from './duplicateTrackList';
@@ -39,7 +40,7 @@ type StateType = {
 
 export default class Main extends React.Component<{
   api: any;
-  user: SpotifyUserType;
+  user: SpotifyCurrentUser;
   accessToken: string;
 }> {
   state: StateType = {
@@ -67,18 +68,14 @@ export default class Main extends React.Component<{
       );
       const playlistModel = this.state.playlists[index];
       if (playlistModel.playlist.id === 'starred') {
-        if (global.sa_event) {
-          global.sa_event('error_remove_duplicates_starred');
-        }
+        logEvent('error_remove_duplicates_starred');
         global['alert'] &&
           global['alert'](
             'It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
           );
       }
       if (playlistModel.playlist.collaborative) {
-        if (global.sa_event) {
-          global.sa_event('error_remove_duplicates_collaborative');
-        }
+        logEvent('error_remove_duplicates_collaborative');
         global['alert'] &&
           global['alert'](
             'It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
@@ -93,9 +90,7 @@ export default class Main extends React.Component<{
           playlistsCopy[index].duplicates = [];
           playlistsCopy[index].status = 'process.items.removed';
           this.setState({ ...this.state, playlists: [...playlistsCopy] });
-          if (global.sa_event) {
-            global.sa_event('playlist_removed_duplicates');
-          }
+          logEvent('playlist_removed_duplicates');
         } catch (e) {
           global['Raven'] &&
             global['Raven'].captureMessage(
@@ -124,9 +119,7 @@ export default class Main extends React.Component<{
           status: 'process.items.removed',
         },
       });
-      if (global.sa_event) {
-        global.sa_event('saved_tracks_removed_duplicates');
-      }
+      logEvent('saved_tracks_removed_duplicates');
     })();
   }
 

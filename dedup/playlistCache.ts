@@ -1,7 +1,7 @@
-import { SpotifyPlaylistType } from './spotifyApi';
+import { SpotifyPlaylist } from './spotifyApi';
 const SNAPSHOT_VERSION = 'v1';
 export default class PlaylistCache {
-  needsCheckForDuplicates(playlist: SpotifyPlaylistType) {
+  needsCheckForDuplicates(playlist: SpotifyPlaylist) {
     if (playlist.snapshot_id) {
       try {
         if (localStorage.getItem(playlist.snapshot_id) === SNAPSHOT_VERSION) {
@@ -14,7 +14,7 @@ export default class PlaylistCache {
     return true;
   }
 
-  storePlaylistWithoutDuplicates(playlist: SpotifyPlaylistType) {
+  storePlaylistWithoutDuplicates(playlist: SpotifyPlaylist) {
     if (playlist.snapshot_id) {
       try {
         localStorage.setItem(playlist.snapshot_id, SNAPSHOT_VERSION);

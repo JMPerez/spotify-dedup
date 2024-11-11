@@ -1,9 +1,11 @@
+import SpotifyWebApi, { SpotifyCurrentUser } from '../../dedup/spotifyApi';
+
 import { AvailableLanguages } from '@/languages';
+import { logEvent } from '@/utils/analytics';
 import Head from 'next/head';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import OAuthManager from '../../dedup/oauthManager';
-import SpotifyWebApi from '../../dedup/spotifyApi';
 import Faq from '../faq';
 import Features from '../features';
 import Footer from '../footer';
@@ -62,34 +64,18 @@ const MetaHead = () => {
   );
 };
 
-type Props = {
-};
-
-type State = {
-  isLoggedIn: boolean;
-  user: null | Object;
-  accessToken: string | null;
-};
-
-export default class Index extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-  }
-  state = {
+export default function Index() {
+  const [state, setState] = React.useState({
     isLoggedIn: false,
-    user: null,
-    accessToken: null,
-  };
-  api: SpotifyWebApi | null = null;
+    user: null as SpotifyCurrentUser | null,
+    accessToken: null as string | null,
+  });
 
-  handleLoginClick = async () => {
+  const apiRef = React.useRef<SpotifyWebApi | null>(null);
+
+  const handleLoginClick = async () => {
     const accessToken = await OAuthManager.obtainToken({
       scopes: [
-        /*
-            the permission for reading public playlists is granted
-            automatically when obtaining an access token through
-            the user login form
-            */
         'playlist-read-private',
         'playlist-read-collaborative',
         'playlist-modify-public',
@@ -101,51 +87,55 @@ export default class Index extends React.Component<Props, State> {
       console.error('There was an error obtaining the token', error);
     });
 
-    if (global.sa_event) {
-      global.sa_event('user_logged_in');
-    }
+    logEvent('user_logged_in');
 
-    this.api = new SpotifyWebApi();
-    this.api.setAccessToken(accessToken as string);
+    apiRef.current = new SpotifyWebApi();
+    apiRef.current.setAccessToken(accessToken as string);
 
-    const user = await this.api.getMe();
-    this.setState({ isLoggedIn: true, user, accessToken: accessToken as string });
+    const user = await apiRef.current.getMe();
+    setState({ isLoggedIn: true, user, accessToken: accessToken as string });
   };
 
-  componentDidMount() {
-    window.addEventListener('spotify_token_refreshed', ((event: CustomEvent) => {
-      if (this.api) {
-        this.api.setAccessToken(event.detail.accessToken);
-        this.setState({ accessToken: event.detail.accessToken });
+  React.useEffect(() => {
+    const handleTokenRefresh = (event: CustomEvent) => {
+      if (apiRef.current) {
+        apiRef.current.setAccessToken(event.detail.accessToken);
+        setState(prev => ({ ...prev, accessToken: event.detail.accessToken }));
       }
-    }) as EventListener);
-  }
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener('spotify_token_refreshed', (() => { }) as EventListener);
-  }
+    window.addEventListener('spotify_token_refreshed', handleTokenRefresh as EventListener);
 
-  render() {
-    return (
-      <div style={this.state.isLoggedIn ? {} : { background: "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.3),rgba(0,0,0,0))" }}
-        className="flex h-full flex-col">
-        <MetaHead />
-        <Header />
-        <div className="flex-1">
-          <div className="pb-16 mx-6">
-            {this.state.isLoggedIn && this.state.user !== null && this.state.accessToken !== null ? (
-              <div className="max-w-3xl m-auto"><Main
-                api={this.api}
-                user={this.state.user}
-                accessToken={this.state.accessToken}
-              /></div>
-            ) : (
-              <Intro onLoginClick={this.handleLoginClick} />
-            )}
-          </div>
-          {this.state.isLoggedIn
-            ? null
-            : [<div key={0}>
+    return () => {
+      window.removeEventListener('spotify_token_refreshed', handleTokenRefresh as EventListener);
+    };
+  }, []);
+
+  return (
+    <div
+      style={state.isLoggedIn ? {} : { background: "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.3),rgba(0,0,0,0))" }}
+      className="flex h-full flex-col"
+    >
+      <MetaHead />
+      <Header />
+      <div className="flex-1">
+        <div className="pb-16 mx-6">
+          {state.isLoggedIn && state.user !== null && state.accessToken !== null ? (
+            <div className="max-w-3xl m-auto">
+              <Main
+                api={apiRef.current}
+                user={state.user}
+                accessToken={state.accessToken}
+              />
+            </div>
+          ) : (
+            <Intro onLoginClick={handleLoginClick} />
+          )}
+        </div>
+        {state.isLoggedIn
+          ? null
+          : [
+            <div key={0}>
               <Features />
             </div>,
             <div className="bg-slate-50" key={1}>
@@ -154,13 +144,12 @@ export default class Index extends React.Component<Props, State> {
             <div className="bg-slate-50" key={2}>
               <Faq />
             </div>,
-            ]
-          }
-        </div>
-        <div className="bg-slate-50">
-          <Footer />
-        </div>
+          ]
+        }
       </div>
-    );
-  }
+      <div className="bg-slate-50">
+        <Footer />
+      </div>
+    </div>
+  );
 }

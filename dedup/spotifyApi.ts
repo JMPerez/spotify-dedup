@@ -1,50 +1,69 @@
 import fetch from './customFetch';
-export type SpotifyArtistType = {
+
+export interface SpotifyArtist {
   id: string;
   name: string;
-};
+}
 
-export type SpotifyTrackType = {
-  artists: Array<SpotifyArtistType>;
+export interface SpotifyTrack {
+  artists: Array<SpotifyArtist>;
   duration_ms: number;
   id: string;
-  linked_from?: SpotifyTrackType;
+  linked_from?: SpotifyTrack;
   name: string;
   uri: string;
-};
+}
 
-export type SpotifyPlaylistType = {
+export interface SpotifyPlaylist {
   collaborative: boolean;
   id: string;
   images?: Array<{ url: string }>;
   name: string;
-  owner: SpotifyUserType;
+  owner: SpotifyUser;
   snapshot_id?: string;
   tracks: {
     href: string;
     total: number;
   };
-};
+}
 
-export type SpotifyPlaylistTrackType = {
+export interface SpotifyPlaylistTrack {
   added_at: string;
-  added_by: SpotifyUserType;
+  added_by: SpotifyUser;
   is_local: boolean;
-  track: SpotifyTrackType | null;
-};
+  track: SpotifyTrack | null;
+}
 
-export type SpotifySavedTrackType = {
+export interface SpotifySavedTrack {
   added_at: string;
-  track: SpotifyTrackType | null;
-};
+  track: SpotifyTrack | null;
+}
 
-export type SpotifyUserType = {
+export interface SpotifyUser {
   display_name?: string;
   href: string;
   id: string;
   type: 'user';
   uri: string;
-};
+}
+
+export interface SpotifyCurrentUser {
+  country: string;
+  display_name: string;
+  external_urls: {
+    spotify: string;
+  };
+  href: string;
+  id: string;
+  images: Array<{
+    url: string;
+    height: number;
+    width: number;
+  }>;
+  product: string;
+  type: string;
+  uri: string;
+}
 
 type Page<Type> = {
   href: string;
@@ -118,8 +137,9 @@ export default class SpotifyWebApi {
     this.token = token;
   }
 
-  async getMe() {
-    return await this.getGeneric(`${apiPrefix}/me`);
+
+  async getMe(): Promise<SpotifyCurrentUser> {
+    return await this.getGeneric(`${apiPrefix}/me`) as SpotifyCurrentUser;
   }
 
   async getGeneric(url: string, options = {}) {
@@ -188,8 +208,8 @@ export default class SpotifyWebApi {
     return parseAPIResponse(res as Response);
   }
 
-  async getMySavedTracks(options?: { limit?: number }): Promise<Page<SpotifySavedTrackType>> {
-    return this.getGeneric(`${apiPrefix}/me/tracks`, options) as Promise<Page<SpotifySavedTrackType>>;
+  async getMySavedTracks(options?: { limit?: number }): Promise<Page<SpotifySavedTrack>> {
+    return this.getGeneric(`${apiPrefix}/me/tracks`, options) as Promise<Page<SpotifySavedTrack>>;
   }
 
   async removeFromMySavedTracks(trackIds: Array<string>) {

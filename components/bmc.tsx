@@ -1,3 +1,4 @@
+import { logEvent } from '@/utils/analytics';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
@@ -12,9 +13,7 @@ const Bmc = () => {
         rel="noreferrer"
         href="https://www.buymeacoffee.com/jmp"
         onClick={() => {
-          if (global.sa_event) {
-            global.sa_event('bmc_clicked');
-          }
+          logEvent('bmc_clicked');
         }}
       >
         <img

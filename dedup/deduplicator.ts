@@ -1,9 +1,4 @@
-import SpotifyWebApi, {
-  SpotifyPlaylistTrackType,
-  SpotifyPlaylistType,
-  SpotifySavedTrackType,
-  SpotifyTrackType,
-} from './spotifyApi';
+import SpotifyWebApi, { SpotifyPlaylist, SpotifyPlaylistTrack, SpotifySavedTrack, SpotifyTrack } from './spotifyApi';
 import { Duplicate, PlaylistModel } from './types';
 
 import promisesForPages from './promiseForPages';
@@ -17,7 +12,7 @@ class BaseDeduplicator {
     throw 'Not implemented';
   }
 
-  static findDuplicatedTracks(tracks: Array<SpotifyTrackType>) {
+  static findDuplicatedTracks(tracks: Array<SpotifyTrack>) {
     const seenIds: { [key: string]: boolean } = {};
     const seenNameAndArtist: { [key: string]: Array<number> } = {};
     let duplicates: Array<Duplicate> = [];
@@ -65,11 +60,11 @@ class BaseDeduplicator {
 export class PlaylistDeduplicator extends BaseDeduplicator {
   static async getTracks(
     api: SpotifyWebApi,
-    playlist: SpotifyPlaylistType,
+    playlist: SpotifyPlaylist,
     onProgressChanged: (progress: number) => void,
-  ): Promise<Array<SpotifyTrackType>> {
+  ): Promise<Array<SpotifyTrack>> {
     return new Promise((resolve, reject) => {
-      const tracks: Array<SpotifyTrackType> = [];
+      const tracks: Array<SpotifyTrack> = [];
       promisesForPages(
         api,
         api.getGeneric(playlist.tracks.href), // 'https://api.spotify.com/v1/users/11153223185/playlists/0yygtDHfwC7uITHxfrcQsF/tracks'
@@ -85,7 +80,7 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
         )
         .then((pages) => {
           pages.forEach((page) => {
-            page.items.forEach((item: SpotifyPlaylistTrackType) => {
+            page.items.forEach((item: SpotifyPlaylistTrack) => {
               if (item?.track) {
                 tracks.push(item.track);
               }
@@ -158,9 +153,9 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
     api: SpotifyWebApi,
     initialRequest,
     onProgressChanged: (progress: number) => void,
-  ): Promise<Array<SpotifyTrackType>> {
+  ): Promise<Array<SpotifyTrack>> {
     return new Promise((resolve, reject) => {
-      const tracks: Array<SpotifyTrackType> = [];
+      const tracks: Array<SpotifyTrack> = [];
       promisesForPages(api, initialRequest, onProgressChanged)
         .then(
           (
@@ -172,7 +167,7 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
         )
         .then((pages) => {
           pages.forEach((page) => {
-            page.items.forEach((item: SpotifySavedTrackType) => {
+            page.items.forEach((item: SpotifySavedTrack) => {
               if (item?.track) {
                 tracks.push(item.track);
               }
