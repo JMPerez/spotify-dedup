@@ -111,6 +111,12 @@ async function refreshAccessToken(): Promise<string> {
 
   const tokens = await response.json();
   setupTokenRefresh(tokens);
+
+  // Dispatch event only during actual token refresh
+  window.dispatchEvent(new CustomEvent('spotify_token_refreshed', {
+    detail: { accessToken: tokens.access_token }
+  }));
+
   return tokens.access_token;
 }
 

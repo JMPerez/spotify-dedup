@@ -112,6 +112,19 @@ export default class Index extends React.Component<Props, State> {
     this.setState({ isLoggedIn: true, user, accessToken: accessToken as string });
   };
 
+  componentDidMount() {
+    window.addEventListener('spotify_token_refreshed', ((event: CustomEvent) => {
+      if (this.api) {
+        this.api.setAccessToken(event.detail.accessToken);
+        this.setState({ accessToken: event.detail.accessToken });
+      }
+    }) as EventListener);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('spotify_token_refreshed', (() => { }) as EventListener);
+  }
+
   render() {
     return (
       <div style={this.state.isLoggedIn ? {} : { background: "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.3),rgba(0,0,0,0))" }}
