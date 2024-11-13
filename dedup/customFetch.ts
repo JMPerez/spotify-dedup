@@ -1,4 +1,5 @@
 import { logEvent } from "@/utils/analytics";
+import oauthManager from './oauthManager';
 
 interface SpotifyErrorResponse {
   error: {
@@ -94,6 +95,26 @@ async function makeAttempt(
           undefined,
           spotifyError
         );
+      }
+    }
+
+    if (response.status === 401) {
+      const spotifyError = await parseSpotifyError(response);
+      if (spotifyError?.error.message === 'The access token expired') {
+        // Refresh the token with 'expired' reason
+        const newToken = await oauthManager.refreshAccessToken('expired');
+
+        // Update the Authorization header with the new token
+        if (fetchOptions.headers) {
+          (fetchOptions.headers as Record<string, string>)['Authorization'] = `Bearer ${newToken}`;
+        } else {
+          fetchOptions.headers = {
+            'Authorization': `Bearer ${newToken}`
+          };
+        }
+
+        // Retry the request immediately with the new token
+        return await fetch(input, fetchOptions);
       }
     }
 

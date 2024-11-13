@@ -101,8 +101,12 @@ async function obtainToken(options?: { scopes: Array<string> }) {
   });
 }
 
-async function refreshAccessToken(): Promise<string> {
-  const response = await fetch('/api/auth/refresh', {
+async function refreshAccessToken(reason?: 'expired' | 'preemptive'): Promise<string> {
+  const url = reason
+    ? `/api/auth/refresh?reason=${reason}`
+    : '/api/auth/refresh';
+
+  const response = await fetch(url, {
     method: 'POST',
   });
 
@@ -110,15 +114,17 @@ async function refreshAccessToken(): Promise<string> {
     throw new Error('Failed to refresh access token');
   }
 
-  // Log token refresh to Simple Analytics
-  logEvent('access_token_refreshed');
+  // Log token refresh to Simple Analytics with reason
+  logEvent('access_token_refreshed', { reason });
 
   const tokens = await response.json();
   setupTokenRefresh(tokens);
 
-  // Dispatch event only during actual token refresh
   window.dispatchEvent(new CustomEvent('spotify_token_refreshed', {
-    detail: { accessToken: tokens.access_token }
+    detail: {
+      accessToken: tokens.access_token,
+      reason
+    }
   }));
 
   return tokens.access_token;
@@ -127,7 +133,8 @@ async function refreshAccessToken(): Promise<string> {
 function setupTokenRefresh(tokens: TokenResponse) {
   // Refresh 1 minute before expiration
   const refreshTime = (tokens.expires_in - 60) * 1000;
-  setTimeout(() => refreshAccessToken(), refreshTime);
+  // Pass 'preemptive' as the reason for scheduled refreshes
+  setTimeout(() => refreshAccessToken('preemptive'), refreshTime);
 }
 
 function generateRandomString(length: number): string {
