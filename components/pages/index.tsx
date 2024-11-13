@@ -74,6 +74,7 @@ export default function Index() {
   const apiRef = React.useRef<SpotifyWebApi | null>(null);
 
   const handleLoginClick = async () => {
+    let errorAuthenticating = false;
     const accessToken = await OAuthManager.obtainToken({
       scopes: [
         'playlist-read-private',
@@ -84,16 +85,22 @@ export default function Index() {
         'user-library-modify',
       ],
     }).catch(function (error) {
-      console.error('There was an error obtaining the token', error);
+      logEvent('user_authentication_failed', { message: error });
+      errorAuthenticating = true;
     });
 
-    logEvent('user_logged_in');
+    if (errorAuthenticating) {
+      alert('There was an issue logging in. Please try again.');
+    }
+    else {
+      logEvent('user_logged_in');
 
-    apiRef.current = new SpotifyWebApi();
-    apiRef.current.setAccessToken(accessToken as string);
+      apiRef.current = new SpotifyWebApi();
+      apiRef.current.setAccessToken(accessToken as string);
 
-    const user = await apiRef.current.getMe();
-    setState({ isLoggedIn: true, user, accessToken: accessToken as string });
+      const user = await apiRef.current.getMe();
+      setState({ isLoggedIn: true, user, accessToken: accessToken as string });
+    }
   };
 
   React.useEffect(() => {
