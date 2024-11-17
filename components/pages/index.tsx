@@ -1,17 +1,17 @@
 import SpotifyWebApi, { SpotifyCurrentUser } from '../../dedup/spotifyApi';
 
 import { AvailableLanguages } from '@/languages';
+import { obtainToken } from '@/src/auth/oauth2window';
+import { logEvent } from '@/utils/analytics';
+import Head from 'next/head';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Faq from '../faq';
 import Features from '../features';
-import Head from 'next/head';
 import Header from '../head';
 import Intro from '../intro';
 import Main from '../main';
-import React from 'react';
 import Reviews from '../reviews';
-import { logEvent } from '@/utils/analytics';
-import { obtainToken } from '@/src/auth/oauth2window';
-import { useTranslation } from 'react-i18next';
 
 const MetaHead = () => {
   const { t, i18n } = useTranslation();
@@ -73,33 +73,30 @@ export default function Index() {
   const apiRef = React.useRef<SpotifyWebApi | null>(null);
 
   const handleLoginClick = async () => {
-    let errorAuthenticating = false;
-    const accessToken = await obtainToken({
-      scopes: [
-        'playlist-read-private',
-        'playlist-read-collaborative',
-        'playlist-modify-public',
-        'playlist-modify-private',
-        'user-library-read',
-        'user-library-modify',
-      ],
-    }).catch(function (error) {
+    let accessToken: string | null = null;
+    try {
+      accessToken = await obtainToken({
+        scopes: [
+          'playlist-read-private',
+          'playlist-read-collaborative',
+          'playlist-modify-public',
+          'playlist-modify-private',
+          'user-library-read',
+          'user-library-modify',
+        ],
+      });
+    } catch (error) {
       console.error(error);
       logEvent('user_authentication_failed', { message: error });
-      errorAuthenticating = true;
-    });
-
-    if (errorAuthenticating) {
       alert('There was an issue logging in. Please try again.');
     }
-    else {
-      logEvent('user_logged_in');
 
+    if (accessToken !== null) {
       apiRef.current = new SpotifyWebApi();
       apiRef.current.setAccessToken(accessToken as string);
 
       const user = await apiRef.current.getMe();
-      setState({ isLoggedIn: true, user, accessToken: accessToken as string });
+      setState({ isLoggedIn: true, user, accessToken });
     }
   };
 

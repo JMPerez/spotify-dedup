@@ -1,4 +1,4 @@
-import { SPOTIFY_AUTH_CODE_KEY, SPOTIFY_AUTH_SUCCESS_KEY } from "@/src/auth/oauth2window";
+import AuthenticationManager from "@/src/auth/AuthenticationManager";
 
 const OAuthSendBack = () => {
   if (typeof window !== 'undefined') {
@@ -6,11 +6,7 @@ const OAuthSendBack = () => {
     const code = urlParams.get('code');
 
     if (code) {
-      // Store the code in localStorage
-      localStorage.setItem(SPOTIFY_AUTH_CODE_KEY, code);
-      // Store the success flag
-      localStorage.setItem(SPOTIFY_AUTH_SUCCESS_KEY, 'true');
-      // Close the window
+      AuthenticationManager.handleAuthCallback(code);
       window.close();
     }
   }

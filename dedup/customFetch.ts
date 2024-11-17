@@ -1,6 +1,6 @@
+import { TokenManager } from "@/src/auth/token/TokenManager";
 import { TokenRefreshReason } from "@/src/auth/types";
 import { logEvent } from "@/utils/analytics";
-import { refreshAccessToken } from '@/src/auth/token';
 
 interface SpotifyErrorResponse {
   error: {
@@ -103,7 +103,7 @@ async function makeAttempt(
       const spotifyError = await parseSpotifyError(response);
       if (spotifyError?.error.message === 'The access token expired') {
         // Refresh the token with 'expired' reason
-        const newToken = await refreshAccessToken(TokenRefreshReason.Expired);
+        const newToken = await TokenManager.getInstance().refreshAccessToken(TokenRefreshReason.Expired);
 
         // Update the Authorization header with the new token
         if (fetchOptions.headers) {
