@@ -3,7 +3,6 @@ import SpotifyWebApi, { SpotifyCurrentUser } from '../../dedup/spotifyApi';
 import { AvailableLanguages } from '@/languages';
 import Faq from '../faq';
 import Features from '../features';
-import Footer from '../footer';
 import Head from 'next/head';
 import Header from '../head';
 import Intro from '../intro';
@@ -154,9 +153,6 @@ export default function Index() {
             </div>,
           ]
         }
-      </div>
-      <div className="bg-slate-50">
-        <Footer />
       </div>
     </div>
   );

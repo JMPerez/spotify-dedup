@@ -1,20 +1,20 @@
-import { Translation, useTranslation } from 'react-i18next';
+import { Duplicate, PlaylistModel } from '../dedup/types';
 import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
-import { Duplicate, PlaylistModel } from '../dedup/types';
+import { Translation, useTranslation } from 'react-i18next';
 
-import { Progress } from "@/components/ui/progress";
-import { logEvent } from '@/utils/analytics';
-import React from 'react';
-import Process from '../dedup/process';
-import { SpotifyCurrentUser } from '../dedup/spotifyApi';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import DuplicateTrackList from './duplicateTrackList';
 import DuplicateTrackListItem from './duplicateTrackListItem';
 import Panel from './panel';
+import Process from '../dedup/process';
+import { Progress } from "@/components/ui/progress";
+import React from 'react';
+import { SpotifyCurrentUser } from '../dedup/spotifyApi';
+import { logEvent } from '@/utils/analytics';
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
@@ -182,83 +182,78 @@ export default class Main extends React.Component<{
         </Panel>
 
         {this.state.toProcess === 0 && (
-          <ul className="playlists-list">
-            {(this.state.savedTracks.duplicates.length ||
-              this.state.savedTracks.status) && (
-                <li className="playlists-list-item media">
-                  <div className="img">
-                    <img
-                      width="100"
-                      height="100"
-                      className="playlists-list-item__img"
-                      src={'./placeholder.png'}
-                    />
-                  </div>
-                  <div className="bd">
-                    <span className="playlists-list-item__name">
-                      <Translation>{(t) => t('process.saved.title')}</Translation>
-                    </span>
-                    {this.state.savedTracks.status && (
-                      <Badge>
-                        <Translation>
-                          {(t) => t(this.state.savedTracks.status as string)}
-                        </Translation>
-                      </Badge>
-                    )}
-                    {this.state.savedTracks.duplicates.length != 0 && (
+          <ul className="p-0">
+            {this.state.savedTracks.duplicates.length > 0 && (
+              <li className="mb-8">
+                <div className="float-left mr-5">
+                  <img
+                    width="100"
+                    height="100"
+                    className="w-[100px]"
+                    src={'./placeholder.png'}
+                  />
+                </div>
+                <div className="overflow-hidden relative">
+                  <span className="block font-bold max-w-[50%]">
+                    <Translation>{(t) => t('process.saved.title')}</Translation>
+                  </span>
+                  {this.state.savedTracks.status && (
+                    <Badge>
+                      <Translation>
+                        {(t) => t(this.state.savedTracks.status as string)}
+                      </Translation>
+                    </Badge>
+                  )}
+                  {this.state.savedTracks.duplicates.length != 0 && (
+                    <span>
                       <span>
-                        <span>
-                          <Translation>
-                            {(t) =>
-                              t('process.saved.duplicates', {
-                                count: this.state.savedTracks.duplicates.length,
-                              })
-                            }
-                          </Translation>
-                        </span>
-                        <button
-                          className="btn btn-primary btn-sm playlist-list-item__btn"
-                          onClick={() => this.removeDuplicatesInSavedTracks()}
-                        >
-                          <Translation>
-                            {(t) => t('process.saved.remove-button')}
-                          </Translation>
-                        </button>
-                        <DuplicateTrackList>
-                          {this.state.savedTracks.duplicates.map(
-                            (duplicate, index) => (
-                              <DuplicateTrackListItem
-                                key={index}
-                                reason={duplicate.reason}
-                                trackName={duplicate.track.name}
-                                trackArtistName={duplicate.track.artists[0].name}
-                              />
-                            )
-                          )}
-                        </DuplicateTrackList>
+                        <Translation>
+                          {(t) =>
+                            t('process.saved.duplicates', {
+                              count: this.state.savedTracks.duplicates.length,
+                            })
+                          }
+                        </Translation>
                       </span>
-                    )}
-                  </div>
-                </li>
-              )}
+                      <button
+                        className="bg-[#428bca] border-[#357ebd] text-white text-sm font-normal leading-[1.428571429] py-[6px] px-3 rounded cursor-pointer text-center align-middle whitespace-nowrap max-w-[50%] absolute right-0 top-0 hover:bg-[#5094ce] md:relative md:max-w-full"
+                        onClick={() => this.removeDuplicatesInSavedTracks()}
+                      >
+                        <Translation>
+                          {(t) => t('process.saved.remove-button')}
+                        </Translation>
+                      </button>
+                      <DuplicateTrackList>
+                        {this.state.savedTracks.duplicates.map(
+                          (duplicate, index) => (
+                            <DuplicateTrackListItem
+                              key={index}
+                              reason={duplicate.reason}
+                              trackName={duplicate.track.name}
+                              trackArtistName={duplicate.track.artists[0].name}
+                            />
+                          )
+                        )}
+                      </DuplicateTrackList>
+                    </span>
+                  )}
+                </div>
+              </li>
+            )}
             {this.state.playlists
               .filter((p) => p.duplicates.length || p.status != '')
               .map((playlist: PlaylistModel, index) => (
-                <li className="playlists-list-item media" key={index}>
-                  <div className="img">
+                <li className="mb-8" key={index}>
+                  <div className="float-left mr-5">
                     <img
                       width="100"
                       height="100"
-                      className="playlists-list-item__img"
-                      src={
-                        playlist.playlist.images &&
-                        playlist.playlist.images[0] &&
-                        playlist.playlist.images[0].url
-                      }
+                      className="w-[100px]"
+                      src={playlist.playlist.images?.[0]?.url}
                     />
                   </div>
-                  <div className="bd">
-                    <span className="playlists-list-item__name">
+                  <div className="overflow-hidden relative">
+                    <span className="block font-bold max-w-[50%]">
                       {playlist.playlist.name}
                     </span>
                     {playlist.status && (
@@ -278,7 +273,7 @@ export default class Main extends React.Component<{
                           </Translation>
                         </span>
                         <button
-                          className="btn btn-primary btn-sm playlist-list-item__btn"
+                          className="bg-[#428bca] border-[#357ebd] text-white text-sm font-normal leading-[1.428571429] py-[6px] px-3 rounded cursor-pointer text-center align-middle whitespace-nowrap max-w-[50%] absolute right-0 top-0 hover:bg-[#5094ce] md:relative md:max-w-full"
                           onClick={() => this.removeDuplicates(playlist)}
                         >
                           <Translation>
@@ -302,87 +297,6 @@ export default class Main extends React.Component<{
               ))}
           </ul>
         )}
-        <style jsx>
-          {`
-            .bd {
-              position: relative;
-            }
-
-            .media,
-            .bd {
-              overflow: hidden;
-              _overflow: visible;
-              zoom: 1;
-            }
-
-            .media .img {
-              float: left;
-              margin-right: 20px;
-            }
-
-            img {
-              vertical-align: middle;
-            }
-
-            .playlists-list-item {
-              margin-bottom: 2rem;
-            }
-
-            .playlists-list-item__img {
-              width: 100px;
-            }
-
-            .btn {
-              background-image: none;
-              border: 1px solid transparent;
-              border-radius: 4px;
-              cursor: pointer;
-              display: inline-block;
-              font-size: 14px;
-              font-weight: 400;
-              line-height: 1.428571429;
-              margin-bottom: 0;
-              padding: 6px 12px;
-              text-align: center;
-              vertical-align: middle;
-              white-space: nowrap;
-            }
-
-            .btn-primary {
-              background-color: #428bca;
-              border-color: #357ebd;
-              color: #fff;
-            }
-
-            .btn-primary:hover {
-              background-color: #5094ce;
-            }
-
-            .playlist-list-item__btn {
-              max-width: 50%;
-              position: absolute;
-              right: 0;
-              top: 0;
-            }
-
-            @media (max-width: 700px) {
-              .playlist-list-item__btn {
-                max-width: 100%;
-                position: relative;
-              }
-            }
-
-            .playlists-list-item__name {
-              display: block;
-              font-weight: bold;
-              max-width: 50%;
-            }
-
-            ul {
-              padding: 0;
-            }
-          `}
-        </style>
       </div>
     );
   }

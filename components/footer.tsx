@@ -1,7 +1,7 @@
-import { logEvent } from '@/utils/analytics';
-import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
 import LanguageSelector from './languageSelector';
+import Link from 'next/link';
+import { logEvent } from '@/utils/analytics';
+import { useTranslation } from 'react-i18next';
 
 const FOOTER_LINKS = [
   {

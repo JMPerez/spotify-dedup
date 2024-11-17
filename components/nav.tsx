@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 
 const links = [
@@ -7,46 +6,21 @@ const links = [
 ];
 
 const Nav = () => (
-  <nav>
-    <ul>
-      <li>
+  <nav className="text-center">
+    <ul className="flex justify-between px-4 py-4">
+      <li className="flex px-2 py-1.5">
         <Link href="/" legacyBehavior>
-          <a>Home</a>
+          <a className="text-[#067df7] text-sm no-underline">Home</a>
         </Link>
       </li>
       {links.map(({ href, label }) => (
-        <li key={`nav-link-${href}-${label}`}>
-          <a href={href}>{label}</a>
+        <li key={`nav-link-${href}-${label}`} className="flex px-2 py-1.5">
+          <a href={href} className="text-[#067df7] text-sm no-underline">
+            {label}
+          </a>
         </li>
       ))}
     </ul>
-
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        font-size: 13px;
-        text-decoration: none;
-      }
-    `}</style>
   </nav>
 );
 

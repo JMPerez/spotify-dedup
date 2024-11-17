@@ -17,6 +17,16 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Avenir Next',
+          'Avenir',
+          'Helvetica',
+          'sans-serif'
+        ],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -24,16 +24,9 @@ const DuplicateTrackListItem = ({
     <li>
       <Badge>{t(reasonToString(reason))}</Badge>
       <Trans i18nKey="result.duplicate.track" shouldUnescape={true}>
-        <span>{{ trackName } as any}</span> <span className="gray">by</span>{' '}
+        <span>{{ trackName } as any}</span> <span className="text-gray-500">by</span>{' '}
         <span>{{ trackArtistName } as any}</span>
       </Trans>
-      <style jsx>
-        {`
-          .gray {
-            color: #999;
-          }
-        `}
-      </style>
     </li>
   );
 };

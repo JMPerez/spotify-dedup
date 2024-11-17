@@ -3,7 +3,7 @@ import Link from 'next/link';
 const LanguageSelector = () => {
   return (
     <div>
-      <p>
+      <p className="text-secondary py-4 px-4 text-center">
         Change language to{' '}
         <Link prefetch={false} href="/de" legacyBehavior>
           <a>German</a>
@@ -49,17 +49,6 @@ const LanguageSelector = () => {
           <a>Turkish</a>
         </Link>
       </p>
-      <style jsx>
-        {`
-          .footer {
-            color: var(--secondary-text-color);
-            padding-top: 15px;
-            padding-left: 15px;
-            padding-right: 15px;
-            text-align: center;
-          }
-        `}
-      </style>
     </div>
   );
 };

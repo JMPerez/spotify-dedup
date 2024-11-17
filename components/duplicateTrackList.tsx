@@ -1,12 +1,6 @@
-
 const DuplicateTrackList = ({ children }) => (
-  <ul>
+  <ul className="p-0">
     {children}
-    <style jsx>{`
-      ul {
-        padding: 0;
-      }
-    `}</style>
   </ul>
 );
 
