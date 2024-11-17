@@ -1,7 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next';
 
-import { DuplicateReason } from '@/dedup/types';
 import Badge from './badge';
+import { DuplicateReason } from '@/dedup/types';
 
 const reasonToString = (reason: DuplicateReason) => {
   switch (reason) {
@@ -23,7 +23,7 @@ const DuplicateTrackListItem = ({
   return (
     <li>
       <Badge>{t(reasonToString(reason))}</Badge>
-      <Trans i18nKey="result.duplicate.track">
+      <Trans i18nKey="result.duplicate.track" shouldUnescape={true}>
         <span>{{ trackName } as any}</span> <span className="gray">by</span>{' '}
         <span>{{ trackArtistName } as any}</span>
       </Trans>
