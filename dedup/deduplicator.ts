@@ -1,5 +1,5 @@
-import SpotifyWebApi, { SpotifyPlaylist, SpotifyPlaylistTrack, SpotifySavedTrack, SpotifyTrack } from './spotifyApi';
 import { Duplicate, PlaylistModel } from './types';
+import SpotifyWebApi, { SpotifyPlaylist, SpotifyPlaylistTrack, SpotifySavedTrack, SpotifyTrack } from './spotifyApi';
 
 import promisesForPages from './promiseForPages';
 
@@ -19,12 +19,12 @@ class BaseDeduplicator {
     const result = tracks.reduce((duplicates, track, index) => {
       if (track === null) return duplicates;
       if (track.id === null) return duplicates;
-      let isDuplicate = false;
+      let reasonDuplicate: 'same-id' | 'same-name-artist' | null = null;
       const seenNameAndArtistKey =
         `${track.name}:${track.artists[0].name}`.toLowerCase();
       if (track.id in seenIds) {
         // if the two tracks have the same Spotify ID, they are duplicates
-        isDuplicate = true;
+        reasonDuplicate = 'same-id';
       } else {
         // if they have the same name, main artist, and roughly same duration
         // we consider tem duplicates too
@@ -35,15 +35,15 @@ class BaseDeduplicator {
               (duration) => Math.abs(duration - track.duration_ms) < 2000
             ).length !== 0
           ) {
-            isDuplicate = true;
+            reasonDuplicate = 'same-name-artist';
           }
         }
       }
-      if (isDuplicate) {
+      if (reasonDuplicate !== null) {
         duplicates.push({
           index: index,
           track: track,
-          reason: track.id in seenIds ? 'same-id' : 'same-name-artist',
+          reason: reasonDuplicate,
         });
       } else {
         seenIds[track.id] = true;
