@@ -1,18 +1,18 @@
 import SpotifyWebApi, { SpotifyCurrentUser } from '../../dedup/spotifyApi';
 
 import { AvailableLanguages } from '@/languages';
-import { logEvent } from '@/utils/analytics';
-import Head from 'next/head';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import OAuthManager from '../../dedup/oauthManager';
 import Faq from '../faq';
 import Features from '../features';
 import Footer from '../footer';
+import Head from 'next/head';
 import Header from '../head';
 import Intro from '../intro';
 import Main from '../main';
+import React from 'react';
 import Reviews from '../reviews';
+import { logEvent } from '@/utils/analytics';
+import { obtainToken } from '@/src/auth/oauth2window';
+import { useTranslation } from 'react-i18next';
 
 const MetaHead = () => {
   const { t, i18n } = useTranslation();
@@ -75,7 +75,7 @@ export default function Index() {
 
   const handleLoginClick = async () => {
     let errorAuthenticating = false;
-    const accessToken = await OAuthManager.obtainToken({
+    const accessToken = await obtainToken({
       scopes: [
         'playlist-read-private',
         'playlist-read-collaborative',
@@ -85,6 +85,7 @@ export default function Index() {
         'user-library-modify',
       ],
     }).catch(function (error) {
+      console.error(error);
       logEvent('user_authentication_failed', { message: error });
       errorAuthenticating = true;
     });

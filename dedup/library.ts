@@ -1,5 +1,5 @@
-import promisesForPages from './promiseForPages';
 import SpotifyWebApi from './spotifyApi';
+import promisesForPages from './promiseForPages';
 
 export const fetchUserOwnedPlaylists = async (
   api: SpotifyWebApi,

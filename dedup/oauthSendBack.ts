@@ -1,3 +1,4 @@
+import { SPOTIFY_AUTH_CODE_KEY, SPOTIFY_AUTH_SUCCESS_KEY } from "@/src/auth/oauth2window";
 
 const OAuthSendBack = () => {
   if (typeof window !== 'undefined') {
@@ -6,7 +7,9 @@ const OAuthSendBack = () => {
 
     if (code) {
       // Store the code in localStorage
-      localStorage.setItem('spotify_auth_code', code);
+      localStorage.setItem(SPOTIFY_AUTH_CODE_KEY, code);
+      // Store the success flag
+      localStorage.setItem(SPOTIFY_AUTH_SUCCESS_KEY, 'true');
       // Close the window
       window.close();
     }
