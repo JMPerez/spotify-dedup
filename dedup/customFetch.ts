@@ -83,24 +83,21 @@ async function makeAttempt(
       );
     }
 
-    // Special handling for 400 status code
+    // Special handling for 400 status code (Bad Request)
     if (response.status === 400) {
-      const spotifyError = await parseSpotifyError(response);
-      if (spotifyError) {
-        // Don't retry 400 errors as they indicate invalid requests
-        throw new RetryFetchError(
-          spotifyError.error.message,
-          400,
-          url,
-          httpMethod,
-          undefined,
-          spotifyError
-        );
-      }
+      const spotifyError = await parseSpotifyError(response.clone());
+      throw new RetryFetchError(
+        spotifyError?.error.message || 'Bad Request',
+        400,
+        url,
+        httpMethod,
+        undefined,
+        spotifyError || undefined
+      );
     }
 
     if (response.status === 401) {
-      const spotifyError = await parseSpotifyError(response);
+      const spotifyError = await parseSpotifyError(response.clone());
       if (spotifyError?.error.message === 'The access token expired') {
         // Refresh the token with 'expired' reason
         const newToken = await TokenManager.getInstance().refreshAccessToken(TokenRefreshReason.Expired);
@@ -140,9 +137,9 @@ async function makeAttempt(
       console.warn(`Fetch attempt ${attempt} failed:`, error);
     }
 
-    // Don't retry 400 errors
+    // Don't retry 400 errors - throw immediately
     if (error instanceof RetryFetchError && error.statusCode === 400) {
-      throw error;
+      return handleFinalError(error, input, false); // Pass false to prevent alert
     }
 
     throw error;

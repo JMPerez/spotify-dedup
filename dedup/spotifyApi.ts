@@ -15,7 +15,6 @@ export interface SpotifyTrack {
 }
 
 export interface SpotifyPlaylist {
-  collaborative: boolean;
   id: string;
   images?: Array<{ url: string }>;
   name: string;
@@ -164,11 +163,8 @@ export default class SpotifyWebApi {
     }
   }
 
-  async getUserPlaylists(userId: string, options?: { limit?: number }) {
-    const url =
-      typeof userId === 'string'
-        ? `${apiPrefix}/users/${encodeURIComponent(userId)}/playlists`
-        : `${apiPrefix}/me/playlists`;
+  async getCurrentUserPlaylists(options?: { limit?: number }) {
+    const url = `${apiPrefix}/me/playlists`;
     return await this.getGeneric(url, options);
   }
 

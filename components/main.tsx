@@ -1,20 +1,20 @@
-import { Duplicate, PlaylistModel } from '../dedup/types';
+import { Translation, useTranslation } from 'react-i18next';
 import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
-import { Translation, useTranslation } from 'react-i18next';
+import { Duplicate, PlaylistModel } from '../dedup/types';
 
+import { Progress } from "@/components/ui/progress";
+import { logEvent } from '@/utils/analytics';
+import React from 'react';
+import Process from '../dedup/process';
+import { SpotifyCurrentUser } from '../dedup/spotifyApi';
 import Badge from './badge';
 import BuyMeACoffee from './bmc';
 import DuplicateTrackList from './duplicateTrackList';
 import DuplicateTrackListItem from './duplicateTrackListItem';
 import Panel from './panel';
-import Process from '../dedup/process';
-import { Progress } from "@/components/ui/progress";
-import React from 'react';
-import { SpotifyCurrentUser } from '../dedup/spotifyApi';
-import { logEvent } from '@/utils/analytics';
 
 const Status = ({ toProcess }) => {
   const { t } = useTranslation();
@@ -74,34 +74,26 @@ export default class Main extends React.Component<{
             'It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
           );
       }
-      if (playlistModel.playlist.collaborative) {
-        logEvent('error_remove_duplicates_collaborative');
-        global['alert'] &&
-          global['alert'](
-            'It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
+      try {
+        await PlaylistDeduplicator.removeDuplicates(
+          this.props.api,
+          playlistModel
+        );
+        const playlistsCopy = [...this.state.playlists];
+        playlistsCopy[index].duplicates = [];
+        playlistsCopy[index].status = 'process.items.removed';
+        this.setState({ ...this.state, playlists: [...playlistsCopy] });
+        logEvent('playlist_removed_duplicates');
+      } catch (e) {
+        global['Raven'] &&
+          global['Raven'].captureMessage(
+            `Exception trying to remove duplicates from playlist`,
+            {
+              extra: {
+                duplicates: playlistModel.duplicates,
+              },
+            }
           );
-      } else {
-        try {
-          await PlaylistDeduplicator.removeDuplicates(
-            this.props.api,
-            playlistModel
-          );
-          const playlistsCopy = [...this.state.playlists];
-          playlistsCopy[index].duplicates = [];
-          playlistsCopy[index].status = 'process.items.removed';
-          this.setState({ ...this.state, playlists: [...playlistsCopy] });
-          logEvent('playlist_removed_duplicates');
-        } catch (e) {
-          global['Raven'] &&
-            global['Raven'].captureMessage(
-              `Exception trying to remove duplicates from playlist`,
-              {
-                extra: {
-                  duplicates: playlistModel.duplicates,
-                },
-              }
-            );
-        }
       }
     })();
   };

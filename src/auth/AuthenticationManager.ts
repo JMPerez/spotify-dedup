@@ -1,8 +1,8 @@
 import { AUTH_TIMEOUT, AUTH_WINDOW_CONFIG, POLL_INTERVAL } from './oauth2window/constants';
 import { generateRandomString, getAuthWindowFeatures, toQueryString } from './oauth2window/utils';
 
-import { config } from './config';
 import TokenManager from './token/TokenManager';
+import { config } from './config';
 
 export type AuthState = 'none' | 'started' | 'got_code' | 'got_token';
 
@@ -20,15 +20,15 @@ export class AuthenticationManager {
     }
     return AuthenticationManager.instance;
   }
-
-  async startAuthentication(options?: { scopes: string[] }): Promise<string> {
+  async startAuthentication(options?: { scopes?: string[], timeout?: number }): Promise<string> {
+    const timeout = options?.timeout ?? AUTH_TIMEOUT;
     this.authState = 'started';
 
     try {
       await this.openAuthWindow(options);
       return await Promise.race([
         this.waitForAuthentication(),
-        this.setupTimeout()
+        this.setupTimeout(timeout)
       ]);
     } finally {
       this.cleanup();
@@ -72,6 +72,7 @@ export class AuthenticationManager {
               this.authState = 'got_token';
               resolve(accessToken);
             } catch (error) {
+              console.error({ error })
               reject(new Error('Failed to exchange authorization code for tokens'));
             }
           }
@@ -88,12 +89,12 @@ export class AuthenticationManager {
     });
   }
 
-  private setupTimeout(): Promise<never> {
+  private setupTimeout(timeout: number): Promise<never> {
     return new Promise((_, reject) => {
       this.timers.push(
         setTimeout(() => {
           reject(new Error('Authentication timeout'));
-        }, AUTH_TIMEOUT)
+        }, timeout)
       );
     });
   }

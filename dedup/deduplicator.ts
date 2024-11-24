@@ -1,5 +1,5 @@
-import { Duplicate, PlaylistModel } from './types';
 import SpotifyWebApi, { SpotifyPlaylist, SpotifyPlaylistTrack, SpotifySavedTrack, SpotifyTrack } from './spotifyApi';
+import { Duplicate, PlaylistModel } from './types';
 
 import promisesForPages from './promiseForPages';
 
@@ -102,48 +102,43 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
           'It is not possible to delete duplicates from your Starred playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
         );
       }
-      if (playlistModel.playlist.collaborative) {
-        reject(
-          'It is not possible to delete duplicates from a collaborative playlist using this tool since this is not supported in the Spotify Web API. You will need to remove these manually.'
-        );
-      } else {
-        const tracksToRemove = playlistModel.duplicates
-          .map((d) => ({
-            uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
-            positions: [d.index],
-          }))
-        const promises: Array<() => {}> = [];
+      const tracksToRemove = playlistModel.duplicates
+        .map((d) => ({
+          uri: d.track.linked_from ? d.track.linked_from.uri : d.track.uri,
+          positions: [d.index],
+        }))
+      const promises: Array<() => {}> = [];
 
-        // generate the list of all the positions to be removed
-        const positions: Array<number> =
-          tracksToRemove.reduce((prev, current) => prev.concat(current.positions),
-            [] as number[])
-            .sort((a, b) => b - a); // reverse so we delete the last ones first
-        do {
-          const chunk = positions.splice(0, 100);
-          (function (playlistModel, chunk, api) {
-            promises.push(() =>
-              api.removeTracksFromPlaylist(
-                playlistModel.playlist.id,
-                chunk
-              )
-            );
-          })(playlistModel, chunk, api);
-        } while (positions.length > 0);
+      // generate the list of all the positions to be removed
+      const positions: Array<number> =
+        tracksToRemove.reduce((prev, current) => prev.concat(current.positions),
+          [] as number[])
+          .sort((a, b) => b - a); // reverse so we delete the last ones first
+      do {
+        const chunk = positions.splice(0, 100);
+        (function (playlistModel, chunk, api) {
+          promises.push(() =>
+            api.removeTracksFromPlaylist(
+              playlistModel.playlist.id,
+              chunk
+            )
+          );
+        })(playlistModel, chunk, api);
+      } while (positions.length > 0);
 
-        promises
-          .reduce(
-            (promise, func) => promise.then(() => func()),
-            Promise.resolve(null)
-          )
-          .then(() => {
-            playlistModel.duplicates = [];
-            resolve();
-          })
-          .catch((e) => {
-            reject(e);
-          });
-      }
+      promises
+        .reduce(
+          (promise, func) => promise.then(() => func()),
+          Promise.resolve(null)
+        )
+        .then(() => {
+          playlistModel.duplicates = [];
+          resolve();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+
     });
   }
 }
@@ -154,8 +149,10 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
     initialRequest,
     onProgressChanged: (progress: number) => void,
   ): Promise<Array<SpotifyTrack>> {
+    console.log('getTracks', initialRequest)
     return new Promise((resolve, reject) => {
       const tracks: Array<SpotifyTrack> = [];
+      console.log('promisesForPages', initialRequest)
       promisesForPages(api, initialRequest, onProgressChanged)
         .then(
           (

@@ -40,6 +40,7 @@ async function fetchPageWithDefaults(
   let result: PaginableResultType;
 
   try {
+    console.log({ href, offset, limit })
     result = (await fetchGeneric(
       api,
       href,
@@ -47,21 +48,8 @@ async function fetchPageWithDefaults(
       limit
     )) as PaginableResultType;
   } catch (e) {
-    // Fetching this page of results failed. We fill the chunk with null elements as a fallback.
-    // todo: report this in the UI somehow
-    console.error(
-      `Error making request to fetch tracks from ${href} with offset ${offset} and limit ${limit}`,
-      e
-    );
-    result = {
-      items: new Array(limit).fill(null),
-      href,
-      offset,
-      limit,
-      next: '',
-      previous: '',
-      total: 0,
-    };
+    // todo: we need to figure out what to do here. Eg, should we just skip the playlist?
+    throw e;
   }
   return result;
 }
@@ -77,6 +65,7 @@ export default async function promisesForPages(
     return [];
   }
   const { limit, total, offset, href } = results;
+  console.log({ limit, total, offset, href })
   if (total === 0) {
     return Promise.resolve([]);
   }
@@ -100,6 +89,7 @@ export default async function promisesForPages(
   // resolve promises sequentially
   // https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence
   let fulfilledPromises = 0;
+
   return promises.reduce(
     (previousPromise, currentPromise) =>
       previousPromise
@@ -116,11 +106,14 @@ export default async function promisesForPages(
               if (onError) {
                 const shouldContinue = onError(e);
                 if (!shouldContinue) {
-                  throw e; // This will break the chain
+                  return Promise.reject(e);
                 }
+              } else {
+                // If no onError handler provided, always reject
+                return Promise.reject(e);
               }
 
-              // Continue with previous results if no onError or if it returned true
+              // Only reach here if onError returned true
               return result;
             });
         })
@@ -129,7 +122,7 @@ export default async function promisesForPages(
             'There was an error reducing promises - general catch',
             e
           );
-          throw e; // Re-throw to stop the chain if we got here
+          return Promise.reject(e);
         }),
     Promise.resolve([])
   );

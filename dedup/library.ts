@@ -8,7 +8,7 @@ export const fetchUserOwnedPlaylists = async (
 ) => {
   const pages = await promisesForPages(
     api,
-    api.getUserPlaylists(userId, { limit: 50 }),
+    api.getCurrentUserPlaylists({ limit: 50 }),
     onProgressChanged
   );
 
