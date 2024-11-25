@@ -96,6 +96,7 @@ export default function Index() {
       apiRef.current.setAccessToken(accessToken as string);
 
       const user = await apiRef.current.getMe();
+      logEvent('user_logged_in');
       setState({ isLoggedIn: true, user, accessToken });
     }
   };
