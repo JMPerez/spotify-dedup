@@ -4,17 +4,16 @@
 // ./pages/_document.js
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 
-import i18n from '../i18n';
-
-class MyDocument extends Document {
+class MyDocument extends Document<{ language: string }> {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
+    const language = ctx.pathname.split('/')[1] || 'en';
+    return { ...initialProps, language };
   }
 
   render() {
     return (
-      <Html lang={i18n.language}>
+      <Html lang={this.props.language}>
         <Head />
         <body className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 pt-0 flex h-full flex-col">
           <Main />
