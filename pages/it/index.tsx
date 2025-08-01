@@ -67,7 +67,7 @@ const IndexComponent = () => {
     'process.playlist.duplicates_other':
       'Questa playlist contiene {{count}} tracce doppie',
     'process.playlist.remove-button':
-      'Elimino le tracce doppie eda questa playlist',
+      'Elimina le tracce doppie da questa playlist',
     'process.items.removed': 'Tracce doppie eliminate',
     'faq.section-title': "Domande frequenti",
     'faq.question-1': 'Cosa fa questa applicazione web?',
