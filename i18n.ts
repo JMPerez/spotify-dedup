@@ -86,6 +86,12 @@ const resources = {
       'faq.answer-9': 'You can revoke the permissions granted to this web application at any time on your Spotify account, under the \'Apps\' section.',
       'faq.question-10': 'Does this tool work with other music streaming services?',
       'faq.answer-10': 'No, this tool only works with Spotify through Spotify\'s Web API.',
+      // matching settings (UI)
+      'matching-settings.title': 'Duplicate matching settings (optional)',
+      'matching-settings.enable-name-artist.title': 'Match by “Track name:Artist”',
+      'matching-settings.enable-name-artist.help': 'If enabled, items with the same track name and main artist and a similar duration are considered duplicates.',
+      'matching-settings.duration-threshold.label': 'Duration difference threshold (seconds)',
+      'matching-settings.duration-threshold.help': 'Considered the same if the duration difference is smaller than this value.',
     },
   }
 };

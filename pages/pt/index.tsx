@@ -86,7 +86,13 @@ const IndexComponent = () => {
     'faq.question-9': 'Como posso revogar as permissões concedidas a esta aplicação web?',
     'faq.answer-9': 'Os usuários podem revogar as permissões concedidas a este aplicativo da web a qualquer momento em sua conta do Spotify, na seção \'Aplicativos\'.',
     'faq.question-10': 'Esta ferramenta funciona com outros serviços de streaming de música?',
-    'faq.answer-10': 'Não, esta ferramenta funciona apenas com o Spotify e usa a API da Web do Spotify para identificar e excluir duplicatas em sua biblioteca.'
+    'faq.answer-10': 'Não, esta ferramenta funciona apenas com o Spotify e usa a API da Web do Spotify para identificar e excluir duplicatas em sua biblioteca.',
+    // matching settings (UI)
+    'matching-settings.title': 'Configurações de detecção de duplicados (opcional)',
+    'matching-settings.enable-name-artist.title': 'Corresponder por “Nome da faixa:Artista”',
+    'matching-settings.enable-name-artist.help': 'Se ativado, itens com o mesmo nome de faixa, artista principal e duração semelhante serão considerados duplicados.',
+    'matching-settings.duration-threshold.label': 'Limite de diferença de duração (segundos)',
+    'matching-settings.duration-threshold.help': 'Considerado o mesmo se a diferença de duração for menor que este valor.'
   });
   i18n.changeLanguage('pt');
   return (

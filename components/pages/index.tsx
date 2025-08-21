@@ -10,6 +10,7 @@ import Faq from '../faq';
 import Features from '../features';
 import Header from '../head';
 import Intro from '../intro';
+import MatchingSettings from '../matchingSettings';
 import Main from '../main';
 import Reviews from '../reviews';
 
@@ -134,7 +135,10 @@ export default function Index() {
               />
             </div>
           ) : (
-            <Intro onLoginClick={handleLoginClick} />
+            <>
+              <Intro onLoginClick={handleLoginClick} />
+              <MatchingSettings />
+            </>
           )}
         </div>
         {state.isLoggedIn

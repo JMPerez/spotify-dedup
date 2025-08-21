@@ -87,7 +87,13 @@ const IndexComponent = () => {
         'faq.question-9': 'Jak mogę cofnąć uprawnienia przyznane tej aplikacji internetowej?',
         'faq.answer-9': 'Użytkownicy mogą cofnąć uprawnienia przyznane tej aplikacji internetowej w dowolnym momencie na swoim koncie Spotify, w sekcji \'Aplikacje\'.',
         'faq.question-10': 'Czy to narzędzie działa z innymi serwisami do strumieniowego przesyłania muzyki?',
-        'faq.answer-10': 'Nie, to narzędzie działa tylko z Spotify i wykorzystuje Web API Spotify do identyfikowania i usuwania duplikatów w Twojej bibliotece',
+        'faq.answer-10': 'Nie, to narzędzie działa tylko z Spotify i wykorzystuje Web API Spotify do identyfikowania i usuwania duplikatów w Twojej bibliotece.',
+        // matching settings (UI)
+        'matching-settings.title': 'Ustawienia wykrywania duplikatów (opcjonalnie)',
+        'matching-settings.enable-name-artist.title': 'Dopasuj po „Tytuł utworu:Artysta”',
+        'matching-settings.enable-name-artist.help': 'Jeśli włączone, elementy o tym samym tytule utworu, głównym artyście i podobnym czasie trwania są traktowane jako duplikaty.',
+        'matching-settings.duration-threshold.label': 'Próg różnicy czasu trwania (sekundy)',
+        'matching-settings.duration-threshold.help': 'Uznawane za takie same, gdy różnica czasu trwania jest mniejsza niż ta wartość.'
     });
     i18n.changeLanguage('pl');
     return (

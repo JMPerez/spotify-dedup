@@ -89,7 +89,13 @@ const IndexComponent = () => {
     'faq.question-9': 'Hoe kan ik de machtigingen voor deze webapplicatie intrekken?',
     'faq.answer-9': 'Gebruikers kunnen de machtigingen die aan deze webapplicatie zijn verleend op elk moment intrekken op uw Spotify-account, onder de sectie \'Apps\'.',
     'faq.question-10': 'Werkt deze tool met andere muziekstreamingdiensten?',
-    'faq.answer-10': 'Nee, deze tool werkt alleen met Spotify en gebruikt de Web API van Spotify om duplicaten in je bibliotheek te identificeren en te verwijderen.'
+    'faq.answer-10': 'Nee, deze tool werkt alleen met Spotify en gebruikt de Web API van Spotify om duplicaten in je bibliotheek te identificeren en te verwijderen.',
+    // matching settings (UI)
+    'matching-settings.title': 'Instellingen voor duplicaatdetectie (optioneel)',
+    'matching-settings.enable-name-artist.title': 'Matchen op “Tracknaam:Artiest”',
+    'matching-settings.enable-name-artist.help': 'Indien ingeschakeld worden items met dezelfde tracknaam, hoofdartiest en een vergelijkbare duur als duplicaten beschouwd.',
+    'matching-settings.duration-threshold.label': 'Drempel voor duurverschil (seconden)',
+    'matching-settings.duration-threshold.help': 'Wordt als hetzelfde beschouwd als het duurverschil kleiner is dan deze waarde.'
   });
   i18n.changeLanguage('nl');
   return (

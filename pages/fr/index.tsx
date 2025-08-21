@@ -87,7 +87,13 @@ const IndexComponent = () => {
     'faq.question-9': 'Comment puis-je révoquer les autorisations accordées à cette application Web ?',
     'faq.answer-9': 'Les utilisateurs peuvent révoquer à tout moment les autorisations accordées à cette application Web sur votre compte Spotify, dans la section \'Applications\'.',
     'faq.question-10': 'Cet outil fonctionne-t-il avec d\'autres services de streaming musical?',
-    'faq.answer-10': 'Non, cet outil ne fonctionne qu\'avec Spotify et utilise l\'API Web de Spotify pour identifier et supprimer les doublons dans votre bibliothèque.'
+    'faq.answer-10': 'Non, cet outil ne fonctionne qu\'avec Spotify et utilise l\'API Web de Spotify pour identifier et supprimer les doublons dans votre bibliothèque.',
+    // matching settings (UI)
+    'matching-settings.title': 'Paramètres de détection des doublons (optionnel)',
+    'matching-settings.enable-name-artist.title': 'Faire correspondre par « Nom de piste:Artiste »',
+    'matching-settings.enable-name-artist.help': 'Si activé, les éléments ayant le même nom de piste, l’artiste principal et une durée similaire sont considérés comme des doublons.',
+    'matching-settings.duration-threshold.label': 'Seuil de différence de durée (secondes)',
+    'matching-settings.duration-threshold.help': 'Considéré identique si la différence de durée est inférieure à cette valeur.'
   });
   i18n.changeLanguage('fr');
   return (

@@ -88,6 +88,13 @@ const IndexComponent = () => {
     'faq.answer-9': 'Benutzer können die dieser Webanwendung erteilten Berechtigungen jederzeit in Ihrem Spotify-Konto unter dem Abschnitt \'Apps\' widerrufen.',
     'faq.question-10': 'Funktioniert dieses Tool mit anderen Musik-Streaming-Diensten?',
     'faq.answer-10': 'Nein, dieses Tool funktioniert nur mit Spotify und verwendet die Web-API von Spotify, um Duplikate in Ihrer Bibliothek zu identifizieren und zu löschen.'
+    ,
+    // matching settings (UI)
+    'matching-settings.title': 'Einstellungen für Duplikaterkennung (optional)',
+    'matching-settings.enable-name-artist.title': 'Nach „Titel:Künstler“ abgleichen',
+    'matching-settings.enable-name-artist.help': 'Wenn aktiviert, werden Einträge mit gleichem Titel, Hauptkünstler und ähnlicher Dauer als Duplikate erkannt.',
+    'matching-settings.duration-threshold.label': 'Schwellenwert für Zeitdifferenz (Sekunden)',
+    'matching-settings.duration-threshold.help': 'Gilt als gleich, wenn die Zeitdifferenz kleiner als dieser Wert ist.'
   });
   i18n.changeLanguage('de');
   return (

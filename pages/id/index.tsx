@@ -66,7 +66,13 @@ const IndexComponent = () => {
         'faq.question-9': 'Bagaimana cara mencabut izin yang diberikan untuk aplikasi web ini?',
         'faq.answer-9': 'Pengguna dapat mencabut izin yang diberikan untuk aplikasi web ini kapan saja di akun Spotify Anda, di bawah bagian \'Aplikasi\'.',
         'faq.question-10': 'Apakah alat ini berfungsi dengan layanan streaming musik lainnya?',
-        'faq.answer-10': 'Tidak, alat ini hanya bekerja dengan Spotify dan menggunakan API Web Spotify untuk mengidentifikasi dan menghapus duplikat di perpustakaan Anda.'
+        'faq.answer-10': 'Tidak, alat ini hanya bekerja dengan Spotify dan menggunakan API Web Spotify untuk mengidentifikasi dan menghapus duplikat di perpustakaan Anda.',
+        // matching settings (UI)
+        'matching-settings.title': 'Pengaturan pencocokan duplikat (opsional)',
+        'matching-settings.enable-name-artist.title': 'Cocokkan berdasarkan “Judul lagu:Artis”',
+        'matching-settings.enable-name-artist.help': 'Jika diaktifkan, item dengan judul lagu dan artis utama yang sama serta durasi yang mirip akan dianggap duplikat.',
+        'matching-settings.duration-threshold.label': 'Ambang perbedaan durasi (detik)',
+        'matching-settings.duration-threshold.help': 'Dianggap sama jika perbedaan durasi lebih kecil dari nilai ini.'
     });
     i18n.changeLanguage('id');
     return (

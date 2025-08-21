@@ -66,7 +66,13 @@ const IndexComponent = () => {
         'faq.question-9': 'Bu web uygulamasına verilen izinleri nasıl iptal edebilirim?',
         'faq.answer-9': 'Kullanıcılar bu web uygulamasına verilen izinleri istedikleri zaman Spotify hesabınızda \'Uygulamalar\' bölümünden iptal edebilirler.',
         'faq.question-10': 'Bu araç diğer müzik akışı hizmetleriyle çalışır mı?',
-        'faq.answer-10': 'Hayır, bu araç yalnızca Spotify ile çalışır ve kitaplığınızdaki kopyaları belirlemek ve silmek için Spotify\'ın Web API\'sini kullanır.'
+        'faq.answer-10': 'Hayır, bu araç yalnızca Spotify ile çalışır ve kitaplığınızdaki kopyaları belirlemek ve silmek için Spotify\'ın Web API\'sini kullanır.',
+        // matching settings (UI)
+        'matching-settings.title': 'Yinelenen eşleştirme ayarları (isteğe bağlı)',
+        'matching-settings.enable-name-artist.title': '“Parça adı:Sanatçı” ile eşleştir',
+        'matching-settings.enable-name-artist.help': 'Etkinleştirildiğinde, aynı parça adı, ana sanatçı ve benzer süreye sahip öğeler yinelenen olarak kabul edilir.',
+        'matching-settings.duration-threshold.label': 'Süre farkı eşiği (saniye)',
+        'matching-settings.duration-threshold.help': 'Süre farkı bu değerden küçükse aynı kabul edilir.'
     });
     i18n.changeLanguage('tr');
     return (

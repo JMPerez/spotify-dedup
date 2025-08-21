@@ -87,6 +87,13 @@ const IndexComponent = () => {
     "faq.answer-9": "Puedes revocar los permisos dados a esta aplicación web en cualquier momento en tu cuenta de Spotify, en la sección 'Aplicaciones'.",
     "faq.question-10": "¿Funciona esta herramienta con otros servicios de streaming?",
     "faq.answer-10": "No, esta herramienta solo funciona con Spotify y utiliza la API web de Spotify para identificar y eliminar duplicados en la biblioteca del usuario."
+    ,
+    // matching settings (UI)
+    'matching-settings.title': 'Opciones de detección de duplicados (opcional)',
+    'matching-settings.enable-name-artist.title': 'Coincidir por “Nombre de canción:Artista”',
+    'matching-settings.enable-name-artist.help': 'Si está activado, los elementos con el mismo nombre y artista principal y una duración similar se consideran duplicados.',
+    'matching-settings.duration-threshold.label': 'Umbral de diferencia de duración (segundos)',
+    'matching-settings.duration-threshold.help': 'Se considera el mismo si la diferencia de duración es menor que este valor.'
   });
   i18n.changeLanguage('es');
   return (
