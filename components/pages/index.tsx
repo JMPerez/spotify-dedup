@@ -71,6 +71,12 @@ export default function Index() {
     accessToken: null as string | null,
   });
 
+  // UI settings (seconds in UI, convert later when used)
+  const [settings, setSettings] = React.useState({
+    enableNameAndArtistMatching: true,
+    durationThresholdSec: 2,
+  });
+
   const apiRef = React.useRef<SpotifyWebApi | null>(null);
 
   const handleLoginClick = async () => {
@@ -132,12 +138,20 @@ export default function Index() {
                 api={apiRef.current}
                 user={state.user}
                 accessToken={state.accessToken}
+                matchingSettings={{
+                  enableNameAndArtistMatching: settings.enableNameAndArtistMatching,
+                  durationThresholdMs: Math.max(0, Math.round((settings.durationThresholdSec || 0) * 1000)),
+                }}
               />
             </div>
           ) : (
             <>
               <Intro onLoginClick={handleLoginClick} />
-              <MatchingSettings />
+              <MatchingSettings
+                enableNameAndArtistMatching={settings.enableNameAndArtistMatching}
+                durationThresholdSec={settings.durationThresholdSec}
+                onChange={(update) => setSettings((prev) => ({ ...prev, ...update }))}
+              />
             </>
           )}
         </div>

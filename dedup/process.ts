@@ -7,7 +7,7 @@ import SpotifyWebApi, {
 import { logEvent } from '@/utils/analytics';
 import { fetchUserOwnedPlaylists } from './library';
 import PlaylistCache from './playlistCache';
-import { PlaylistModel } from './types';
+import { PlaylistModel, DuplicateMatchingConfig } from './types';
 
 const playlistCache = new PlaylistCache();
 
@@ -36,7 +36,7 @@ export default class {
     callbacks.forEach((callback) => callback(params));
   }
 
-  process = async (api: SpotifyWebApi, user: SpotifyCurrentUser) => {
+  process = async (api: SpotifyWebApi, user: SpotifyCurrentUser, matchingSettings?: DuplicateMatchingConfig) => {
     let currentState: {
       playlists?: Array<PlaylistModel>;
       savedTracks?: {
@@ -112,7 +112,8 @@ export default class {
       });
 
     currentState.savedTracks.duplicates = SavedTracksDeduplicator.findDuplicatedTracks(
-      savedTracks
+      savedTracks,
+      matchingSettings
     );
 
     if (currentState.savedTracks?.duplicates?.length) {
@@ -143,7 +144,8 @@ export default class {
               this.dispatch('updateState', currentState);
             });
           playlistModel.duplicates = PlaylistDeduplicator.findDuplicatedTracks(
-            playlistTracks
+            playlistTracks,
+            matchingSettings
           );
           if (playlistModel.duplicates.length === 0) {
             playlistCache.storePlaylistWithoutDuplicates(

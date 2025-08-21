@@ -2,7 +2,20 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 
-const MatchingSettings: React.FC = () => {
+type Props = {
+    enableNameAndArtistMatching: boolean;
+    durationThresholdSec: number; // UI uses seconds
+    onChange: (update: Partial<{
+        enableNameAndArtistMatching: boolean;
+        durationThresholdSec: number;
+    }>) => void;
+};
+
+const MatchingSettings: React.FC<Props> = ({
+    enableNameAndArtistMatching,
+    durationThresholdSec,
+    onChange,
+}) => {
     const [open, setOpen] = React.useState(false);
     const { t } = useTranslation();
 
@@ -33,7 +46,8 @@ const MatchingSettings: React.FC = () => {
                                 <input
                                     id="enable-name-artist"
                                     type="checkbox"
-                                    defaultChecked
+                                    checked={enableNameAndArtistMatching}
+                                    onChange={(e) => onChange({ enableNameAndArtistMatching: e.target.checked })}
                                     className="mt-1 h-4 w-4 rounded border-slate-300 text-green-600 focus:ring-green-600"
                                 />
                                 <div>
@@ -49,8 +63,9 @@ const MatchingSettings: React.FC = () => {
                                         id="duration-threshold"
                                         type="number"
                                         min={0}
-                                        step={1}
-                                        defaultValue={2}
+                                        step={0.1}
+                                        value={Number.isFinite(durationThresholdSec) ? durationThresholdSec : 0}
+                                        onChange={(e) => onChange({ durationThresholdSec: parseFloat(e.target.value || '0') })}
                                         className="w-40 rounded-md border border-slate-300 bg-white/90 dark:bg-slate-900/60 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                                     />
                                     <span className="text-xs text-muted-foreground">{t('matching-settings.duration-threshold.help')}</span>

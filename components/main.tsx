@@ -3,7 +3,7 @@ import {
   PlaylistDeduplicator,
   SavedTracksDeduplicator
 } from '../dedup/deduplicator';
-import { Duplicate, PlaylistModel } from '../dedup/types';
+import { Duplicate, PlaylistModel, DuplicateMatchingConfig } from '../dedup/types';
 
 import { Progress } from "@/components/ui/progress";
 import { logEvent } from '@/utils/analytics';
@@ -42,6 +42,7 @@ export default class Main extends React.Component<{
   api: any;
   user: SpotifyCurrentUser;
   accessToken: string;
+  matchingSettings: DuplicateMatchingConfig;
 }> {
   state: StateType = {
     toProcess: undefined,
@@ -58,7 +59,7 @@ export default class Main extends React.Component<{
     process.on('updateState', (state) => {
       this.setState(state);
     });
-    process.process(this.props.api, this.props.user);
+    process.process(this.props.api, this.props.user, this.props.matchingSettings);
   }
 
   removeDuplicates = (playlist: PlaylistModel) => {
