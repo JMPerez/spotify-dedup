@@ -64,9 +64,10 @@ const MatchingSettings: React.FC<Props> = ({
                                         type="number"
                                         min={0}
                                         step={0.1}
+                                        disabled={!enableNameAndArtistMatching}
                                         value={Number.isFinite(durationThresholdSec) ? durationThresholdSec : 0}
                                         onChange={(e) => onChange({ durationThresholdSec: parseFloat(e.target.value || '0') })}
-                                        className="w-40 rounded-md border border-slate-300 bg-white/90 dark:bg-slate-900/60 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                                        className="w-40 rounded-md border border-slate-300 bg-white/90 dark:bg-slate-900/60 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                                     />
                                     <span className="text-xs text-muted-foreground">{t('matching-settings.duration-threshold.help')}</span>
                                 </div>
