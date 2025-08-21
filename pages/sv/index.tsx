@@ -86,7 +86,7 @@ const IndexComponent = () => {
     'faq.answer-10': 'Nej, det här verktyget fungerar bara med Spotify och använder Spotifys webb-API för att identifiera och ta bort dubbletter i ditt bibliotek.',
     // matching settings (UI)
     'matching-settings.title': 'Inställningar för dubblettmatchning (valfritt)',
-    'matching-settings.enable-name-artist.title': 'Matcha efter ”Spårnamn:Artist”',
+    'matching-settings.enable-name-artist.title': 'Matcha på titel, artist och skillnad i längd',
     'matching-settings.enable-name-artist.help': 'Om aktiverat betraktas objekt med samma spårnamn, huvudartist och liknande längd som dubbletter.',
     'matching-settings.duration-threshold.label': 'Tröskel för skillnad i längd (sekunder)',
     'matching-settings.duration-threshold.help': 'Betraktas som samma om skillnaden i längd är mindre än detta värde.'

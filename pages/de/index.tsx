@@ -91,7 +91,7 @@ const IndexComponent = () => {
     ,
     // matching settings (UI)
     'matching-settings.title': 'Einstellungen für Duplikaterkennung (optional)',
-    'matching-settings.enable-name-artist.title': 'Nach „Titel:Künstler“ abgleichen',
+    'matching-settings.enable-name-artist.title': 'Nach Titel, Künstler und Zeitdifferenz abgleichen',
     'matching-settings.enable-name-artist.help': 'Wenn aktiviert, werden Einträge mit gleichem Titel, Hauptkünstler und ähnlicher Dauer als Duplikate erkannt.',
     'matching-settings.duration-threshold.label': 'Schwellenwert für Zeitdifferenz (Sekunden)',
     'matching-settings.duration-threshold.help': 'Gilt als gleich, wenn die Zeitdifferenz kleiner als dieser Wert ist.'

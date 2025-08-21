@@ -90,7 +90,7 @@ const IndexComponent = () => {
     'faq.answer-10': 'Non, cet outil ne fonctionne qu\'avec Spotify et utilise l\'API Web de Spotify pour identifier et supprimer les doublons dans votre bibliothèque.',
     // matching settings (UI)
     'matching-settings.title': 'Paramètres de détection des doublons (optionnel)',
-    'matching-settings.enable-name-artist.title': 'Faire correspondre par « Nom de piste:Artiste »',
+    'matching-settings.enable-name-artist.title': 'Faire correspondre par titre, artiste et différence de durée',
     'matching-settings.enable-name-artist.help': 'Si activé, les éléments ayant le même nom de piste, l’artiste principal et une durée similaire sont considérés comme des doublons.',
     'matching-settings.duration-threshold.label': 'Seuil de différence de durée (secondes)',
     'matching-settings.duration-threshold.help': 'Considéré identique si la différence de durée est inférieure à cette valeur.'

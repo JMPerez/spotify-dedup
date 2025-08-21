@@ -90,7 +90,7 @@ const IndexComponent = () => {
     ,
     // matching settings (UI)
     'matching-settings.title': 'Opciones de detección de duplicados (opcional)',
-    'matching-settings.enable-name-artist.title': 'Coincidir por “Nombre de canción:Artista”',
+    'matching-settings.enable-name-artist.title': 'Coincidir por título, artista y diferencia de duración',
     'matching-settings.enable-name-artist.help': 'Si está activado, los elementos con el mismo nombre y artista principal y una duración similar se consideran duplicados.',
     'matching-settings.duration-threshold.label': 'Umbral de diferencia de duración (segundos)',
     'matching-settings.duration-threshold.help': 'Se considera el mismo si la diferencia de duración es menor que este valor.'

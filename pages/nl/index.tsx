@@ -92,7 +92,7 @@ const IndexComponent = () => {
     'faq.answer-10': 'Nee, deze tool werkt alleen met Spotify en gebruikt de Web API van Spotify om duplicaten in je bibliotheek te identificeren en te verwijderen.',
     // matching settings (UI)
     'matching-settings.title': 'Instellingen voor duplicaatdetectie (optioneel)',
-    'matching-settings.enable-name-artist.title': 'Matchen op “Tracknaam:Artiest”',
+    'matching-settings.enable-name-artist.title': 'Match op titel, artiest en duurverschil',
     'matching-settings.enable-name-artist.help': 'Indien ingeschakeld worden items met dezelfde tracknaam, hoofdartiest en een vergelijkbare duur als duplicaten beschouwd.',
     'matching-settings.duration-threshold.label': 'Drempel voor duurverschil (seconden)',
     'matching-settings.duration-threshold.help': 'Wordt als hetzelfde beschouwd als het duurverschil kleiner is dan deze waarde.'

@@ -69,7 +69,7 @@ const IndexComponent = () => {
         'faq.answer-10': 'Hayır, bu araç yalnızca Spotify ile çalışır ve kitaplığınızdaki kopyaları belirlemek ve silmek için Spotify\'ın Web API\'sini kullanır.',
         // matching settings (UI)
         'matching-settings.title': 'Yinelenen eşleştirme ayarları (isteğe bağlı)',
-        'matching-settings.enable-name-artist.title': '“Parça adı:Sanatçı” ile eşleştir',
+        'matching-settings.enable-name-artist.title': 'Başlık, sanatçı ve süre farkına göre eşleştir',
         'matching-settings.enable-name-artist.help': 'Etkinleştirildiğinde, aynı parça adı, ana sanatçı ve benzer süreye sahip öğeler yinelenen olarak kabul edilir.',
         'matching-settings.duration-threshold.label': 'Süre farkı eşiği (saniye)',
         'matching-settings.duration-threshold.help': 'Süre farkı bu değerden küçükse aynı kabul edilir.'

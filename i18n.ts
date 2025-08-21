@@ -88,7 +88,7 @@ const resources = {
       'faq.answer-10': 'No, this tool only works with Spotify through Spotify\'s Web API.',
       // matching settings (UI)
       'matching-settings.title': 'Duplicate matching settings (optional)',
-      'matching-settings.enable-name-artist.title': 'Match by “Track name:Artist”',
+      'matching-settings.enable-name-artist.title': 'Match by title, artist and duration difference',
       'matching-settings.enable-name-artist.help': 'If enabled, items with the same track name and main artist and a similar duration are considered duplicates.',
       'matching-settings.duration-threshold.label': 'Duration difference threshold (seconds)',
       'matching-settings.duration-threshold.help': 'Considered the same if the duration difference is smaller than this value.',

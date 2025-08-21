@@ -92,7 +92,7 @@ const IndexComponent = () => {
     'faq.answer-10': 'No, questo strumento funziona solo con Spotify e utilizza l\'API Web di Spotify per identificare ed eliminare i duplicati nella tua libreria.',
     // matching settings (UI)
     'matching-settings.title': 'Impostazioni rilevamento duplicati (opzionale)',
-    'matching-settings.enable-name-artist.title': 'Abbina per “Titolo brano:Artista”',
+    'matching-settings.enable-name-artist.title': 'Abbina per titolo, artista e differenza di durata',
     'matching-settings.enable-name-artist.help': 'Se abilitato, gli elementi con lo stesso titolo del brano, artista principale e durata simile vengono considerati duplicati.',
     'matching-settings.duration-threshold.label': 'Soglia differenza durata (secondi)',
     'matching-settings.duration-threshold.help': 'Considerati uguali se la differenza di durata è inferiore a questo valore.'

@@ -69,7 +69,7 @@ const IndexComponent = () => {
         'faq.answer-10': 'Tidak, alat ini hanya bekerja dengan Spotify dan menggunakan API Web Spotify untuk mengidentifikasi dan menghapus duplikat di perpustakaan Anda.',
         // matching settings (UI)
         'matching-settings.title': 'Pengaturan pencocokan duplikat (opsional)',
-        'matching-settings.enable-name-artist.title': 'Cocokkan berdasarkan “Judul lagu:Artis”',
+        'matching-settings.enable-name-artist.title': 'Cocokkan berdasarkan judul, artis, dan perbedaan durasi',
         'matching-settings.enable-name-artist.help': 'Jika diaktifkan, item dengan judul lagu dan artis utama yang sama serta durasi yang mirip akan dianggap duplikat.',
         'matching-settings.duration-threshold.label': 'Ambang perbedaan durasi (detik)',
         'matching-settings.duration-threshold.help': 'Dianggap sama jika perbedaan durasi lebih kecil dari nilai ini.'
