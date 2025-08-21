@@ -1,5 +1,5 @@
 import SpotifyWebApi, { SpotifyPlaylist, SpotifyPlaylistTrack, SpotifySavedTrack, SpotifyTrack } from './spotifyApi';
-import { Duplicate, PlaylistModel } from './types';
+import { Duplicate, PlaylistModel, DuplicateMatchingConfig } from './types';
 
 import promisesForPages from './promiseForPages';
 
@@ -12,7 +12,20 @@ class BaseDeduplicator {
     throw 'Not implemented';
   }
 
-  static findDuplicatedTracks(tracks: Array<SpotifyTrack>) {
+  /**
+   * Find duplicated tracks based on configurable matching rules
+   * 根据可配置的匹配规则查找重复歌曲
+   * @param tracks Array of Spotify tracks to analyze / 要分析的Spotify歌曲数组
+   * @param config Optional configuration for duplicate matching / 可选的重复匹配配置
+   * @returns Array of found duplicate tracks / 找到的重复歌曲数组
+   */
+  static findDuplicatedTracks(
+    tracks: Array<SpotifyTrack>,
+    config: DuplicateMatchingConfig = {
+      enableNameAndArtistMatching: true,
+      durationThresholdMs: 2000
+    }
+  ) {
     const seenIds: { [key: string]: boolean } = {};
     const seenNameAndArtist: { [key: string]: Array<number> } = {};
     let duplicates: Array<Duplicate> = [];
@@ -22,23 +35,28 @@ class BaseDeduplicator {
       let reasonDuplicate: 'same-id' | 'same-name-artist' | null = null;
       const seenNameAndArtistKey =
         `${track.name}:${track.artists[0].name}`.toLowerCase();
+
       if (track.id in seenIds) {
         // if the two tracks have the same Spotify ID, they are duplicates
+        // 如果两首歌曲有相同的Spotify ID，它们就是重复的
         reasonDuplicate = 'same-id';
-      } else {
-        // if they have the same name, main artist, and roughly same duration
-        // we consider tem duplicates too
+      } else if (config.enableNameAndArtistMatching) {
+        // if name and artist matching is enabled and they have the same name, main artist, and roughly same duration
+        // we consider them duplicates too
+        // 如果启用了歌名和艺术家匹配，且它们有相同的歌名、主要艺术家和大致相同的时长，我们也认为它们是重复的
         if (seenNameAndArtistKey in seenNameAndArtist) {
           // we check if _any_ of the previous durations is similar to the one we are checking
+          // 检查是否有任何之前的时长与我们正在检查的时长相似
           if (
             seenNameAndArtist[seenNameAndArtistKey].filter(
-              (duration) => Math.abs(duration - track.duration_ms) < 2000
+              (duration) => Math.abs(duration - track.duration_ms) < config.durationThresholdMs
             ).length !== 0
           ) {
             reasonDuplicate = 'same-name-artist';
           }
         }
       }
+
       if (reasonDuplicate !== null) {
         duplicates.push({
           index: index,
@@ -47,9 +65,13 @@ class BaseDeduplicator {
         });
       } else {
         seenIds[track.id] = true;
-        seenNameAndArtist[seenNameAndArtistKey] =
-          seenNameAndArtist[seenNameAndArtistKey] || [];
-        seenNameAndArtist[seenNameAndArtistKey].push(track.duration_ms);
+        // Only track name and artist if the matching is enabled
+        // 仅在启用匹配时跟踪歌名和艺术家
+        if (config.enableNameAndArtistMatching) {
+          seenNameAndArtist[seenNameAndArtistKey] =
+            seenNameAndArtist[seenNameAndArtistKey] || [];
+          seenNameAndArtist[seenNameAndArtistKey].push(track.duration_ms);
+        }
       }
       return duplicates;
     }, duplicates);

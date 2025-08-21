@@ -1,7 +1,7 @@
 import { PlaylistDeduplicator, SavedTracksDeduplicator } from '../deduplicator';
 import SpotifyWebApi, { SpotifyPlaylist, SpotifyTrack } from '../spotifyApi';
 
-import { PlaylistModel } from '../types';
+import { PlaylistModel, DuplicateMatchingConfig } from '../types';
 
 // Mock SpotifyWebApi
 jest.mock('../spotifyApi');
@@ -32,6 +32,43 @@ describe('BaseDeduplicator', () => {
 
       expect(duplicates).toHaveLength(1);
       expect(duplicates[0].reason).toBe('same-name-artist');
+    });
+
+    it('should respect custom duration threshold', () => {
+      const tracks = [
+        createTrack({ id: '1', name: 'Track 1', duration_ms: 1000 }),
+        createTrack({ id: '2', name: 'Track 1', duration_ms: 1500 }), // 500ms difference
+      ];
+
+      // With default threshold (2000ms), should find duplicates
+      // 使用默认阈值（2000毫秒），应该找到重复项
+      let duplicates = PlaylistDeduplicator.findDuplicatedTracks(tracks);
+      expect(duplicates).toHaveLength(1);
+
+      // With custom threshold (200ms), should not find duplicates
+      // 使用自定义阈值（200毫秒），不应该找到重复项
+      const customConfig: DuplicateMatchingConfig = {
+        enableNameAndArtistMatching: true,
+        durationThresholdMs: 200
+      };
+      duplicates = PlaylistDeduplicator.findDuplicatedTracks(tracks, customConfig);
+      expect(duplicates).toHaveLength(0);
+    });
+
+    it('should disable name and artist matching when configured', () => {
+      const tracks = [
+        createTrack({ id: '1', name: 'Track 1', duration_ms: 1000 }),
+        createTrack({ id: '2', name: 'Track 1', duration_ms: 1001 }), // Same name, similar duration
+      ];
+
+      const config: DuplicateMatchingConfig = {
+        enableNameAndArtistMatching: false,
+        durationThresholdMs: 2000
+      };
+
+      const duplicates = PlaylistDeduplicator.findDuplicatedTracks(tracks, config);
+
+      expect(duplicates).toHaveLength(0);
     });
 
     it('should ignore null tracks', () => {
