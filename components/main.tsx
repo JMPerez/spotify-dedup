@@ -222,7 +222,7 @@ export default class Main extends React.Component<{
                               key={index}
                               reason={duplicate.reason}
                               trackName={duplicate.track.name}
-                              trackArtistName={duplicate.track.artists[0].name}
+                              trackArtistName={duplicate.track.artists.map(artist => artist.name).join(", ")}
                             />
                           )
                         )}
@@ -278,7 +278,7 @@ export default class Main extends React.Component<{
                               key={index}
                               reason={duplicate.reason}
                               trackName={duplicate.track.name}
-                              trackArtistName={duplicate.track.artists[0].name}
+                              trackArtistName={duplicate.track.artists.map(artist => artist.name).join(", ")}
                             />
                           ))}
                         </DuplicateTrackList>
