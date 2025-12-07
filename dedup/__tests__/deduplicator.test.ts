@@ -22,6 +22,34 @@ describe('BaseDeduplicator', () => {
       expect(duplicates[0].index).toBe(2);
     });
 
+    it('should keep the oldest duplicate by added_at timestamp', () => {
+      const tracks = [
+        createTrack({ id: '1', name: 'Track 1', duration_ms: 1000, added_at: '2020-01-01T00:00:00Z' }),
+        createTrack({ id: '2', name: 'Track 2', duration_ms: 2000, added_at: '2020-01-02T00:00:00Z' }),
+        createTrack({ id: '1', name: 'Track 1', duration_ms: 1000, added_at: '2020-01-05T00:00:00Z' }), // Newer duplicate
+      ];
+
+      const duplicates = PlaylistDeduplicator.findDuplicatedTracks(tracks);
+
+      expect(duplicates).toHaveLength(1);
+      expect(duplicates[0].reason).toBe('same-id');
+      expect(duplicates[0].index).toBe(2); // Newer one is marked as duplicate
+    });
+
+    it('should mark older duplicate for removal if newer one is encountered', () => {
+      const tracks = [
+        createTrack({ id: '1', name: 'Track 1', duration_ms: 1000, added_at: '2020-01-05T00:00:00Z' }),
+        createTrack({ id: '2', name: 'Track 2', duration_ms: 2000, added_at: '2020-01-02T00:00:00Z' }),
+        createTrack({ id: '1', name: 'Track 1', duration_ms: 1000, added_at: '2020-01-01T00:00:00Z' }), // Older duplicate
+      ];
+
+      const duplicates = PlaylistDeduplicator.findDuplicatedTracks(tracks);
+
+      expect(duplicates).toHaveLength(1);
+      expect(duplicates[0].reason).toBe('same-id');
+      expect(duplicates[0].index).toBe(0); // Older one is marked as duplicate
+    });
+
     it('should identify duplicates with same name and artist', () => {
       const tracks = [
         createTrack({ id: '1', name: 'Track 1', duration_ms: 1000 }),
@@ -32,6 +60,20 @@ describe('BaseDeduplicator', () => {
 
       expect(duplicates).toHaveLength(1);
       expect(duplicates[0].reason).toBe('same-name-artist');
+    });
+
+    it('should keep oldest by timestamp for same-name-artist duplicates', () => {
+      const tracks = [
+        createTrack({ id: '1', name: 'Track 1', duration_ms: 1000, added_at: '2020-01-05T00:00:00Z' }),
+        createTrack({ id: '2', name: 'Track 1', duration_ms: 1001, added_at: '2020-01-01T00:00:00Z' }), // Older
+        createTrack({ id: '3', name: 'Track 1', duration_ms: 1002, added_at: '2020-01-10T00:00:00Z' }), // Newest
+      ];
+
+      const duplicates = PlaylistDeduplicator.findDuplicatedTracks(tracks);
+
+      expect(duplicates).toHaveLength(2);
+      expect(duplicates.map(d => d.index).sort()).toEqual([0, 2]);
+      expect(duplicates.every(d => d.reason === 'same-name-artist')).toBe(true);
     });
 
     it('should ignore null tracks', () => {
