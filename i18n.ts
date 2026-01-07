@@ -50,9 +50,9 @@ const resources = {
       'process.reading-library':
         'Going through your library, finding the playlists you own and your liked songs…',
       'process.processing_one':
-        'Searching for duplicate songs, wait a sec. Still to process {{count}} playlist…',
+        'Searching for duplicate songs, wait a sec. {{count}} playlist left to process',
       'process.processing_other':
-        'Searching for duplicate songs, wait a sec. Still to process {{count}} playlists…',
+        'Searching for duplicate songs, wait a sec. {{count}} playlists left to process',
       'process.saved.title': 'liked songs in your library',
       'process.saved.duplicates_one':
         'This collection has {{count}} duplicate song',
