@@ -13,8 +13,8 @@ class BaseDeduplicator {
   }
 
   static findDuplicatedTracks(tracks: Array<SpotifyTrack>) {
-    const seenIds: { [key: string]: boolean } = {};
-    const seenNameAndArtist: { [key: string]: Array<number> } = {};
+    const seenIds: { [key: string]: { index: number; added_at?: string } } = {};
+    const seenNameAndArtist: { [key: string]: Array<{ index: number; duration: number; added_at?: string }> } = {};
     let duplicates: Array<Duplicate> = [];
     const result = tracks.reduce((duplicates, track, index) => {
       if (track === null) return duplicates;
@@ -25,31 +25,78 @@ class BaseDeduplicator {
       if (track.id in seenIds) {
         // if the two tracks have the same Spotify ID, they are duplicates
         reasonDuplicate = 'same-id';
+        // Compare added_at timestamps. If current track is older, mark the previous one as duplicate instead
+        const previousEntry = seenIds[track.id];
+        if (track.added_at && previousEntry.added_at && track.added_at < previousEntry.added_at) {
+          // Current track is older, so remove the previous occurrence instead
+          // Remove the duplicate entry for the previous index and add it for the new one
+          duplicates = duplicates.filter(d => d.index !== previousEntry.index);
+          seenIds[track.id] = { index: index, added_at: track.added_at };
+          duplicates.push({
+            index: previousEntry.index,
+            track: tracks[previousEntry.index],
+            reason: reasonDuplicate,
+          });
+        } else {
+          // Current track is newer, mark it as duplicate
+          duplicates.push({
+            index: index,
+            track: track,
+            reason: reasonDuplicate,
+          });
+        }
       } else {
         // if they have the same name, main artist, and roughly same duration
-        // we consider tem duplicates too
+        // we consider them duplicates too
         if (seenNameAndArtistKey in seenNameAndArtist) {
           // we check if _any_ of the previous durations is similar to the one we are checking
           if (
             seenNameAndArtist[seenNameAndArtistKey].filter(
-              (duration) => Math.abs(duration - track.duration_ms) < 2000
+              (duration) => Math.abs(duration.duration - track.duration_ms) < 2000
             ).length !== 0
           ) {
             reasonDuplicate = 'same-name-artist';
+            // Find the oldest entry and keep that one
+            const previousEntries = seenNameAndArtist[seenNameAndArtistKey];
+            const sortedEntries = [...previousEntries, { index, duration: track.duration_ms, added_at: track.added_at }]
+              .sort((a, b) => {
+                // Sort by added_at in ascending order (oldest first)
+                if (a.added_at && b.added_at) {
+                  return a.added_at.localeCompare(b.added_at);
+                }
+                // If no timestamp, fall back to index order
+                return a.index - b.index;
+              });
+            
+            // Keep the oldest, mark the rest as duplicates
+            const oldestIndex = sortedEntries[0].index;
+            const newerIndices = sortedEntries.slice(1).map(e => e.index);
+            
+            // Remove any duplicates we previously marked for this group
+            duplicates = duplicates.filter(d => {
+              const prevEntry = previousEntries.find(e => e.index === d.index);
+              return !prevEntry;
+            });
+            
+            // Add duplicates for all indices except the oldest
+            newerIndices.forEach(newIndex => {
+              duplicates.push({
+                index: newIndex,
+                track: tracks[newIndex],
+                reason: reasonDuplicate,
+              });
+            });
+            
+            // Update seenNameAndArtist to only track the oldest
+            seenNameAndArtist[seenNameAndArtistKey] = sortedEntries;
           }
         }
       }
-      if (reasonDuplicate !== null) {
-        duplicates.push({
-          index: index,
-          track: track,
-          reason: reasonDuplicate,
-        });
-      } else {
-        seenIds[track.id] = true;
+      if (reasonDuplicate === null) {
+        seenIds[track.id] = { index: index, added_at: track.added_at };
         seenNameAndArtist[seenNameAndArtistKey] =
           seenNameAndArtist[seenNameAndArtistKey] || [];
-        seenNameAndArtist[seenNameAndArtistKey].push(track.duration_ms);
+        seenNameAndArtist[seenNameAndArtistKey].push({ index: index, duration: track.duration_ms, added_at: track.added_at });
       }
       return duplicates;
     }, duplicates);
@@ -82,7 +129,9 @@ export class PlaylistDeduplicator extends BaseDeduplicator {
           pages.forEach((page) => {
             page.items.forEach((item: SpotifyPlaylistTrack) => {
               if (item?.track) {
-                tracks.push(item.track);
+                // Preserve the added_at timestamp from the playlist item
+                const trackWithTimestamp = { ...item.track, added_at: item.added_at };
+                tracks.push(trackWithTimestamp);
               }
             });
           });
@@ -166,7 +215,9 @@ export class SavedTracksDeduplicator extends BaseDeduplicator {
           pages.forEach((page) => {
             page.items.forEach((item: SpotifySavedTrack) => {
               if (item?.track) {
-                tracks.push(item.track);
+                // Preserve the added_at timestamp from the saved track wrapper
+                const trackWithTimestamp = { ...item.track, added_at: item.added_at };
+                tracks.push(trackWithTimestamp);
               }
             });
           });
