@@ -10,19 +10,23 @@ If it finds duplicates, they can be removed just pushing a button. And since it 
 
 ## Try it
 
-You can check it out on [https://spotify-dedup.com](https://spotify-dedup.com) or run it locally.
+You can check it out on [https://spotify-dedup.com](https://spotify-dedup.com), or run it locally.
 
 ## Install and run
 
-Install the dependencies:
+1. Install the dependencies:
 
-    pnpm install
+   ```sh
+   pnpm install
+   ```
 
-Run it:
+2. Run it:
 
-    pnpm dev
+   ```sh
+   pnpm dev
+   ```
 
-Then open http://localhost:3000 in a browser
+3. Then, open http://localhost:3000 in a browser.
 
 ## Testing
 
