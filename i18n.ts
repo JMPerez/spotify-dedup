@@ -71,7 +71,7 @@ const resources = {
       'faq.question-2': 'How does it find duplicates?',
       'faq.answer-2': 'Dedup finds duplicates based on the songs identifier, title, artist, and duration similarity. It identifies duplicates that Spotify\'s application does not catch.',
       'faq.question-3': 'How is Dedup better than Spotify\'s built-in duplicate detection?',
-      'faq.answer-3': 'Spotify\'s applications only warn about duplicates when adding a song to a playlit or liked songs with the exact same song identifier. However, the same song can have multiple identifiers on Spotify that both in the same release or in several ones. Dedup detects duplicates based on title, artist, and duration similarity.',
+      'faq.answer-3': 'Spotify\'s applications only warn about duplicates when adding a song to a playlist or liked songs with the exact same song identifier. However, the same song can have multiple identifiers on Spotify, either within the same release or across different releases. Dedup detects duplicates based on title, artist, and duration similarity.',
       'faq.question-4': 'When duplicates are found, which songs are removed?',
       'faq.answer-4': 'Dedup will keep the first song within a group of duplicate songs, and will remove the rest.',
       'faq.question-5': 'Is my data safe with this web application?',
