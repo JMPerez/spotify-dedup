@@ -12,6 +12,30 @@ If it finds duplicates, they can be removed just pushing a button. And since it 
 
 You can check it out on [https://spotify-dedup.com](https://spotify-dedup.com) or run it locally.
 
+## Spotify API Setup
+
+Access the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+1. Log in with your Spotify account
+2. Click "Create app"
+3. Fill in the form:
+- Name, Description, etc.
+- Redirect URI: http://127.0.0.1:3000/callback
+- API/SDKs: Check "Web API"
+- Accept the terms of service
+4. Click "Save"
+
+On your app's dashboard, copy the Client ID
+Click "Show Client Secret" and copy the Client Secret
+Create a `.env.local` file in the project root:
+```
+NEXT_PUBLIC_SPOTIFY_CLIENT_ID=your_client_id_here
+NEXT_PUBLIC_REDIRECT_URI=http://127.0.0.1:3000/callback
+SPOTIFY_CLIENT_SECRET=your_client_secret_here
+```
+Replace:
+- `your_client_id_here` with your actual Client ID
+- `your_client_secret_here` with your actual Client Secret
+
 ## Install and run
 
 Install the dependencies:
@@ -22,7 +46,7 @@ Run it:
 
     pnpm dev
 
-Then open http://localhost:3000 in a browser
+Then open http://127.0.0.1:3000 in a browser
 
 ## Testing
 
