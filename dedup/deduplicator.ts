@@ -21,13 +21,13 @@ class BaseDeduplicator {
       if (track.id === null) return duplicates;
       let reasonDuplicate: 'same-id' | 'same-name-artist' | null = null;
       const seenNameAndArtistKey =
-        `${track.name}:${track.artists[0].name}`.toLowerCase();
+        `${track.name}:${track.artists.map(artist => artist.name).join(",")}`.toLowerCase();
       if (track.id in seenIds) {
         // if the two tracks have the same Spotify ID, they are duplicates
         reasonDuplicate = 'same-id';
       } else {
-        // if they have the same name, main artist, and roughly same duration
-        // we consider tem duplicates too
+        // if they have the same name, all artists, and roughly same duration
+        // we consider them duplicates too
         if (seenNameAndArtistKey in seenNameAndArtist) {
           // we check if _any_ of the previous durations is similar to the one we are checking
           if (
