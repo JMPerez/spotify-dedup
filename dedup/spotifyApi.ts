@@ -12,6 +12,7 @@ export interface SpotifyTrack {
   linked_from?: SpotifyTrack;
   name: string;
   uri: string;
+  added_at?: string;
 }
 
 export interface SpotifyPlaylist {
