@@ -17,7 +17,7 @@
   "type": "module",
   "dependencies": {
     "@radix-ui/react-progress": "^1.1.0",
-    "axios": "^1.7.7",
+    "axios": "^1.16.0",
     "chart.js": "^4.4.6",
     "cheerio": "^1.0.0",
     "clsx": "^2.1.1",
